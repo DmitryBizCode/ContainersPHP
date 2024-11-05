@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS maintenances (
+    id INT NOT NULL AUTO_INCREMENT,
+    maintenance_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    description TEXT,
+    cost FLOAT NOT NULL,
+
+    PRIMARY KEY (id)
+);
