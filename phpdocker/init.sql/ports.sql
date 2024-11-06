@@ -1,7 +1,0 @@
-CREATE TABLE IF NOT EXISTS ports (
-    id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(50),
-    location VARCHAR(255),
-
-    PRIMARY KEY (id)
-);
