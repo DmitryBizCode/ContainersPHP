@@ -22,7 +22,7 @@ services:
         container_name: my-mysql
         environment:
             MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: blog
+            MYSQL_DATABASE: container
             MYSQL_USER: user
             MYSQL_PASSWORD: 12345
             MYSQL_SSL_CA: ""
@@ -42,6 +42,32 @@ services:
             MYSQL_ROOT_PASSWORD: root
         ports:
             - '8080:80'
+
+#    mongo:
+#        image: mongo:latest
+#        container_name: my-mongo
+#        environment:
+#            MONGO_INITDB_ROOT_USERNAME: root
+#            MONGO_INITDB_ROOT_PASSWORD: root
+#        ports:
+#            - '27017:27017'
+#        volumes:
+#            - ./var/mongo-data:/data/db
+#
+#    mongo-express:
+#        image: mongo-express:latest
+#        container_name: mongo-express
+#        environment:
+#            ME_CONFIG_MONGODB_ADMINUSERNAME: root
+#            ME_CONFIG_MONGODB_ADMINPASSWORD: root
+#            ME_CONFIG_MONGODB_SERVER: my-mongo
+#            ME_CONFIG_BASICAUTH_USERNAME: admin
+#            ME_CONFIG_BASICAUTH_PASSWORD: 12345
+#        ports:
+#            - '9090:8081'
+#        depends_on:
+#            - mongo
+
 
     composer:
         image: composer:latest
