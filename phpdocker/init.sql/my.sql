@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS countries (
     country_id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(50) NOT NULL,
+    name VARCHAR(50) NOT NULL UNIQUE,
     interest_tax FLOAT NOT NULL,
 
     PRIMARY KEY (country_id)
@@ -35,9 +35,10 @@ CREATE TABLE IF NOT EXISTS containers (
     width FLOAT NOT NULL,
     length FLOAT NOT NULL,
     height FLOAT NOT NULL,
-    old INT,
     country_id INT NOT NULL,
     owner_id INT NOT NULL,
+    old INT,
+    iot TINYINT(1),
 
     FOREIGN KEY (owner_id) REFERENCES owners(owner_id),
     FOREIGN KEY (country_id) REFERENCES countries(country_id),
@@ -57,8 +58,8 @@ CREATE TABLE IF NOT EXISTS maintenances (
 
 CREATE TABLE IF NOT EXISTS ports (
     port_id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(50),
-    location VARCHAR(255),
+    name VARCHAR(50) NOT NULL UNIQUE,
+    location VARCHAR(255) NOT NULL,
     country_id INT NOT NULL,
 
     FOREIGN KEY (country_id) REFERENCES countries(country_id),
