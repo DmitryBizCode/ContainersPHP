@@ -127,10 +127,10 @@ CREATE TABLE IF NOT EXISTS transactions (
     PRIMARY KEY (transaction_id)
 );
 
-
 CREATE TABLE IF NOT EXISTS temperatures (
     temperature_id_iot INT NOT NULL AUTO_INCREMENT,
     check_value FLOAT NOT NULL,
+    time DATETIME NOT NULL,
 
     PRIMARY KEY (temperature_id_iot)
 );
@@ -138,6 +138,7 @@ CREATE TABLE IF NOT EXISTS temperatures (
 CREATE TABLE IF NOT EXISTS humidity (
     humidity_id_iot INT NOT NULL AUTO_INCREMENT,
     check_value FLOAT NOT NULL,
+    time DATETIME NOT NULL,
 
     PRIMARY KEY (humidity_id_iot)
 );
@@ -145,6 +146,7 @@ CREATE TABLE IF NOT EXISTS humidity (
 CREATE TABLE IF NOT EXISTS vibrometers (
     vibrometer_id_iot INT NOT NULL AUTO_INCREMENT,
     check_value FLOAT NOT NULL,
+    time DATETIME NOT NULL,
 
     PRIMARY KEY (vibrometer_id_iot)
 );
@@ -152,6 +154,7 @@ CREATE TABLE IF NOT EXISTS vibrometers (
 CREATE TABLE IF NOT EXISTS inclines (
     incline_id_iot INT NOT NULL AUTO_INCREMENT,
     check_value FLOAT NOT NULL,
+    time DATETIME NOT NULL,
 
     PRIMARY KEY (incline_id_iot)
 );
@@ -159,6 +162,7 @@ CREATE TABLE IF NOT EXISTS inclines (
 CREATE TABLE IF NOT EXISTS openings (
     open_id_iot INT NOT NULL AUTO_INCREMENT,
     check_value FLOAT NOT NULL,
+    time DATETIME NOT NULL,
 
     PRIMARY KEY (open_id_iot)
 );
@@ -166,6 +170,7 @@ CREATE TABLE IF NOT EXISTS openings (
 CREATE TABLE IF NOT EXISTS gps (
     gps_id_iot INT NOT NULL AUTO_INCREMENT,
     check_value FLOAT NOT NULL,
+    time DATETIME NOT NULL,
 
     PRIMARY KEY (gps_id_iot)
 );
@@ -173,6 +178,7 @@ CREATE TABLE IF NOT EXISTS gps (
 CREATE TABLE IF NOT EXISTS illuminated (
     illuminate_id_iot INT NOT NULL AUTO_INCREMENT,
     check_value FLOAT NOT NULL,
+    time DATETIME NOT NULL,
 
     PRIMARY KEY (illuminate_id_iot)
 );
@@ -180,6 +186,7 @@ CREATE TABLE IF NOT EXISTS illuminated (
 CREATE TABLE IF NOT EXISTS gases (
     gas_id_iot INT NOT NULL AUTO_INCREMENT,
     check_value FLOAT NOT NULL,
+    time DATETIME NOT NULL,
 
     PRIMARY KEY (gas_id_iot)
 );
