@@ -12,21 +12,32 @@ class IotService
     {
         $this->pdo = $pdo;
     }
+    private function getAll(string $tableName):array {
+        $stmt = $this->pdo->prepare("SELECT * FROM $tableName");
+        $stmt->execute();
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    //Temperatures
-    public function getTemperatureById(int $id): array {
-        $stmt = $this->pdo->prepare("SELECT * FROM temperatures WHERE temperature_id_iot = :id");
+        return $data ?? [];
+    }
+    private function getById(string $tableName, string $idTableName,int $id):array {
+        $stmt = $this->pdo->prepare("SELECT * FROM $tableName WHERE $idTableName = :id");
         $stmt->execute([':id' => $id]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $data ?? [];
     }
+    public function insertTable(string $tableName, float $check_value){
+        $stmt = $this->pdo->prepare("INSERT INTO $tableName (check_value, time) VALUES(:check_value, CURRENT_TIMESTAMP)");
+        $stmt->execute([':check_value' => $check_value]);
+    }
+
+    //Temperatures
+    public function getTemperatureById(int $id): array {
+        return $this->getById('temperatures', 'temperature_id_iot',$id);
+    }
 
     public function getAllTemperatures(): array{
-        $stmt = $this->pdo->query("SELECT * FROM temperatures");
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $data;
+        return $this->getAll('temperatures');
     }
 
     public function getArrayCheckValueTemperatures(): array{
@@ -38,24 +49,16 @@ class IotService
     }
 
     public function insertTemperature(float $temperature){
-        $stmt = $this->pdo->prepare("INSERT INTO temperatures (check_value,time) VALUES($temperature,CURRENT_TIMESTAMP)");
-        $stmt->execute([':check_value' => $temperature]);
+        $this->insertTable('temperatures', $temperature);
     }
 
     //Humidity
     public function getHumidityById(int $id): array {
-        $stmt = $this->pdo->prepare("SELECT * FROM humidity WHERE humidity_id_iot = :id");
-        $stmt->execute([':id' => $id]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $data ?? [];
+        return $this->getById('humidity', 'humidity_id_iot',$id);
     }
 
     public function getAllHumidity(): array{
-        $stmt = $this->pdo->query("SELECT * FROM humidity");
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $data ?? [];
+        return $this->getAll('humidity');
     }
     public function getArrayCheckValueHumidity(): array{
         return array_column($this->getAllHumidity(), 'check_value');
@@ -66,23 +69,15 @@ class IotService
     }
 
     public function insertHumidity(float $humidity){
-        $stmt = $this->pdo->prepare("INSERT INTO temperatures (check_value,time) VALUES(:check_value,CURRENT_TIMESTAMP)");
-        $stmt->execute([':check_value' => $humidity]);
+        $this->insertTable('humidity', $humidity);
     }
 
     // Vibrometers
     public function getVibrometerById(int $id): array {
-        $stmt = $this->pdo->prepare("SELECT * FROM vibrometers WHERE vibrometer_id_iot = :id");
-        $stmt->execute([':id' => $id]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $data ?? [];
+        return $this->getById('vibrometers', 'vibrometer_id_iot',$id);
     }
     public function getAllVibrometers(): array{
-        $stmt = $this->pdo->query("SELECT * FROM vibrometers");
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $data;
+        return $this->getAll('vibrometers');
     }
     public function getArrayCheckValueVibrometers(): array{
         return array_column($this->getAllVibrometers(), 'check_value');
@@ -93,23 +88,15 @@ class IotService
     }
 
     public function insertVibrometer(float $vibration){
-        $stmt = $this->pdo->prepare("INSERT INTO vibrometers (check_value, time) VALUES(:check_value, CURRENT_TIMESTAMP)");
-        $stmt->execute([':check_value' => $vibration]);
+        $this->insertTable('vibrometers', $vibration);
     }
 
-// Inclines
+    // Inclines
     public function getInclineById(int $id): array {
-        $stmt = $this->pdo->prepare("SELECT * FROM inclines WHERE incline_id_iot = :id");
-        $stmt->execute([':id' => $id]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $data ?? [];
+        return $this->getById('inclines', 'incline_id_iot',$id);
     }
     public function getAllInclines(): array{
-        $stmt = $this->pdo->query("SELECT * FROM inclines");
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $data;
+        return $this->getAll('inclines');
     }
     public function getArrayCheckValueInclines(): array{
         return array_column($this->getAllInclines(), 'check_value');
@@ -120,23 +107,15 @@ class IotService
     }
 
     public function insertIncline(float $incline){
-        $stmt = $this->pdo->prepare("INSERT INTO inclines (check_value, time) VALUES(:check_value, CURRENT_TIMESTAMP)");
-        $stmt->execute([':check_value' => $incline]);
+        $this->insertTable('inclines', $incline);
     }
 
-// Openings
+    // Openings
     public function getOpeningById(int $id): array {
-        $stmt = $this->pdo->prepare("SELECT * FROM openings WHERE open_id_iot = :id");
-        $stmt->execute([':id' => $id]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $data ?? [];
+        return $this->getById('openings', 'open_id_iot',$id);
     }
     public function getAllOpenings(): array{
-        $stmt = $this->pdo->query("SELECT * FROM openings");
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $data;
+        return $this->getAll('openings');
     }
     public function getArrayCheckValueOpenings(): array{
         return array_column($this->getAllOpenings(), 'check_value');
@@ -147,23 +126,15 @@ class IotService
     }
 
     public function insertOpening(float $opening){
-        $stmt = $this->pdo->prepare("INSERT INTO openings (check_value, time) VALUES(:check_value, CURRENT_TIMESTAMP)");
-        $stmt->execute([':check_value' => $opening]);
+        $this->insertTable('openings', $opening);
     }
 
-// GPS
+    // GPS
     public function getGpsById(int $id): array {
-        $stmt = $this->pdo->prepare("SELECT * FROM gps WHERE gps_id_iot = :id");
-        $stmt->execute([':id' => $id]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $data ?? [];
+        return $this->getById('gps', 'gps_id_iot',$id);
     }
     public function getAllGps(): array{
-        $stmt = $this->pdo->query("SELECT * FROM gps");
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $data;
+        return $this->getAll('gps');
     }
     public function getArrayCheckValueGps(): array{
         return array_column($this->getAllGps(), 'check_value');
@@ -174,23 +145,15 @@ class IotService
     }
 
     public function insertGps(float $gpsData){
-        $stmt = $this->pdo->prepare("INSERT INTO gps (check_value, time) VALUES(:check_value, CURRENT_TIMESTAMP)");
-        $stmt->execute([':check_value' => $gpsData]);
+        $this->insertTable('gps', $gpsData);
     }
 
-// Illuminated
+    // Illuminated
     public function getIlluminatedById(int $id): array {
-        $stmt = $this->pdo->prepare("SELECT * FROM illuminated WHERE illuminate_id_iot = :id");
-        $stmt->execute([':id' => $id]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $data ?? [];
+        return $this->getById('illuminated', 'illuminate_id_iot',$id);
     }
     public function getAllIlluminated(): array{
-        $stmt = $this->pdo->query("SELECT * FROM illuminated");
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $data;
+        return $this->getAll('illuminated');
     }
     public function getArrayCheckValueIlluminated(): array{
         return array_column($this->getAllIlluminated(), 'check_value');
@@ -201,23 +164,15 @@ class IotService
     }
 
     public function insertIlluminated(float $illumination){
-        $stmt = $this->pdo->prepare("INSERT INTO illuminated (check_value, time) VALUES(:check_value, CURRENT_TIMESTAMP)");
-        $stmt->execute([':check_value' => $illumination]);
+        $this->insertTable('illuminated', $illumination);
     }
 
-// Gases
+    // Gases
     public function getGasById(int $id): array {
-        $stmt = $this->pdo->prepare("SELECT * FROM gases WHERE gas_id_iot = :id");
-        $stmt->execute([':id' => $id]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $data ?? [];
+        return $this->getById('gases', 'gas_id_iot',$id);
     }
     public function getAllGases(): array{
-        $stmt = $this->pdo->query("SELECT * FROM gases");
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $data;
+        return $this->getAll('gases');
     }
     public function getArrayCheckValueGases(): array{
         return array_column($this->getAllGases(), 'check_value');
@@ -228,8 +183,6 @@ class IotService
     }
 
     public function insertGas(float $gasLevel){
-        $stmt = $this->pdo->prepare("INSERT INTO gases (check_value, time) VALUES(:check_value, CURRENT_TIMESTAMP)");
-        $stmt->execute([':check_value' => $gasLevel]);
+        $this->insertTable('gases', $gasLevel);
     }
-
 }
