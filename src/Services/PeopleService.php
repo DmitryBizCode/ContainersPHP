@@ -9,37 +9,33 @@ use PDO;
 class PeopleService
 {
     private PDO $pdo;
+    private SqlSupportServiceTemplate $sqlSupportService;
 
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
+        $this->sqlSupportService = new SqlSupportServiceTemplate($pdo);
     }
     public function deleteClient(string $clientId): void
     {
-        $stmt = $this->pdo->prepare("DELETE FROM clients WHERE client_id = :id");
-        $stmt->execute(['id' => $clientId]);
+        $this->sqlSupportService::delete('clients', 'client_id', $clientId);
     }
     public function insertClients(string $name, string $email,int $countryId, string $surname = null, string $address = null, string $phoneNumber = null ): void
     {
         $stmt = $this->pdo->prepare("INSERT INTO clients (name, email,country_id, surname, address, phone_number) VALUES (:name, :email,:country_id, :surname, :address, :phone_number)");
         $stmt->execute(['name' => $name, 'email' => $email, 'country_id' => $countryId, 'surname' => $surname, 'address' => $address, 'phone_number' => $phoneNumber]);
     }
-    public function getOneClient($idPeople): array
+    public function getOneClient($clientId): array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM clients where client_id = :id");
-        $stmt->execute(['id' => $idPeople]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $this->sqlSupportService::getById('clients', 'client_id', $clientId);
     }
     public function getAllClient(): array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM clients");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->sqlSupportService::getAll('clients');
     }
     public function getAllClientByCountryId($countryId): array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM clients WHERE country_id = :id");
-        $stmt->execute(['id' => $countryId]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->sqlSupportService::getById('clients', 'country_id', $countryId);
     }
 
     public function insertOwners(string $name, string $email, string $phoneNumber ): void
@@ -49,18 +45,14 @@ class PeopleService
     }
     public function getOneOwners($ownerId): array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM owners where owner_id = :id");
-        $stmt->execute(['id' => $ownerId]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $this->sqlSupportService::getById('owners', 'owner_id', $ownerId);
     }
     public function getAllOwners(): array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM owners");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->sqlSupportService::getAll('owners');;
     }
     public function deleteOwner(string $ownerId): void
     {
-        $stmt = $this->pdo->prepare("DELETE FROM owners WHERE owner_id = :id");
-        $stmt->execute(['id' => $ownerId]);
+        $this->sqlSupportService::delete('owners', 'owner_id', $ownerId);
     }
 }

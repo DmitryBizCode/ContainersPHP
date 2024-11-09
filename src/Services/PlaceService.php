@@ -11,9 +11,11 @@ use PDO;
 class PlaceService
 {
     private PDO $pdo;
+    private SqlSupportServiceTemplate $sqlSupportService;
 
     public function __construct(PDO $pdo)
     {
+        $this->sqlSupportService = new SqlSupportServiceTemplate($pdo);
         $this->pdo = $pdo;
     }
     public function insertCountries(string $name,int $interestTax): void
@@ -34,8 +36,7 @@ class PlaceService
     }
     public function deletePorts(int $portId): void
     {
-        $stmt = $this->pdo->prepare("DELETE FROM ports WHERE port_id = :port_id");
-        $stmt->execute(['port_id' => $portId]);
+        $this->sqlSupportService::delete('ports', 'port_id', $portId);
     }
     public function getOnePorts($name): array
     {
@@ -45,9 +46,7 @@ class PlaceService
     }
     public function getAllPortsByCountryID(int $countryId): array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM ports WHERE country_id = :country_id");
-        $stmt->execute(['country_id' => $countryId]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->sqlSupportService::getById('ports', 'country_id', $countryId);
     }
 //Routes
     public function insertRoute(int $originPortId,int $destinationPortId, int $estimatedTime, float $distance): void
@@ -57,26 +56,19 @@ class PlaceService
     }
     public function deleteRoute(int $routeId): void
     {
-        $stmt = $this->pdo->prepare("DELETE FROM routes WHERE route_id = :route_id");
-        $stmt->execute(['route_id' => $routeId]);
+        $this->sqlSupportService::delete('routes', 'route_id', $routeId);
     }
     public function getOneRoute($routeId): array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM routes where route_id = :route_id");
-        $stmt->execute(['route_id' => $routeId]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $this->sqlSupportService::getById('routes', 'route_id', $routeId);
     }
     public function getAllRoutesByOriginPortID(int $originPortID): array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM routes WHERE origin_port_id = :origin_port_id");
-        $stmt->execute(['origin_port_id' => $originPortID]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->sqlSupportService::getById('routes', 'origin_port_id', $originPortID);
     }
     public function getAllRoutesByDestinationPortID(int $destinationPortID): array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM routes WHERE destination_port_id = :destination_port_id");
-        $stmt->execute(['destination_port_id' => $destinationPortID]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->sqlSupportService::getById('routes', 'destination_port_id', $destinationPortID);
     }
     public function getAllRoutesByDestinationAndOriginPortID(int $destinationPortID,int $originPortID): array
     {

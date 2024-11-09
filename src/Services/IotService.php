@@ -7,11 +7,11 @@ use PDOException;
 class IotService
 {
     private PDO $pdo;
-    private SqlSupportService  $sqlSupportService;
+    private SqlSupportServiceTemplate  $sqlSupportService;
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
-        $this->sqlSupportService = new SqlSupportService($pdo);
+        $this->sqlSupportService = new SqlSupportServiceTemplate($pdo);
     }
     public function insertTable(string $tableName, float $checkValue): void
     {

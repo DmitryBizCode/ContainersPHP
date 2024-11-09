@@ -7,15 +7,17 @@ use PDO;
 class CountingService
 {
     private PDO $pdo;
+    private SqlSupportServiceTemplate $sqlSupportService;
 
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
+        $this->sqlSupportService = new SqlSupportServiceTemplate($pdo);
+
     }
     public function deleteTransactions(string $transactionId): void
     {
-        $stmt = $this->pdo->prepare("DELETE FROM transactions WHERE transaction_id = :id");
-        $stmt->execute(['id' => $transactionId]);
+        $this->sqlSupportService::delete('transactions', 'transaction_id', $transactionId);
     }
     public function insertTransactions(string $amount, string $currency,int $status, string $rentalId): void
     {
@@ -24,20 +26,15 @@ class CountingService
     }
     public function getOneTransactions($transactionId): array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM transactions where transaction_id = :id");
-        $stmt->execute(['id' => $transactionId]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $this->sqlSupportService::getById('transactions', 'transaction_id', $transactionId);
     }
     public function getAllTransactions(): array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM transactions");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->sqlSupportService::getAll('transactions');
     }
-    public function getAllTransactionsByRentalId($countryId): array
+    public function getAllTransactionsByRentalId($rentalId): array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM transactions WHERE rental_id = :id");
-        $stmt->execute(['id' => $countryId]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->sqlSupportService::getById('transactions', 'rental_id', $rentalId);
     }
 
 }

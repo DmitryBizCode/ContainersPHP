@@ -10,12 +10,12 @@ use PDO;
 class ContainerService
 {
     private PDO $pdo;
-    private SqlSupportService $sqlSupportService;
+    private SqlSupportServiceTemplate $sqlSupportService;
 
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
-        $this->sqlSupportService = new SqlSupportService($pdo);
+        $this->sqlSupportService = new SqlSupportServiceTemplate($pdo);
 
     }
     public function insertStatuses(string $status,int $containerId): void
@@ -31,16 +31,13 @@ class ContainerService
     }
     public function getAllStatusesOfContainer($idContainer): array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM statuses where container_id = :id");
-        $stmt->execute(['id' => $idContainer]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->sqlSupportService::getById('statuses', 'container_id',$idContainer);
     }
 
 
     public function getAllContainer(): array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM containers");
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $data = $this->sqlSupportService::getAll('containers');
 
         $containers = [];
         foreach ($data as $containerData) {
@@ -51,9 +48,7 @@ class ContainerService
     }
     public function getAllContainerByOwnerID(int $ownerId): array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM containers WHERE owner_id = :owner_id");
-        $stmt->execute(['owner_id' => $ownerId]);
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $data = $this->sqlSupportService::getById('containers', 'owner_id',$ownerId);
 
         $containers = [];
         foreach ($data as $containerData) {
@@ -64,9 +59,7 @@ class ContainerService
     }
     public function getOneContainer(string $id): ContainerModel
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM containers WHERE container_id = :id");
-        $stmt->execute(['id' => $id]);
-        $containerData = $stmt->fetch(PDO::FETCH_ASSOC);
+        $containerData = $this->sqlSupportService::getById('containers', 'container_id',$id);
 
         return $containerData ? ContainerModel::fromArray($containerData) : ContainerModel::emptyContainerModel();
     }
@@ -80,17 +73,12 @@ class ContainerService
     public function updateContainer(string $id, array $data): void
     {
         $stmt = $this->pdo->prepare("UPDATE containers SET old = :old, iot = :iot WHERE container_id = :id");
-        $stmt->execute([
-            'id' => $id,
-            'old' => $data['old'],
-            'iot' => $data['iot'],
-        ]);
+        $stmt->execute(['id' => $id, 'old' => $data['old'], 'iot' => $data['iot'],]);
     }
 
     public function deleteContainer(string $id): void
     {
-        $stmt = $this->pdo->prepare("DELETE FROM containers WHERE container_id = :id");
-        $stmt->execute(['id' => $id]);
+        $this->sqlSupportService::delete('containers', 'container_id', $id);
     }
 
     public function generateImageHash(string $name): string
@@ -115,8 +103,7 @@ class ContainerService
     }
     public function deleteMaintenance(string $id): void
     {
-        $stmt = $this->pdo->prepare("DELETE FROM maintenances WHERE container_id = :id");
-        $stmt->execute(['id' => $id]);
+        $this->sqlSupportService::delete('maintenances', 'maintenance_id', $id);
     }
     public function getAllMaintenanceByContainerID(int $containerId): array
     {
