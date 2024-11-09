@@ -7,37 +7,25 @@ use PDOException;
 class IotService
 {
     private PDO $pdo;
-
+    private SqlSupportService  $sqlSupportService;
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
+        $this->sqlSupportService = new SqlSupportService($pdo);
     }
-    private function getAll(string $tableName):array {
-        $stmt = $this->pdo->prepare("SELECT * FROM $tableName");
-        $stmt->execute();
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $data ?? [];
-    }
-    private function getById(string $tableName, string $idTableName,int $id):array {
-        $stmt = $this->pdo->prepare("SELECT * FROM $tableName WHERE $idTableName = :id");
-        $stmt->execute([':id' => $id]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $data ?? [];
-    }
-    public function insertTable(string $tableName, float $checkValue){
+    public function insertTable(string $tableName, float $checkValue): void
+    {
         $stmt = $this->pdo->prepare("INSERT INTO $tableName (check_value, time) VALUES(:check_value, CURRENT_TIMESTAMP)");
         $stmt->execute([':check_value' => $checkValue]);
     }
 
     //Temperatures
     public function getTemperatureById(int $id): array {
-        return $this->getById('temperatures', 'temperature_id_iot',$id);
+        return $this->sqlSupportService::getById('temperatures', 'temperature_id_iot',$id);
     }
 
     public function getAllTemperatures(): array{
-        return $this->getAll('temperatures');
+        return $this->sqlSupportService::getAll('temperatures');
     }
 
     public function getArrayCheckValueTemperatures(): array{
@@ -54,11 +42,11 @@ class IotService
 
     //Humidity
     public function getHumidityById(int $id): array {
-        return $this->getById('humidity', 'humidity_id_iot',$id);
+        return $this->sqlSupportService::getById('humidity', 'humidity_id_iot',$id);
     }
 
     public function getAllHumidity(): array{
-        return $this->getAll('humidity');
+        return $this->sqlSupportService::getAll('humidity');
     }
     public function getArrayCheckValueHumidity(): array{
         return array_column($this->getAllHumidity(), 'check_value');
@@ -74,10 +62,10 @@ class IotService
 
     // Vibrometers
     public function getVibrometerById(int $id): array {
-        return $this->getById('vibrometers', 'vibrometer_id_iot',$id);
+        return $this->sqlSupportService::getById('vibrometers', 'vibrometer_id_iot',$id);
     }
     public function getAllVibrometers(): array{
-        return $this->getAll('vibrometers');
+        return $this->sqlSupportService::getAll('vibrometers');
     }
     public function getArrayCheckValueVibrometers(): array{
         return array_column($this->getAllVibrometers(), 'check_value');
@@ -93,10 +81,10 @@ class IotService
 
     // Inclines
     public function getInclineById(int $id): array {
-        return $this->getById('inclines', 'incline_id_iot',$id);
+        return $this->sqlSupportService::getById('inclines', 'incline_id_iot',$id);
     }
     public function getAllInclines(): array{
-        return $this->getAll('inclines');
+        return $this->sqlSupportService::getAll('inclines');
     }
     public function getArrayCheckValueInclines(): array{
         return array_column($this->getAllInclines(), 'check_value');
@@ -112,10 +100,10 @@ class IotService
 
     // Openings
     public function getOpeningById(int $id): array {
-        return $this->getById('openings', 'open_id_iot',$id);
+        return $this->sqlSupportService::getById('openings', 'open_id_iot',$id);
     }
     public function getAllOpenings(): array{
-        return $this->getAll('openings');
+        return $this->sqlSupportService::getAll('openings');
     }
     public function getArrayCheckValueOpenings(): array{
         return array_column($this->getAllOpenings(), 'check_value');
@@ -131,10 +119,10 @@ class IotService
 
     // GPS
     public function getGpsById(int $id): array {
-        return $this->getById('gps', 'gps_id_iot',$id);
+        return $this->sqlSupportService::getById('gps', 'gps_id_iot',$id);
     }
     public function getAllGps(): array{
-        return $this->getAll('gps');
+        return $this->sqlSupportService::getAll('gps');
     }
     public function getArrayCheckValueGps(): array{
         return array_column($this->getAllGps(), 'check_value');
@@ -150,10 +138,10 @@ class IotService
 
     // Illuminated
     public function getIlluminatedById(int $id): array {
-        return $this->getById('illuminated', 'illuminate_id_iot',$id);
+        return $this->sqlSupportService::getById('illuminated', 'illuminate_id_iot',$id);
     }
     public function getAllIlluminated(): array{
-        return $this->getAll('illuminated');
+        return $this->sqlSupportService::getAll('illuminated');
     }
     public function getArrayCheckValueIlluminated(): array{
         return array_column($this->getAllIlluminated(), 'check_value');
@@ -169,10 +157,10 @@ class IotService
 
     // Gases
     public function getGasById(int $id): array {
-        return $this->getById('gases', 'gas_id_iot',$id);
+        return $this->sqlSupportService::getById('gases', 'gas_id_iot',$id);
     }
     public function getAllGases(): array{
-        return $this->getAll('gases');
+        return $this->sqlSupportService::getAll('gases');
     }
     public function getArrayCheckValueGases(): array{
         return array_column($this->getAllGases(), 'check_value');

@@ -45,7 +45,7 @@ class PlaceService
     }
     public function getAllPortsByCountryID(int $countryId): array
     {
-        $stmt = $this->pdo->query("SELECT * FROM ports WHERE country_id = :country_id");
+        $stmt = $this->pdo->prepare("SELECT * FROM ports WHERE country_id = :country_id");
         $stmt->execute(['country_id' => $countryId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -55,21 +55,33 @@ class PlaceService
         $stmt = $this->pdo->prepare("INSERT INTO routes (origin_port_id, destination_port_id,estimated_time,distance) VALUES (:origin_port_id, :destination_port_id,:estimated_time,:distance)");
         $stmt->execute(['origin_port_id' => $originPortId, 'destination_port_id' => $destinationPortId, 'estimated_time' => $estimatedTime, 'distance' => $distance]);
     }
-    public function deleteRoute(int $portId): void
+    public function deleteRoute(int $routeId): void
     {
-        $stmt = $this->pdo->prepare("DELETE FROM routes WHERE route_id = :port_id");
-        $stmt->execute(['port_id' => $portId]);
+        $stmt = $this->pdo->prepare("DELETE FROM routes WHERE route_id = :route_id");
+        $stmt->execute(['route_id' => $routeId]);
     }
-    public function getOneRoute($name): array
+    public function getOneRoute($routeId): array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM routes where name = :name");
-        $stmt->execute(['name' => $name]);
+        $stmt = $this->pdo->prepare("SELECT * FROM routes where route_id = :route_id");
+        $stmt->execute(['route_id' => $routeId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    public function getAllRoutesByCountryID(int $countryId): array
+    public function getAllRoutesByOriginPortID(int $originPortID): array
     {
-        $stmt = $this->pdo->query("SELECT * FROM routes WHERE country_id = :country_id");
-        $stmt->execute(['country_id' => $countryId]);
+        $stmt = $this->pdo->prepare("SELECT * FROM routes WHERE origin_port_id = :origin_port_id");
+        $stmt->execute(['origin_port_id' => $originPortID]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getAllRoutesByDestinationPortID(int $destinationPortID): array
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM routes WHERE destination_port_id = :destination_port_id");
+        $stmt->execute(['destination_port_id' => $destinationPortID]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getAllRoutesByDestinationAndOriginPortID(int $destinationPortID,int $originPortID): array
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM routes WHERE destination_port_id = :destination_port_id AND origin_port_id = :origin_port_id");
+        $stmt->execute(['destination_port_id' => $destinationPortID, 'origin_port_id' => $originPortID]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

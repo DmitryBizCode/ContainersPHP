@@ -10,10 +10,13 @@ use PDO;
 class ContainerService
 {
     private PDO $pdo;
+    private SqlSupportService $sqlSupportService;
 
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
+        $this->sqlSupportService = new SqlSupportService($pdo);
+
     }
     public function insertStatuses(string $status,int $containerId): void
     {
@@ -36,7 +39,7 @@ class ContainerService
 
     public function getAllContainer(): array
     {
-        $stmt = $this->pdo->query("SELECT * FROM containers");
+        $stmt = $this->pdo->prepare("SELECT * FROM containers");
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $containers = [];
@@ -48,7 +51,7 @@ class ContainerService
     }
     public function getAllContainerByOwnerID(int $ownerId): array
     {
-        $stmt = $this->pdo->query("SELECT * FROM containers WHERE owner_id = :owner_id");
+        $stmt = $this->pdo->prepare("SELECT * FROM containers WHERE owner_id = :owner_id");
         $stmt->execute(['owner_id' => $ownerId]);
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -117,8 +120,6 @@ class ContainerService
     }
     public function getAllMaintenanceByContainerID(int $containerId): array
     {
-        $stmt = $this->pdo->query("SELECT * FROM maintenances WHERE container_id = :container_id");
-        $stmt->execute(['container_id' => $containerId]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->sqlSupportService::getById('maintenances', 'container_id',$containerId);
     }
 }
