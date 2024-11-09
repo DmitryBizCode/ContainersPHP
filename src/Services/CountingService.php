@@ -3,6 +3,7 @@
 namespace App\Services;
 use PDO;
 
+//
 class CountingService
 {
     private PDO $pdo;

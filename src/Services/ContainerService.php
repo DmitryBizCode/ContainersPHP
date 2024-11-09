@@ -4,6 +4,9 @@ namespace App\Services;
 use App\Model\ContainerModel;
 use Exception;
 use PDO;
+
+///Maintenances,Statuses,Container
+
 class ContainerService
 {
     private PDO $pdo;
@@ -12,23 +15,24 @@ class ContainerService
     {
         $this->pdo = $pdo;
     }
-    public function insertStatuses(string $status,int $container_id): void
+    public function insertStatuses(string $status,int $containerId): void
     {
         $stmt = $this->pdo->prepare("INSERT INTO statuses (status, container_id) VALUES (:status, :container_id)");
-        $stmt->execute(['status' => $status, 'container_id' => $container_id]);
+        $stmt->execute(['status' => $status, 'container_id' => $containerId]);
     }
-    public function getOneStatusesOfContainer($id_container): array
+    public function getOneStatusesOfContainer($idContainer): array
     {
         $stmt = $this->pdo->prepare("SELECT * FROM statuses where container_id = :id ORDER BY status_id DESC LIMIT 1;");
-        $stmt->execute(['id' => $id_container]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->execute(['id' => $idContainer]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    public function getAllStatusesOfContainer($id_container): array
+    public function getAllStatusesOfContainer($idContainer): array
     {
         $stmt = $this->pdo->prepare("SELECT * FROM statuses where container_id = :id");
-        $stmt->execute(['id' => $id_container]);
+        $stmt->execute(['id' => $idContainer]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     public function getAllContainer(): array
     {
@@ -42,8 +46,20 @@ class ContainerService
 
         return $containers;
     }
+    public function getAllContainerByOwnerID(int $ownerId): array
+    {
+        $stmt = $this->pdo->query("SELECT * FROM containers WHERE owner_id = :owner_id");
+        $stmt->execute(['owner_id' => $ownerId]);
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    public function getOne(string $id): ContainerModel
+        $containers = [];
+        foreach ($data as $containerData) {
+            $containers[] = ContainerModel::fromArray($containerData);
+        }
+
+        return $containers;
+    }
+    public function getOneContainer(string $id): ContainerModel
     {
         $stmt = $this->pdo->prepare("SELECT * FROM containers WHERE container_id = :id");
         $stmt->execute(['id' => $id]);
@@ -58,7 +74,7 @@ class ContainerService
         $stmt->execute($container->toArray());
     }
 
-    public function update(string $id, array $data): void
+    public function updateContainer(string $id, array $data): void
     {
         $stmt = $this->pdo->prepare("UPDATE containers SET old = :old, iot = :iot WHERE container_id = :id");
         $stmt->execute([
@@ -68,7 +84,7 @@ class ContainerService
         ]);
     }
 
-    public function delete(string $id): void
+    public function deleteContainer(string $id): void
     {
         $stmt = $this->pdo->prepare("DELETE FROM containers WHERE container_id = :id");
         $stmt->execute(['id' => $id]);
@@ -80,5 +96,29 @@ class ContainerService
     }
 
 
-    ///maintenances
+    public function insertMaintenance($description, $cost, $id): void
+    {
+        $stmt = $this->pdo->prepare("INSERT INTO maintenances (description, cost, container_id) VALUES (:description, :cost, :container_id)");
+        $stmt->execute(['description' => $description, 'cost' => $cost, 'container_id' => $id]);
+    }
+    public function updateMaintenance(string $id, string $description, float $cost): void
+    {
+        $stmt = $this->pdo->prepare("UPDATE maintenances SET description = :description, cost = :cost WHERE container_id = :id");
+        $stmt->execute([
+            'id' => $id,
+            'description' => $description,
+            'cost' => $cost,
+        ]);
+    }
+    public function deleteMaintenance(string $id): void
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM maintenances WHERE container_id = :id");
+        $stmt->execute(['id' => $id]);
+    }
+    public function getAllMaintenanceByContainerID(int $containerId): array
+    {
+        $stmt = $this->pdo->query("SELECT * FROM maintenances WHERE container_id = :container_id");
+        $stmt->execute(['container_id' => $containerId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

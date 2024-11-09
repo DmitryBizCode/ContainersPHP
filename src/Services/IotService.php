@@ -26,9 +26,9 @@ class IotService
 
         return $data ?? [];
     }
-    public function insertTable(string $tableName, float $check_value){
+    public function insertTable(string $tableName, float $checkValue){
         $stmt = $this->pdo->prepare("INSERT INTO $tableName (check_value, time) VALUES(:check_value, CURRENT_TIMESTAMP)");
-        $stmt->execute([':check_value' => $check_value]);
+        $stmt->execute([':check_value' => $checkValue]);
     }
 
     //Temperatures
