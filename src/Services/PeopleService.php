@@ -20,7 +20,7 @@ class PeopleService
     {
         $this->sqlSupportService::delete('clients', 'client_id', $clientId);
     }
-    public function insertClients(string $name, string $email,int $countryId, string $surname = null, string $address = null, string $phoneNumber = null ): void
+    public function insertClient(string $name, string $email,int $countryId, string $surname = null, string $address = null, string $phoneNumber = null ): void
     {
         $stmt = $this->pdo->prepare("INSERT INTO clients (name, email,country_id, surname, address, phone_number) VALUES (:name, :email,:country_id, :surname, :address, :phone_number)");
         $stmt->execute(['name' => $name, 'email' => $email, 'country_id' => $countryId, 'surname' => $surname, 'address' => $address, 'phone_number' => $phoneNumber]);
@@ -29,7 +29,7 @@ class PeopleService
     {
         return $this->sqlSupportService::getById('clients', 'client_id', $clientId);
     }
-    public function getAllClient(): array
+    public function getAllClients(): array
     {
         return $this->sqlSupportService::getAll('clients');
     }
@@ -38,12 +38,12 @@ class PeopleService
         return $this->sqlSupportService::getById('clients', 'country_id', $countryId);
     }
 
-    public function insertOwners(string $name, string $email, string $phoneNumber ): void
+    public function insertOwner(string $name, string $email, string $phoneNumber ): void
     {
         $stmt = $this->pdo->prepare("INSERT INTO owners (name, email,phone_number) VALUES (:name, :email,:phone_number)");
         $stmt->execute(['name' => $name, 'email' => $email, 'phone_number' => $phoneNumber]);
     }
-    public function getOneOwners($ownerId): array
+    public function getOneOwner($ownerId): array
     {
         return $this->sqlSupportService::getById('owners', 'owner_id', $ownerId);
     }

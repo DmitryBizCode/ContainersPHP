@@ -15,7 +15,7 @@ class CountingService
         $this->sqlSupportService = new SqlSupportServiceTemplate($pdo);
 
     }
-    public function deleteTransactions(string $transactionId): void
+    public function deleteTransaction(string $transactionId): void
     {
         $this->sqlSupportService::delete('transactions', 'transaction_id', $transactionId);
     }
@@ -24,7 +24,7 @@ class CountingService
         $stmt = $this->pdo->prepare("INSERT INTO transactions (amount, currency, status, rental_id) VALUES (:amount, :currency,:status, :rental_id)");
         $stmt->execute(['amount' => $amount, 'currency' => $currency, 'status' => $status, 'rental_id' => $rentalId]);
     }
-    public function getOneTransactions($transactionId): array
+    public function getOneTransaction($transactionId): array
     {
         return $this->sqlSupportService::getById('transactions', 'transaction_id', $transactionId);
     }

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Model;
-
+////////////////////************************
 class PeopleModel
 {
     public string $name;
@@ -10,12 +10,14 @@ class PeopleModel
     public string $email;
     public string $phone_number;
     public string $address;
+    public string $password;
     public int $id_people;
-    public function __construct(int $id_people,string $name, string $email, string $phone_number = null,string $surname = null, string $address = null){
+    public function __construct(int $id_people,string $name, string $email, string $password, string $phone_number = null,string $surname = null, string $address = null){
         $this->id_people = $id_people;
         $this->name = $name;
         $this->surname = $surname;
         $this->email = $email;
+        $this->password = $password;
         $this->phone_number = $phone_number;
         $this->address = $address;
     }
@@ -24,6 +26,7 @@ class PeopleModel
             'id_people' => $this->id_people,
             'name' => $this->name,
             'email' => $this->email,
+            'password' => $this->password,
             'phone_number' => $this->phone_number ?? null,
             'address' => $this->address ?? null,
             'surname' => $this->surname ?? null
@@ -37,10 +40,14 @@ class PeopleModel
             $data['id_people'] ?? 0,
             $data['name'] ?? '',
             $data['email'] ?? '',
+            $data['password'] ?? '',
             $data['phone_number'] ?? null,
             $data['surname'] ?? null,
             $data['address'] ?? null,
         );
+    }
+    function hashPassword($password): string {
+        return hash('sha256', $password);
     }
     public static function emptyPeopleModel(): PeopleModel {
         return self::fromArray([]);

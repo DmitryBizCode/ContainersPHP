@@ -18,12 +18,12 @@ class ContainerService
         $this->sqlSupportService = new SqlSupportServiceTemplate($pdo);
 
     }
-    public function insertStatuses(string $status,int $containerId): void
+    public function insertStatus(string $status,int $containerId): void
     {
         $stmt = $this->pdo->prepare("INSERT INTO statuses (status, container_id) VALUES (:status, :container_id)");
         $stmt->execute(['status' => $status, 'container_id' => $containerId]);
     }
-    public function getOneStatusesOfContainer($idContainer): array
+    public function getOneStatusOfContainer($idContainer): array
     {
         $stmt = $this->pdo->prepare("SELECT * FROM statuses where container_id = :id ORDER BY status_id DESC LIMIT 1;");
         $stmt->execute(['id' => $idContainer]);
@@ -35,7 +35,7 @@ class ContainerService
     }
 
 
-    public function getAllContainer(): array
+    public function getAllContainers(): array
     {
         $data = $this->sqlSupportService::getAll('containers');
 
@@ -46,7 +46,7 @@ class ContainerService
 
         return $containers;
     }
-    public function getAllContainerByOwnerID(int $ownerId): array
+    public function getAllContainersByOwnerID(int $ownerId): array
     {
         $data = $this->sqlSupportService::getById('containers', 'owner_id',$ownerId);
 
@@ -64,7 +64,7 @@ class ContainerService
         return $containerData ? ContainerModel::fromArray($containerData) : ContainerModel::emptyContainerModel();
     }
 
-    public function insertContainers(ContainerModel $container): void
+    public function insertContainer(ContainerModel $container): void
     {
         $stmt = $this->pdo->prepare("INSERT INTO containers (name, width, length, height, country_id,owner_id,old,iot) VALUES (:name, :width, :length, :height, :country_id,:owner_id,:old,:iot)");
         $stmt->execute($container->toArray());
