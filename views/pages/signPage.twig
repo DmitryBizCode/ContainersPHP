@@ -1,7 +1,7 @@
 {% extends '/templates/base_concept.twig' %}
 
-{% block link %} href="/views/stylesheet/styleSign.css"{% endblock %}
 {% block linksScript %}
+    <link rel="stylesheet" href="/views/stylesheet/styleSign.css">
     <script src="/src/supportJS/SwipeSignForm.js" defer></script>
 {% endblock %}
 
@@ -10,7 +10,7 @@
         <div class="container right-panel-active">
             <!-- Sign Up -->
             <div class="container__form container--signup">
-                <form action="#" method="post" class="form" id="form1">
+                <form action="#" method="POST" class="form" id="form1">
                     <h2 class="form__title">Sign Up</h2>
                     <input type="text" name="name" placeholder="Name" class="input" required />
                     <input type="text" name="surname" placeholder="Surname (optional)" class="input" required />

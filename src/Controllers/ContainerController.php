@@ -17,7 +17,7 @@ class ContainerController
         $this->templateService = new TemplateService();
     }
 
-    public function getList(): string
+    public function getSign(): string
     {
         $posts = $this->postService->getSign();
         return $this->templateService->render('pages/signPage', [

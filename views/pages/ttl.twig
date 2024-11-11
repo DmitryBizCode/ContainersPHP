@@ -1,0 +1,99 @@
+{% extends '/templates/base_concept.twig' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <img src="https://via.placeholder.com/100" alt="User Avatar" class="rounded-circle mb-3">
+                        <h4 class="card-title">John Doe</h4>
+                        <p class="text-muted">johndoe@example.com</p>
+                    </div>
+                    <div class="list-group list-group-flush">
+                        <a href="#" class="list-group-item list-group-item-action">Profile</a>
+                        <a href="#" class="list-group-item list-group-item-action">Settings</a>
+                        <a href="#" class="list-group-item list-group-item-action">Orders</a>
+                        <a href="#" class="list-group-item list-group-item-action">Wishlist</a>
+                        <a href="#" class="list-group-item list-group-item-action">Log Out</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5>Personal Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="name">Full Name</label>
+                                <input type="text" id="name" class="form-control" value="John Doe">
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" class="form-control" value="johndoe@example.com">
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" class="form-control" value="+1234567890">
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Order History -->
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5>Order History</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Total</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>12345</td>
+                                <td>2023-11-05</td>
+                                <td><span class="badge bg-success">Completed</span></td>
+                                <td>$250.00</td>
+                                <td><a href="#" class="btn btn-sm btn-secondary">View</a></td>
+                            </tr>
+                            <tr>
+                                <td>12346</td>
+                                <td>2023-10-20</td>
+                                <td><span class="badge bg-warning">Pending</span></td>
+                                <td>$150.00</td>
+                                <td><a href="#" class="btn btn-sm btn-secondary">View</a></td>
+                            </tr>
+                            <!-- Додайте більше замовлень за необхідністю -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Additional Settings -->
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5>Account Settings</h5>
+                    </div>
+                    <div class="card-body">
+                        <button class="btn btn-outline-danger">Delete Account</button>
+                        <p class="text-muted mt-2">Note: Once you delete your account, it cannot be recovered.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
