@@ -1,6 +1,9 @@
 {% extends '/templates/base_concept.twig' %}
 
 {% block link %} href="/views/stylesheet/styleSign.css"{% endblock %}
+{% block linksScript %}
+    <script src="/src/supportJS/SwipeSignForm.js" defer></script>
+{% endblock %}
 
 {% block content %}
     <div class="form-sign">
@@ -53,18 +56,4 @@
             </div>
         </div>
     </div>
-
-    <script>
-        const signInBtn = document.getElementById("signIn");
-        const signUpBtn = document.getElementById("signUp");
-        const container = document.querySelector(".container");
-
-        signInBtn.addEventListener("click", () => {
-            container.classList.remove("right-panel-active");
-        });
-
-        signUpBtn.addEventListener("click", () => {
-            container.classList.add("right-panel-active");
-        });
-    </script>
 {% endblock %}

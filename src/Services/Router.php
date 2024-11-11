@@ -21,7 +21,7 @@ class Router
                     $this->postController->create($data, $image);
                     break;
                 } else {
-                    $content = $this->postController->getSign();
+                    $content = $this->containerController->getSign();
                     break;
                 }
             // no break
