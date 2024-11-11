@@ -1,0 +1,70 @@
+{% extends '/templates/base_concept.twig' %}
+
+{% block link %} href="/views/stylesheet/styleSign.css"{% endblock %}
+
+{% block content %}
+    <div class="form-sign">
+        <div class="container right-panel-active">
+            <!-- Sign Up -->
+            <div class="container__form container--signup">
+                <form action="#" method="post" class="form" id="form1">
+                    <h2 class="form__title">Sign Up</h2>
+                    <input type="text" name="name" placeholder="Name" class="input" required />
+                    <input type="text" name="surname" placeholder="Surname (optional)" class="input" required />
+                    <input type="email" name="email" placeholder="Email" class="input" required />
+                    <input type="password" name="password" placeholder="Password" class="input" required />
+                    <input type="text" name="address" placeholder="Address (optional)" class="input" required />
+                    <input type="tel" name="phone_number" placeholder="Phone Number" class="input" required />
+
+                    <!-- Country Selection -->
+                    <select name="country" class="input" required>
+                        <option value="" disabled selected>Select Country</option>
+                        <option value="Ukraine">Ukraine</option>
+                        <option value="Poland">Poland</option>
+                        <option value="Germany">Germany</option>
+                        <!-- Add more countries as needed -->
+                    </select>
+
+                    <button type="submit" class="btn">Sign Up</button>
+                </form>
+            </div>
+
+            <!-- Sign In -->
+            <div class="container__form container--signin">
+                <form action="#" method="post" class="form" id="form2">
+                    <h2 class="form__title">Sign In</h2>
+                    <input type="email" name="email" placeholder="Email" class="input" required />
+                    <input type="password" name="password" placeholder="Password" class="input" required />
+                    <a href="#" class="link">Forgot your password?</a>
+                    <button type="submit" class="btn">Sign In</button>
+                </form>
+            </div>
+
+            <!-- Overlay -->
+            <div class="container__overlay">
+                <div class="overlay">
+                    <div class="overlay__panel overlay--left">
+                        <button class="btn" id="signIn">Sign In</button>
+                    </div>
+                    <div class="overlay__panel overlay--right">
+                        <button class="btn" id="signUp">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const signInBtn = document.getElementById("signIn");
+        const signUpBtn = document.getElementById("signUp");
+        const container = document.querySelector(".container");
+
+        signInBtn.addEventListener("click", () => {
+            container.classList.remove("right-panel-active");
+        });
+
+        signUpBtn.addEventListener("click", () => {
+            container.classList.add("right-panel-active");
+        });
+    </script>
+{% endblock %}

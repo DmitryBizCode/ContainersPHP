@@ -22,8 +22,9 @@ class TemplateService
         try {
             return $this->twig->render($templateName.'.twig', $data);
         } catch (Exception $e) {
-            throw new Exception($e." Template file not found: $templateName.twig");
-
+            echo "Error loading template: " . $e->getMessage();
+            return '';
         }
     }
+
 }

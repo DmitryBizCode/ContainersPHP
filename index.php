@@ -1,28 +1,22 @@
 <?php
 require 'vendor/autoload.php';
-//use App\Services\IotService;
-//use App\Services\SQLService;
-//$sql = new SQLService();
-//$iotService = new IotService($sql->getPdo());
-//dump($iotService->getAllTemperatures());
-function hashString($string) {
-    return hash('sha256', $string);
+
+use App\Services\Router;
+use App\Services\TemplateService;
+
+$action = $_GET['action'] ?? null;
+$id = $_GET['id'] ?? null;
+$method = $_SERVER['REQUEST_METHOD'];
+$data = $_POST;
+$image = $_FILES;
+
+$router = new Router();
+try{
+    $router->route($action, $id, $method, $data,$image);
+}
+catch(\Exception $e){
+    echo $e->getMessage();
 }
 
-$input1 = "example";
-$input2 = "example";
-
-$hash1 = hashString($input1);
-$hash2 = hashString($input2);
-
-echo "Хеш для input1: $hash1\n";
-echo "Хеш для input2: $hash2\n";
-
-if ($hash1 === $hash2) {
-    echo "Хеші однакові!\n";
-} else {
-    echo "Хеші різні!\n";
-}
-
-
-
+$templateService = new TemplateService();
+echo $templateService->render('pages/indexPage');
