@@ -16,12 +16,12 @@ class Router
     public function route(string $action = null, string $id = null, string $method = 'GET', array $data = [], array $image = [])
     {
         switch ($action) {
-            case 'create':
+            case 'sign':
                 if ($method == 'POST') {
                     $this->postController->create($data, $image);
                     break;
                 } else {
-                    $content = $this->postController->getCreate();
+                    $content = $this->postController->getSign();
                     break;
                 }
             // no break
