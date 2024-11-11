@@ -1,0 +1,127 @@
+{% extends '/templates/base_concept.twig' %}
+
+{% block content %}
+    <style>
+        .card {
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .progress {
+            height: 20px;
+            border-radius: 10px;
+        }
+
+        .progress-bar {
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .badge {
+            font-size: 0.9rem;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+    </style>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Orders Overview</h2>
+
+        <!-- Summary and Statistics -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5>Total Orders</h5>
+                        <p class="card-text display-4">150</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5>Total Spending</h5>
+                        <p class="card-text display-4">$50,000</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5>Most Frequent Route</h5>
+                        <p class="card-text">Hamburg Port - Odessa Port</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5>Order Completion Rate</h5>
+                        <p class="card-text display-4">80%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders Progress (Bar Chart) -->
+        <div class="mb-4">
+            <h5>Orders Progress</h5>
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">80% Completed</div>
+            </div>
+        </div>
+
+        <!-- Orders List -->
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5>All Orders</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Client Name</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Status</th>
+                        <th>Price</th>
+                        <th>Details</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>12345</td>
+                        <td>John Doe</td>
+                        <td>2023-11-05</td>
+                        <td>2023-12-05</td>
+                        <td><span class="badge bg-success">Completed</span></td>
+                        <td>$500</td>
+                        <td><a href="/orders/12345" class="btn btn-sm btn-primary">View Details</a></td>
+                    </tr>
+                    <tr>
+                        <td>12346</td>
+                        <td>Jane Smith</td>
+                        <td>2023-10-15</td>
+                        <td>2023-11-15</td>
+                        <td><span class="badge bg-warning">Pending</span></td>
+                        <td>$750</td>
+                        <td><a href="/orders/12346" class="btn btn-sm btn-primary">View Details</a></td>
+                    </tr>
+                    <!-- Більше замовлень -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

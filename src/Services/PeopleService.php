@@ -20,7 +20,7 @@ class PeopleService
     {
         $this->sqlSupportService::delete('clients', 'client_id', $clientId);
     }
-    public function insertClient(string $name, string $email,int $countryId, string $surname = null, string $address = null, string $phoneNumber = null, string $photo): void
+    public function insertClient(string $name, string $email,int $countryId, string $surname = null, string $address = null, string $phoneNumber = null, string $photo = null): void
     {
         $stmt = $this->pdo->prepare("INSERT INTO clients (name, email,country_id, surname, address, phone_number, photo) VALUES (:name, :email,:country_id, :surname, :address, :phone_number, :photo)");
         $stmt->execute(['name' => $name, 'email' => $email, 'country_id' => $countryId, 'surname' => $surname, 'address' => $address, 'phone_number' => $phoneNumber, 'photo' => $photo]);
