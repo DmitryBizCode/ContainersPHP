@@ -7,171 +7,197 @@ use PDOException;
 class IotService
 {
     private PDO $pdo;
-    private SqlSupportServiceTemplate  $sqlSupportService;
+    private SqlSupportServiceTemplate $sqlSupportService;
+
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
         $this->sqlSupportService = new SqlSupportServiceTemplate($pdo);
     }
-    public function insertTable(string $tableName, float $checkValue, int $containerId): void
+
+    public function insertTable(int $containerId, string $type, float $value, string $time = null): void
     {
-        $stmt = $this->pdo->prepare("INSERT INTO $tableName (check_value, time, container_id) VALUES(:check_value, CURRENT_TIMESTAMP, :container_id)");
-        $stmt->execute([':check_value' => $checkValue, ':container_id' => $containerId]);
+        $stmt = $this->pdo->prepare("INSERT INTO metrics (container_id,type,value,time) VALUES(:container_id, :type, :value,:time)");
+        $stmt->execute([':container_id' => $containerId, ':type' => $type, ':value' => $value, ':time' => $time]);
     }
 
-    //Temperatures
-    public function getTemperatureById(int $id): array {
-        return $this->sqlSupportService::getById('temperatures', 'temperature_id_iot',$id);
+    public function getByIdForIot(string $type, int $containerId): array
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM metrics WHERE type = :type AND container_id = :container_id");
+        $stmt->execute([':type' => $type, ':container_id' => $containerId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?? [];
     }
 
-    public function getAllTemperaturesByContainerId(int $containerId): array{
-        return $this->sqlSupportService::getById('temperatures', 'container_id', $containerId);
+    public function getById(int $id): array
+    {
+        return $this->sqlSupportService::getById('metrics', 'metric_id', $id);
     }
 
-    public function getArrayCheckValueTemperatures(int $containerId): array{
-        return array_column($this->getAllTemperaturesByContainerId($containerId), 'check_value');
+    // Temperatures
+    public function getAllTemperaturesByContainerId(int $containerId): array
+    {
+        return $this->getByIdForIot('temperatures', $containerId);
     }
 
-    public function getArrayTimeTemperatures(int $containerId): array{
+    public function getArrayTimeTemperatures(int $containerId): array
+    {
         return array_column($this->getAllTemperaturesByContainerId($containerId), 'time');
     }
 
-    public function insertTemperature(float $temperature, int $containerId): void{
-        $this->insertTable('temperatures', $temperature, $containerId);
+    public function getArrayValueTemperatures(int $containerId): array
+    {
+        return array_column($this->getAllTemperaturesByContainerId($containerId), 'value');
     }
 
-    //Humidity
-    public function getHumidityById(int $id): array {
-        return $this->sqlSupportService::getById('humidity', 'humidity_id_iot',$id);
+    public function insertTemperature(float $temperature, int $containerId): void
+    {
+        $this->insertTable($containerId, 'temperatures', $temperature);
     }
 
-    public function getAllHumidityByContainerId(int $containerId): array{
-        return $this->sqlSupportService::getById('humidity', 'container_id', $containerId);
-    }
-    public function getArrayCheckValueHumidity(int $containerId): array{
-        return array_column($this->getAllHumidityByContainerId($containerId), 'check_value');
+    // Humidity
+    public function getAllHumidityByContainerId(int $containerId): array
+    {
+        return $this->getByIdForIot('humidity', $containerId);
     }
 
-    public function getArrayTimeHumidity(int $containerId): array{
-
+    public function getArrayTimeHumidity(int $containerId): array
+    {
         return array_column($this->getAllHumidityByContainerId($containerId), 'time');
     }
 
-    public function insertHumidity(float $humidity, int $containerId): void{
-        $this->insertTable('humidity', $humidity, $containerId);
+    public function getArrayValueHumidity(int $containerId): array
+    {
+        return array_column($this->getAllHumidityByContainerId($containerId), 'value');
+    }
+
+    public function insertHumidity(float $humidity, int $containerId): void
+    {
+        $this->insertTable($containerId, 'humidity', $humidity);
     }
 
     // Vibrometers
-    public function getVibrometerById(int $id): array {
-        return $this->sqlSupportService::getById('vibrometers', 'vibrometer_id_iot',$id);
-    }
-    public function getAllVibrometersByContainerId(int $containerId): array{
-        return $this->sqlSupportService::getById('vibrometers', 'container_id',$containerId);
-    }
-    public function getArrayCheckValueVibrometers(int $containerId): array{
-        return array_column($this->getAllVibrometersByContainerId($containerId), 'check_value');
+    public function getAllVibrometersByContainerId(int $containerId): array
+    {
+        return $this->getByIdForIot('vibrometers', $containerId);
     }
 
-    public function getArrayTimeVibrometers(int $containerId): array{
+    public function getArrayTimeVibrometers(int $containerId): array
+    {
         return array_column($this->getAllVibrometersByContainerId($containerId), 'time');
     }
 
-    public function insertVibrometer(float $vibration, int $containerId): void{
-        $this->insertTable('vibrometers', $vibration, $containerId);
+    public function getArrayValueVibrometers(int $containerId): array
+    {
+        return array_column($this->getAllVibrometersByContainerId($containerId), 'value');
+    }
+
+    public function insertVibrometer(float $vibration, int $containerId): void
+    {
+        $this->insertTable($containerId, 'vibrometers', $vibration);
     }
 
     // Inclines
-    public function getInclineById(int $id): array {
-        return $this->sqlSupportService::getById('inclines', 'incline_id_iot',$id);
-    }
-    public function getAllInclinesByContainerId(int $containerId): array{
-        return $this->sqlSupportService::getById('inclines', 'container_id',$containerId);
-    }
-    public function getArrayCheckValueInclines(int $containerId): array{
-        return array_column($this->getAllInclinesByContainerId($containerId), 'check_value');
+    public function getAllInclinesByContainerId(int $containerId): array
+    {
+        return $this->getByIdForIot('inclines', $containerId);
     }
 
-    public function getArrayTimeInclines(int $containerId): array{
+    public function getArrayTimeInclines(int $containerId): array
+    {
         return array_column($this->getAllInclinesByContainerId($containerId), 'time');
     }
 
-    public function insertIncline(float $incline, int $containerId): void{
-        $this->insertTable('inclines', $incline, $containerId);
+    public function getArrayValueInclines(int $containerId): array
+    {
+        return array_column($this->getAllInclinesByContainerId($containerId), 'value');
+    }
+
+    public function insertIncline(float $incline, int $containerId): void
+    {
+        $this->insertTable($containerId, 'inclines', $incline);
     }
 
     // Openings
-    public function getOpeningById(int $id): array {
-        return $this->sqlSupportService::getById('openings', 'open_id_iot',$id);
-    }
-    public function getAllOpeningsByContainerId(int $containerId): array{
-        return $this->sqlSupportService::getById('openings', 'container_id',$containerId);
-    }
-    public function getArrayCheckValueOpenings(int $containerId): array{
-        return array_column($this->getAllOpeningsByContainerId($containerId), 'check_value');
+    public function getAllOpeningsByContainerId(int $containerId): array
+    {
+        return $this->getByIdForIot('openings', $containerId);
     }
 
-    public function getArrayTimeOpenings(int $containerId): array{
+    public function getArrayTimeOpenings(int $containerId): array
+    {
         return array_column($this->getAllOpeningsByContainerId($containerId), 'time');
     }
 
-    public function insertOpening(float $opening, int $containerId): void{
-        $this->insertTable('openings', $opening, $containerId);
+    public function getArrayValueOpenings(int $containerId): array
+    {
+        return array_column($this->getAllOpeningsByContainerId($containerId), 'value');
+    }
+
+    public function insertOpening(float $opening, int $containerId): void
+    {
+        $this->insertTable($containerId, 'openings', $opening);
     }
 
     // GPS
-    public function getGpsById(int $id): array {
-        return $this->sqlSupportService::getById('gps', 'gps_id_iot',$id);
-    }
-    public function getAllGpsByContainerId(int $containerId): array{
-        return $this->sqlSupportService::getById('gps', 'container_id',$containerId);
-    }
-    public function getArrayCheckValueGps(int $containerId): array{
-        return array_column($this->getAllGpsByContainerId($containerId), 'check_value');
+    public function getAllGpsByContainerId(int $containerId): array
+    {
+        return $this->getByIdForIot('gps', $containerId);
     }
 
-    public function getArrayTimeGps(int $containerId): array{
+    public function getArrayTimeGps(int $containerId): array
+    {
         return array_column($this->getAllGpsByContainerId($containerId), 'time');
     }
 
-    public function insertGps(float $gpsData, int $containerId): void{
-        $this->insertTable('gps', $gpsData, $containerId);
+    public function getArrayValueGps(int $containerId): array
+    {
+        return array_column($this->getAllGpsByContainerId($containerId), 'value');
+    }
+
+    public function insertGps(float $gps, int $containerId): void
+    {
+        $this->insertTable($containerId, 'gps', $gps);
     }
 
     // Illuminated
-    public function getIlluminatedById(int $id): array {
-        return $this->sqlSupportService::getById('illuminated', 'illuminate_id_iot',$id);
-    }
-    public function getAllIlluminatedByContainerId(int $containerId): array{
-        return $this->sqlSupportService::getById('illuminated', 'container_id',$containerId);
-    }
-    public function getArrayCheckValueIlluminated(int $containerId): array{
-        return array_column($this->getAllIlluminatedByContainerId($containerId), 'check_value');
+    public function getAllIlluminatedByContainerId(int $containerId): array
+    {
+        return $this->getByIdForIot('illuminated', $containerId);
     }
 
-    public function getArrayTimeIlluminated(int $containerId): array{
+    public function getArrayTimeIlluminated(int $containerId): array
+    {
         return array_column($this->getAllIlluminatedByContainerId($containerId), 'time');
     }
 
-    public function insertIlluminated(float $illumination, int $containerId): void{
-        $this->insertTable('illuminated', $illumination, $containerId);
+    public function getArrayValueIlluminated(int $containerId): array
+    {
+        return array_column($this->getAllIlluminatedByContainerId($containerId), 'value');
+    }
+
+    public function insertIlluminated(float $illuminated, int $containerId): void
+    {
+        $this->insertTable($containerId, 'illuminated', $illuminated);
     }
 
     // Gases
-    public function getGasById(int $id): array {
-        return $this->sqlSupportService::getById('gases', 'gas_id_iot',$id);
-    }
-    public function getAllGasesByContainerId(int $containerId): array{
-        return $this->sqlSupportService::getById('gases', 'container_id',$containerId);
-    }
-    public function getArrayCheckValueGases(int $containerId): array{
-        return array_column($this->getAllGasesByContainerId($containerId), 'check_value');
+    public function getAllGasesByContainerId(int $containerId): array
+    {
+        return $this->getByIdForIot('gases', $containerId);
     }
 
-    public function getArrayTimeGases(int $containerId): array{
+    public function getArrayTimeGases(int $containerId): array
+    {
         return array_column($this->getAllGasesByContainerId($containerId), 'time');
     }
 
-    public function insertGas(float $gasLevel, int $containerId): void{
-        $this->insertTable('gases', $gasLevel, $containerId);
+    public function getArrayValueGases(int $containerId): array
+    {
+        return array_column($this->getAllGasesByContainerId($containerId), 'value');
+    }
+
+    public function insertGas(float $gas, int $containerId): void
+    {
+        $this->insertTable($containerId, 'gases', $gas);
     }
 }

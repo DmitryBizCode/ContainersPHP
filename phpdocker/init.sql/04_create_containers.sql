@@ -4,9 +4,10 @@ CREATE TABLE IF NOT EXISTS containers (
     width FLOAT NOT NULL,
     length FLOAT NOT NULL,
     height FLOAT NOT NULL,
-    old INT,
     country_id INT NOT NULL,
     owner_id INT NOT NULL,
+    old INT,
+    iot TINYINT(1),
 
     FOREIGN KEY (owner_id) REFERENCES owners(owner_id),
     FOREIGN KEY (country_id) REFERENCES countries(country_id),
