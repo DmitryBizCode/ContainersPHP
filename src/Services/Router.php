@@ -18,34 +18,34 @@ class Router
         switch ($action) {
             case 'sign':
                 if ($method == 'POST') {
-                    $this->postController->create($data, $image);
+                    $this->containerController->create($data, $image);
                     break;
                 } else {
                     $content = $this->containerController->getSign();
                     break;
                 }
             // no break
-            case 'update':
+            case 'contact':
                 if ($method == 'POST') {
-                    $this->postController->edit($id, $data, $image);
+                    $this->containerController->edit($id, $data, $image);
                     break;
                 } else {
-                    $content = $this->postController->getEdit($id);
+                    $content = $this->containerController->getContact();
                     break;
                 }
             // no break
-            case 'delete':
+            case 'services':
                 if ($method == 'POST') {
                     echo $id;
-                    $this->postController->delete($id);
+                    $this->containerController->delete($id);
                     break;
                 } else {
-                    $content = $this->postController->getDelete($id);
+                    $content = $this->containerController->getServices();
                     break;
                 }
             // no break
             default:
-                $content = $this->postController->getList();
+                $content = $this->containerController->getHome();
                 break;
         }
 

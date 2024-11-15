@@ -1,108 +1,24 @@
 {% extends '/templates/base_concept.twig' %}
 
+{% block linksScript %}
+    <link rel="stylesheet" href="/views/stylesheet/styleProfile.css">
+    <script src="/src/supportJS/CheckSettingForm.js" defer></script>
+
+{% endblock %}
+
 {% block content %}
-    <style>
-        .settings-form {
-            max-width: 700px;
-            margin: auto;
-        }
-
-        .settings-form h2 {
-            font-size: 1.8rem;
-            color: #0367a6;
-        }
-
-        .settings-form label {
-            font-weight: bold;
-            color: #333;
-        }
-
-        .profile-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-right: 20px;
-        }
-
-        .profile-photo-preview {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 3px solid #0367a6;
-            background-color: #f0f0f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
-        }
-
-        .profile-photo-preview img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .upload-btn {
-            font-size: 0.9rem;
-            padding: 8px 16px;
-            cursor: pointer;
-            background-color: #0367a6;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .upload-btn:hover {
-            background-color: #024f7a;
-        }
-
-        .form-section {
-            flex: 1;
-        }
-
-        .btn-success {
-            font-size: 1rem;
-            font-weight: bold;
-            background-color: #28a745;
-            color: #fff;
-            padding: 10px 0;
-            width: 100%;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-            margin-bottom: 80px;
-        }
-
-        .btn-success:hover {
-            background-color: #218838;
-        }
-
-        @media (max-width: 768px) {
-            .profile-layout {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .profile-section {
-                margin-right: 0;
-                margin-bottom: 20px;
-            }
-        }
-    </style>
-
     <div class="container mt-5">
         <h2 class="text-center mb-4">Profile Settings</h2>
         <p class="text-muted text-center">Update your personal information and preferences</p>
 
-        <form action="update_profile" method="post" enctype="multipart/form-data" class="settings-form">
+        <form action="update_profile" method="post" enctype="multipart/form-data" class="settings-form" onsubmit="return validateForm()">
             <div class="card mb-4">
                 <div class="card-body">
                     <div class="d-flex profile-layout">
                         <!-- Profile Photo Section -->
                         <div class="profile-section">
                             <div class="profile-photo-preview" id="photoPreview">
-                                <img src="https://via.placeholder.com/120" alt="Profile Preview" id="photoImage">
+                                <img src="/image/1.png" alt="Profile Preview" id="photoImage">
                             </div>
                             <input type="file" id="photo" name="photo" class="d-none" onchange="previewPhoto()">
                             <label for="photo" class="upload-btn">Upload Photo</label>
@@ -113,20 +29,25 @@
                             <div class="form-group mb-3">
                                 <label for="name">First Name</label>
                                 <input type="text" id="name" name="name" class="form-control" value="John" required>
+                                <small id="nameError" class="error-message">Name is required</small>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="surname">Last Name</label>
                                 <input type="text" id="surname" name="surname" class="form-control" value="Doe">
-                                <small class="text-muted">Leave blank if you not physical person</small>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="email">Email Address</label>
                                 <input type="email" id="email" name="email" class="form-control" value="johndoe@example.com" required>
+                                <small id="emailError" class="error-message">Email is required</small>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="password">New Password</label>
                                 <input type="password" id="password" name="password" class="form-control">
-                                <small class="text-muted">Leave blank if you don't want to change the password</small>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="confirm_password">Confirm Password</label>
+                                <input type="password" id="confirm_password" name="confirm_password" class="form-control">
+                                <small id="passwordError" class="error-message">Passwords do not match</small>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="address">Address</label>
@@ -142,7 +63,6 @@
                                     <option value="1" selected>Ukraine</option>
                                     <option value="2">Poland</option>
                                     <option value="3">Germany</option>
-                                    <!-- Add more countries as needed -->
                                 </select>
                             </div>
                         </div>
@@ -152,19 +72,4 @@
             <button type="submit" class="btn btn-success">Save Changes</button>
         </form>
     </div>
-
-    <script>
-        function previewPhoto() {
-            const file = document.getElementById('photo').files[0];
-            const preview = document.getElementById('photoImage');
-
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-    </script>
 {% endblock %}

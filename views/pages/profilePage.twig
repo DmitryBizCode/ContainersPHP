@@ -1,57 +1,90 @@
 {% extends '/templates/base_concept.twig' %}
 
+{% block linksScript %}
+    <link rel="stylesheet" href="/views/stylesheet/styleProfile.css">
+{% endblock %}
+
 {% block content %}
     <div class="container mt-5">
         <div class="row">
             <!-- Sidebar -->
             <div class="col-md-3 mb-4">
-                <div class="card">
+                <div class="card shadow-sm">
                     <div class="card-body text-center">
-                        <img src="https://via.placeholder.com/100" alt="User Avatar" class="rounded-circle mb-3">
-                        <h4 class="card-title">John Doe</h4>
+                        <img src="/image/1.png" alt="User Avatar" class="rounded-circle mb-3 user-avatar">
+                        <h4 class="card-title text-primary">John Doe</h4>
                         <p class="text-muted">johndoe@example.com</p>
+                        <div class="progress mt-3 mb-4">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">70% Complete</div>
+                        </div>
                     </div>
                     <div class="list-group list-group-flush">
-                        <a href="#" class="list-group-item list-group-item-action">Settings</a>
-                        <a href="#" class="list-group-item list-group-item-action">Orders</a>
-                        <a href="#" class="list-group-item list-group-item-action">Wishlist</a>
-                        <a href="#" class="list-group-item list-group-item-action">Log Out</a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex align-items-center">
+                            <i class="fas fa-cog me-2 text-primary"></i> Settings
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex align-items-center">
+                            <i class="fas fa-box me-2 text-success"></i> Orders
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex align-items-center">
+                            <i class="fas fa-sign-out-alt me-2 text-warning"></i> Log Out
+                        </a>
                     </div>
                 </div>
             </div>
 
             <!-- Main Content -->
             <div class="col-md-9">
-                <div class="card mb-4">
+                <!-- Personal Information Card -->
+                <div class="card mb-4 shadow-sm">
                     <div class="card-header bg-primary text-white">
-                        <h5>Personal Information</h5>
+                        <h5 class="mb-0">Personal Information</h5>
                     </div>
                     <div class="card-body">
-                        <form>
-                            <div class="form-group">
-                                <label for="name">Full Name</label>
-                                <input type="text" id="name" class="form-control" value="John Doe">
-                            </div>
-                            <div class="form-group mt-3">
-                                <label for="email">Email Address</label>
-                                <input type="email" id="email" class="form-control" value="johndoe@example.com">
-                            </div>
-                            <div class="form-group mt-3">
-                                <label for="phone">Phone Number</label>
-                                <input type="tel" id="phone" class="form-control" value="+1234567890">
-                            </div>
-                            <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
-                        </form>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><strong>Full Name:</strong> John Doe</li>
+                            <li class="list-group-item"><strong>Email Address:</strong> johndoe@example.com</li>
+                            <li class="list-group-item"><strong>Phone Number:</strong> +1234567890</li>
+                            <li class="list-group-item"><strong>Address:</strong> 123 Main Street, Berlin, Germany</li>
+                            <li class="list-group-item"><strong>Country:</strong> Germany</li>
+                        </ul>
                     </div>
                 </div>
 
-                <!-- Order History -->
-                <div class="card mb-4">
+                <!-- Recent Container Activity Card -->
+                <div class="card mb-4 shadow-sm">
                     <div class="card-header bg-primary text-white">
-                        <h5>Order History</h5>
+                        <h5 class="mb-0">Recent Container Activity</h5>
                     </div>
                     <div class="card-body">
-                        <table class="table">
+                        <h6 class="text-primary">Container Details</h6>
+                        <ul class="list-group mb-3">
+                            <li class="list-group-item"><strong>Container Name:</strong> Container XYZ</li>
+                            <li class="list-group-item"><strong>Dimensions (WxLxH):</strong> 2.5m x 6.0m x 2.7m</li>
+                            <li class="list-group-item"><strong>Country:</strong> Germany</li>
+                            <li class="list-group-item"><strong>IoT Enabled:</strong> Yes</li>
+                        </ul>
+                        <h6 class="text-primary">Rental Information</h6>
+                        <ul class="list-group mb-3">
+                            <li class="list-group-item"><strong>Rental Start Date:</strong> 2023-11-01</li>
+                            <li class="list-group-item"><strong>Rental End Date:</strong> 2023-12-01</li>
+                            <li class="list-group-item"><strong>Price:</strong> $1200.00</li>
+                        </ul>
+                        <h6 class="text-primary">Route Information</h6>
+                        <ul class="list-group">
+                            <li class="list-group-item"><strong>Origin Port:</strong> Odesa port</li>
+                            <li class="list-group-item"><strong>Destination Port:</strong> Kiel port</li>
+                            <li class="list-group-item"><strong>Distance:</strong> 555 km</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Order History Card -->
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Order History</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
                             <thead>
                             <tr>
                                 <th>Order ID</th>
@@ -76,20 +109,8 @@
                                 <td>$150.00</td>
                                 <td><a href="#" class="btn btn-sm btn-secondary">View</a></td>
                             </tr>
-                            <!-- Додайте більше замовлень за необхідністю -->
                             </tbody>
                         </table>
-                    </div>
-                </div>
-
-                <!-- Additional Settings -->
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        <h5>Account Settings</h5>
-                    </div>
-                    <div class="card-body">
-                        <button class="btn btn-outline-danger">Delete Account</button>
-                        <p class="text-muted mt-2">Note: Once you delete your account, it cannot be recovered.</p>
                     </div>
                 </div>
             </div>

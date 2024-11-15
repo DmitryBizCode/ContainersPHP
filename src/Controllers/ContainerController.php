@@ -12,20 +12,25 @@ class ContainerController
 
     public function __construct()
     {
-        $sql = new SQLService();
-        $this->postService = new PostService($sql->getPdo());
         $this->templateService = new TemplateService();
     }
 
     public function getSign(): string
     {
-        $posts = $this->postService->getSign();
-        return $this->templateService->render('pages/signPage', [
-            'title' => 'Basic Blog',
-            'posts' => $posts
-        ]);
+        return $this->templateService->render('pages/signPage', ["signNavBar" => 1,]);
     }
-
+    public function getHome(): string
+    {
+        return $this->templateService->render('pages/indexPage', ["homeNavBar" => 1,"footer" => 1]);
+    }
+    public function getServices(): string
+    {
+        return $this->templateService->render('pages/servicesPage', ["servicesNavBar" => 1,"footer" => 1]);
+    }
+    public function getContact(): string
+    {
+        return $this->templateService->render('pages/contactPage', ["contactNavBar" => 1,"footer" => 1]);
+    }
     private function redirect(string $url): void
     {
         header('Location: ' . $url, true, 302);

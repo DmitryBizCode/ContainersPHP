@@ -17,7 +17,8 @@ use App\Services\TemplateService;
 //catch(\Exception $e){
 //    echo $e->getMessage();
 //}
-
+//$mail = new \App\Services\Mail();
+//$mail->sendMail("dimapryme@gmail.com","Dmitry Beznosiuk", "hello its me charlie");
 $templateService = new TemplateService();
-echo $templateService->render('pages/servicesPage',['footer' => 1]);
+echo $templateService->render('pages/ordersPage',[]);
 

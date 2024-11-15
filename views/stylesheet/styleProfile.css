@@ -1,0 +1,32 @@
+.user-avatar {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 15px;
+}
+.card {
+    border-radius: 8px;
+    overflow: hidden;
+}
+.card-header {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+.list-group-item {
+    font-size: 0.9rem;
+    padding: 10px 15px;
+}
+.table {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+}
+.progress {
+    height: 15px;
+    border-radius: 10px;
+    background-color: #f1f1f1;
+}
+.progress-bar {
+    font-size: 0.75rem;
+}
