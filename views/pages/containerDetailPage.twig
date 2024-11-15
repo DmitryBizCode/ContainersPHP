@@ -1,0 +1,324 @@
+{% extends '/templates/base_concept.twig' %}
+
+{% block linksScript %}
+    <link rel="stylesheet" href="/views/stylesheet/styleContainerDetail.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/src/supportJS/GenerateChartContainerDetailForm.js"></script>
+{% endblock %}
+
+{% block content %}
+    <!-- Container Information Section -->
+    <section class="container-info-section py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Container Information</h2>
+            <div class="row">
+                <!-- Ліва колонка з деталями -->
+                <div class="col-md-6">
+                    <div class="info-card rounded shadow mb-3 p-3">
+                        <div class="icon-container">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div class="info-content">
+                            <p><strong>Name:</strong> Oceanic Cargo</p>
+                            <p><strong>Type:</strong> Refrigerated</p>
+                            <p><strong>Created:</strong> 2018-05-14</p>
+                        </div>
+                    </div>
+                    <div class="info-card rounded shadow mb-3 p-3">
+                        <div class="icon-container">
+                            <i class="fas fa-ruler-combined"></i>
+                        </div>
+                        <div class="info-content">
+                            <p><strong>Dimensions:</strong> 2.5m x 6m x 2.5m</p>
+                            <p><strong>Volume:</strong> 15m³</p>
+                            <p><strong>Weight Capacity:</strong> 30,000 kg</p>
+                        </div>
+                    </div>
+                    <div class="info-card rounded shadow mb-3 p-3">
+                        <div class="icon-container">
+                            <i class="fas fa-flag"></i>
+                        </div>
+                        <div class="info-content">
+                            <p><strong>Country of Origin:</strong> Germany</p>
+                            <p><strong>Port of Registration:</strong> Hamburg</p>
+                        </div>
+                    </div>
+                    <div class="info-card rounded shadow mb-3 p-3">
+                        <div class="icon-container">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="info-content">
+                            <p><strong>Owner:</strong> Global Logistics Inc.</p>
+                            <p><strong>Contact:</strong> +49 123 456 789</p>
+                        </div>
+                    </div>
+                    <div class="info-card rounded shadow mb-3 p-3">
+                        <div class="icon-container">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <div class="info-content">
+                            <p><strong>Old:</strong> No</p>
+                            <p><strong>Last Maintenance:</strong> 2023-09-10</p>
+                        </div>
+                    </div>
+                    <div class="info-card rounded shadow mb-3 p-3">
+                        <div class="icon-container">
+                            <i class="fas fa-wifi"></i>
+                        </div>
+                        <div class="info-content">
+                            <p><strong>IoT Enabled:</strong> Yes</p>
+                            <p><strong>Integrated Sensors:</strong> Temperature, Humidity</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Права колонка з картинкою -->
+                <div class="col-md-6">
+                    <div class="image-frame shadow mb-3">
+                        <img src="/image/container_example.jpg" alt="Container Image" class="img-fluid rounded">
+                    </div>
+                    <div class="additional-info p-3 rounded shadow bg-white">
+                        <h5>Quick Facts:</h5>
+                        <p>• Designed for perishable goods</p>
+                        <p>• Equipped with GPS tracking</p>
+                        <p>• 99% energy efficiency</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shipment Information Section -->
+    <section class="shipment-info-section py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-4">Shipment Information</h2>
+            <div class="shipment-route bg-white rounded shadow p-4">
+                <div class="route-header">
+                    <div class="row align-items-center">
+                        <div class="col-md-4 text-center">
+                            <i class="fas fa-ship route-icon"></i>
+                            <p><strong>Origin Port:</strong> Hamburg, Germany</p>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <div class="route-line">
+                                <i class="fas fa-plane route-progress-icon"></i>
+                                <div class="route-progress">
+                                    <div class="route-progress-bar" style="width: 60%;"></div>
+                                </div>
+                            </div>
+                            <p><strong>Status:</strong> In Transit</p>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <i class="fas fa-map-marker-alt route-icon"></i>
+                            <p><strong>Destination Port:</strong> Shanghai, China</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="shipment-details mt-5">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-card shadow p-4 mb-3">
+                            <h5><i class="fas fa-calendar-alt detail-icon"></i> Departure Date:</h5>
+                            <p>2023-10-15</p>
+                        </div>
+                        <div class="detail-card shadow p-4 mb-3">
+                            <h5><i class="fas fa-calendar-check detail-icon"></i> Estimated Arrival:</h5>
+                            <p>2023-11-01</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-card shadow p-4 mb-3">
+                            <h5><i class="fas fa-route detail-icon"></i> Route Distance:</h5>
+                            <p>20,000 km</p>
+                        </div>
+                        <div class="detail-card shadow p-4 mb-3">
+                            <h5><i class="fas fa-box detail-icon"></i> Cargo Type:</h5>
+                            <p>Electronics</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Transaction Information Section -->
+    <section class="transaction-info-section py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Transaction Information</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="transaction-card shadow p-4 rounded text-center">
+                        <i class="fas fa-dollar-sign transaction-icon"></i>
+                        <h5>Amount</h5>
+                        <p class="transaction-value">$5000</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="transaction-card shadow p-4 rounded text-center">
+                        <i class="fas fa-receipt transaction-icon"></i>
+                        <h5>Status</h5>
+                        <p class="transaction-status paid">Paid</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="transaction-card shadow p-4 rounded text-center">
+                        <i class="fas fa-calendar-alt transaction-icon"></i>
+                        <h5>Transaction Date</h5>
+                        <p class="transaction-date">2023-10-10</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="additional-transaction-info mt-5 p-4 rounded shadow bg-light">
+                <h5 class="mb-3"><i class="fas fa-info-circle detail-icon"></i> Additional Details</h5>
+                <p><strong>Currency:</strong> USD</p>
+                <p><strong>Payment Method:</strong> Credit Card</p>
+                <p><strong>Transaction ID:</strong> #TX1234567890</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Client and Owner Information Section -->
+    <section class="client-info-section py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-4">Client and Owner Information</h2>
+            <div class="row">
+                <!-- Інформація про клієнта -->
+                <div class="col-md-6">
+                    <div class="client-profile-card shadow rounded p-4 bg-white">
+                        <div class="row align-items-center">
+                            <div class="col-auto text-center">
+                                <div class="client-photo">
+                                    <img src="/image/1.png" alt="Client Photo" class="img-fluid rounded-circle shadow">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="client-details">
+                                    <h5><i class="fas fa-user detail-icon"></i> Name:</h5>
+                                    <p>John Doe</p>
+                                    <h5><i class="fas fa-envelope detail-icon"></i> Email:</h5>
+                                    <p>johndoe@example.com</p>
+                                    <h5><i class="fas fa-phone-alt detail-icon"></i> Phone Number:</h5>
+                                    <p>+123456789</p>
+                                    <h5><i class="fas fa-map-marker-alt detail-icon"></i> Address:</h5>
+                                    <p>123 Ocean Drive, Miami, FL, USA</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Інформація про власника -->
+                <div class="col-md-6">
+                    <div class="owner-profile-card shadow rounded p-4 bg-white">
+                        <div class="row align-items-center">
+                            <div class="col-auto text-center">
+                                <div class="owner-photo">
+                                    <img src="/image/1.png" alt="Owner Photo" class="img-fluid rounded-circle shadow">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="owner-details">
+                                    <h5><i class="fas fa-user-tie detail-icon"></i> Name:</h5>
+                                    <p>Global Logistics Inc.</p>
+                                    <h5><i class="fas fa-envelope detail-icon"></i> Email:</h5>
+                                    <p>owner@example.com</p>
+                                    <h5><i class="fas fa-phone-alt detail-icon"></i> Phone Number:</h5>
+                                    <p>+49 987654321</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Додаткова інформація -->
+            <div class="additional-client-info mt-5 p-4 rounded shadow bg-light">
+                <h5 class="mb-3"><i class="fas fa-info-circle detail-icon"></i> Additional Information</h5>
+                <p><strong>Client Membership:</strong> Gold</p>
+                <p><strong>Preferred Contact Method:</strong> Email</p>
+                <p><strong>Last Activity:</strong> 2023-11-12</p>
+                <p><strong>Owner Services:</strong> Refrigerated and Standard Containers</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- IoT Sensor Data Section -->
+    <section class="iot-sensor-data-section py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">IoT Sensor Data</h2>
+            <div class="row">
+                <div class="col-md-3 text-center mb-4">
+                    <div class="sensor-card p-4 bg-white rounded shadow">
+                        <h5>Temperature</h5>
+                        <p><strong>Current Value:</strong> 21.5°C</p>
+                        <label for="temperature_value">Adjust Value:</label>
+                        <input type="number" id="temperature_value" name="temperature_value" value="21.5" class="form-control mb-2">
+                        <button class="btn btn-primary btn-block">Confirm Update</button>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center mb-4">
+                    <div class="sensor-card p-4 bg-white rounded shadow">
+                        <h5>Humidity</h5>
+                        <p><strong>Current Value:</strong> 45%</p>
+                        <label for="humidity_value">Adjust Value:</label>
+                        <input type="number" id="humidity_value" name="humidity_value" value="45" class="form-control mb-2">
+                        <button class="btn btn-primary btn-block">Confirm Update</button>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center mb-4">
+                    <div class="sensor-card p-4 bg-white rounded shadow">
+                        <h5>Vibration</h5>
+                        <p><strong>Current Value:</strong> 0.02g</p>
+                        <label for="vibration_value">Adjust Value:</label>
+                        <input type="number" id="vibration_value" name="vibration_value" value="0.02" class="form-control mb-2">
+                        <button class="btn btn-primary btn-block">Confirm Update</button>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center mb-4">
+                    <div class="sensor-card p-4 bg-white rounded shadow">
+                        <h5>Illumination</h5>
+                        <p><strong>Current Value:</strong> 0.88</p>
+                        <label for="illumination_value">Adjust Value:</label>
+                        <input type="number" id="illumination_value" name="illumination_value" value="0.88" class="form-control mb-2">
+                        <button class="btn btn-primary btn-block">Confirm Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sensor Metrics Charts Section -->
+    <section class="sensor-metrics-charts-section py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-4">Sensor Metrics Over Time</h2>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="chart-card p-4 bg-white rounded shadow">
+                        <h5>Temperature History</h5>
+                        <canvas id="temperatureChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="chart-card p-4 bg-white rounded shadow">
+                        <h5>Humidity History</h5>
+                        <canvas id="humidityChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="chart-card p-4 bg-white rounded shadow">
+                        <h5>Vibration History</h5>
+                        <canvas id="vibrationChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="chart-card p-4 bg-white rounded shadow">
+                        <h5>Illumination History</h5>
+                        <canvas id="illuminationChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

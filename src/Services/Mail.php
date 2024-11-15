@@ -24,7 +24,7 @@ class Mail
 
 
             $mail->setFrom('dmitrybeznosiukcode@gmail.com', $name);
-            $mail->addAddress('dimapryme@gmail.com');
+            $mail->addAddress('moonr4y69@gmail.com');
 
             // Тема та текст листа
             $mail->isHTML(true);
