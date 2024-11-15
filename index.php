@@ -19,5 +19,5 @@ use App\Services\TemplateService;
 //}
 
 $templateService = new TemplateService();
-echo $templateService->render('pages/contactPage');
+echo $templateService->render('pages/servicesPage',['footer' => 1]);
 
