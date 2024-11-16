@@ -8,7 +8,7 @@
 
 {% block content %}
     <!-- Container Information Section -->
-    <section class="container-info-section py-5">
+    <section class="container-info-section py-4">
         <div class="container">
             <h2 class="text-center mb-4">Container Information</h2>
             <div class="row">
@@ -74,7 +74,7 @@
                 <!-- Права колонка з картинкою -->
                 <div class="col-md-6">
                     <div class="image-frame shadow mb-3">
-                        <img src="/image/container_example.jpg" alt="Container Image" class="img-fluid rounded">
+                        <img src="/image/cont1.jpg" alt="Container Image" class="img-fluid rounded">
                     </div>
                     <div class="additional-info p-3 rounded shadow bg-white">
                         <h5>Quick Facts:</h5>
@@ -88,7 +88,7 @@
     </section>
 
     <!-- Shipment Information Section -->
-    <section class="shipment-info-section py-5 bg-light">
+    <section class="shipment-info-section py-4 bg-light">
         <div class="container">
             <h2 class="text-center mb-4">Shipment Information</h2>
             <div class="shipment-route bg-white rounded shadow p-4">
@@ -143,7 +143,7 @@
     </section>
 
     <!-- Transaction Information Section -->
-    <section class="transaction-info-section py-5">
+    <section class="transaction-info-section py-4">
         <div class="container">
             <h2 class="text-center mb-4">Transaction Information</h2>
             <div class="row">
@@ -180,7 +180,7 @@
     </section>
 
     <!-- Client and Owner Information Section -->
-    <section class="client-info-section py-5 bg-light">
+    <section class="client-info-section py-4 bg-light">
         <div class="container">
             <h2 class="text-center mb-4">Client and Owner Information</h2>
             <div class="row">
@@ -245,10 +245,11 @@
     </section>
 
     <!-- IoT Sensor Data Section -->
-    <section class="iot-sensor-data-section py-5">
+    <section class="iot-sensor-data-section py-4">
         <div class="container">
             <h2 class="text-center mb-4">IoT Sensor Data</h2>
             <div class="row">
+                <!-- Temperature Sensor -->
                 <div class="col-md-3 text-center mb-4">
                     <div class="sensor-card p-4 bg-white rounded shadow">
                         <h5>Temperature</h5>
@@ -258,6 +259,7 @@
                         <button class="btn btn-primary btn-block">Confirm Update</button>
                     </div>
                 </div>
+                <!-- Humidity Sensor -->
                 <div class="col-md-3 text-center mb-4">
                     <div class="sensor-card p-4 bg-white rounded shadow">
                         <h5>Humidity</h5>
@@ -267,6 +269,7 @@
                         <button class="btn btn-primary btn-block">Confirm Update</button>
                     </div>
                 </div>
+                <!-- Vibration Sensor -->
                 <div class="col-md-3 text-center mb-4">
                     <div class="sensor-card p-4 bg-white rounded shadow">
                         <h5>Vibration</h5>
@@ -276,6 +279,7 @@
                         <button class="btn btn-primary btn-block">Confirm Update</button>
                     </div>
                 </div>
+                <!-- Illumination Sensor -->
                 <div class="col-md-3 text-center mb-4">
                     <div class="sensor-card p-4 bg-white rounded shadow">
                         <h5>Illumination</h5>
@@ -285,40 +289,114 @@
                         <button class="btn btn-primary btn-block">Confirm Update</button>
                     </div>
                 </div>
+                <!-- Openings Sensor -->
+                <div class="col-md-3 text-center mb-4">
+                    <div class="sensor-card p-4 bg-white rounded shadow">
+                        <h5>Openings</h5>
+                        <p><strong>Current Value:</strong> 3</p>
+                        <label for="openings_value">Adjust Value:</label>
+                        <input type="number" id="openings_value" name="openings_value" value="3" class="form-control mb-2">
+                        <button class="btn btn-primary btn-block">Confirm Update</button>
+                    </div>
+                </div>
+                <!-- GPS Sensor -->
+                <div class="col-md-3 text-center mb-4">
+                    <div class="sensor-card p-4 bg-white rounded shadow">
+                        <h5>GPS</h5>
+                        <p><strong>Current Location:</strong> 40.7128° N, 74.0060° W</p>
+                        <label for="gps_location">Adjust Location:</label>
+                        <input type="text" id="gps_location" name="gps_location" value="40.7128, 74.0060" class="form-control mb-2">
+                        <button class="btn btn-primary btn-block">Confirm Update</button>
+                    </div>
+                </div>
+                <!-- Gases Sensor -->
+                <div class="col-md-3 text-center mb-4">
+                    <div class="sensor-card p-4 bg-white rounded shadow">
+                        <h5>Gases</h5>
+                        <p><strong>Current Value:</strong> 0.03%</p>
+                        <label for="gases_value">Adjust Value:</label>
+                        <input type="number" id="gases_value" name="gases_value" value="0.03" class="form-control mb-2">
+                        <button class="btn btn-primary btn-block">Confirm Update</button>
+                    </div>
+                </div>
+                <!-- Inclines Sensor -->
+                <div class="col-md-3 text-center mb-4">
+                    <div class="sensor-card p-4 bg-white rounded shadow">
+                        <h5>Inclines</h5>
+                        <p><strong>Current Angle:</strong> 5°</p>
+                        <label for="inclines_value">Adjust Angle:</label>
+                        <input type="number" id="inclines_value" name="inclines_value" value="5" class="form-control mb-2">
+                        <button class="btn btn-primary btn-block">Confirm Update</button>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
+
     <!-- Sensor Metrics Charts Section -->
-    <section class="sensor-metrics-charts-section py-5 bg-light">
+    <section class="sensor-metrics-charts-section py-4 bg-light">
         <div class="container">
             <h2 class="text-center mb-4">Sensor Metrics Over Time</h2>
             <div class="row">
+                <!-- Temperature Chart -->
                 <div class="col-md-6 mb-4">
                     <div class="chart-card p-4 bg-white rounded shadow">
                         <h5>Temperature History</h5>
                         <canvas id="temperatureChart"></canvas>
                     </div>
                 </div>
+                <!-- Humidity Chart -->
                 <div class="col-md-6 mb-4">
                     <div class="chart-card p-4 bg-white rounded shadow">
                         <h5>Humidity History</h5>
                         <canvas id="humidityChart"></canvas>
                     </div>
                 </div>
+                <!-- Vibration Chart -->
                 <div class="col-md-6 mb-4">
                     <div class="chart-card p-4 bg-white rounded shadow">
                         <h5>Vibration History</h5>
                         <canvas id="vibrationChart"></canvas>
                     </div>
                 </div>
+                <!-- Illumination Chart -->
                 <div class="col-md-6 mb-4">
                     <div class="chart-card p-4 bg-white rounded shadow">
                         <h5>Illumination History</h5>
                         <canvas id="illuminationChart"></canvas>
                     </div>
                 </div>
+                <!-- Openings Chart -->
+                <div class="col-md-6 mb-4">
+                    <div class="chart-card p-4 bg-white rounded shadow">
+                        <h5>Openings History</h5>
+                        <canvas id="openingsChart"></canvas>
+                    </div>
+                </div>
+                <!-- GPS Chart -->
+                <div class="col-md-6 mb-4">
+                    <div class="chart-card p-4 bg-white rounded shadow">
+                        <h5>GPS History</h5>
+                        <canvas id="gpsChart"></canvas>
+                    </div>
+                </div>
+                <!-- Gases Chart -->
+                <div class="col-md-6 mb-4">
+                    <div class="chart-card p-4 bg-white rounded shadow">
+                        <h5>Gases History</h5>
+                        <canvas id="gasesChart"></canvas>
+                    </div>
+                </div>
+                <!-- Inclines Chart -->
+                <div class="col-md-6 mb-4">
+                    <div class="chart-card p-4 bg-white rounded shadow">
+                        <h5>Inclines History</h5>
+                        <canvas id="inclinesChart"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
+
 {% endblock %}

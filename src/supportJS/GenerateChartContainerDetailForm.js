@@ -5,25 +5,35 @@ function generateRandomData(sensorType) {
     let currentTime = new Date();
 
     for (let i = 0; i < 10; i++) {
-        // Додаємо випадковий час кожні 30 хвилин або 1 годину
         const interval = Math.random() > 0.5 ? 60 : 30; // 60 хвилин або 30 хвилин
         currentTime.setMinutes(currentTime.getMinutes() - interval);
         labels.unshift(currentTime.toLocaleTimeString());
 
-        // Випадкові значення для кожного типу сенсора
         let randomValue;
-        switch(sensorType) {
+        switch (sensorType) {
             case 'temperature':
-                randomValue = (Math.random() * 10 + 20).toFixed(1); // Температура від 20 до 30 °C
+                randomValue = (Math.random() * 10 + 20).toFixed(1);
                 break;
             case 'humidity':
-                randomValue = (Math.random() * 50 + 30).toFixed(1); // Вологість від 30 до 80%
+                randomValue = (Math.random() * 50 + 30).toFixed(1);
                 break;
             case 'vibration':
-                randomValue = (Math.random() * 0.05).toFixed(2); // Вібрація від 0 до 0.05 g
+                randomValue = (Math.random() * 0.05).toFixed(2);
                 break;
             case 'illumination':
-                randomValue = (Math.random() * 2).toFixed(2); // Освітленість від 0 до 2
+                randomValue = (Math.random() * 2).toFixed(2);
+                break;
+            case 'openings':
+                randomValue = Math.floor(Math.random() * 10);
+                break;
+            case 'gps':
+                randomValue = Math.random().toFixed(4); // Псевдо-значення для демонстрації
+                break;
+            case 'gases':
+                randomValue = (Math.random() * 0.05).toFixed(2);
+                break;
+            case 'inclines':
+                randomValue = (Math.random() * 15).toFixed(1);
                 break;
             default:
                 randomValue = 0;
@@ -79,4 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
     createChart('humidityChart', 'Humidity (%)', 'humidity');
     createChart('vibrationChart', 'Vibration (g)', 'vibration');
     createChart('illuminationChart', 'Illumination (lux)', 'illumination');
+    createChart('openingsChart', 'Openings (count)', 'openings');
+    createChart('gpsChart', 'GPS Coordinates (pseudo)', 'gps');
+    createChart('gasesChart', 'Gases (%)', 'gases');
+    createChart('inclinesChart', 'Inclines (°)', 'inclines');
 });

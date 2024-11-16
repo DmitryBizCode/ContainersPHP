@@ -2,16 +2,23 @@
 
 namespace App\Controllers;
 
+use App\Services\PeopleService;
+use App\Services\PlaceService;
 use App\Services\SQLService;
 use App\Services\TemplateService;
+use PDO;
 
 class ContainerController
 {
-    private PostService $postService;
+    private PeopleService $peopleService;
+    private PlaceService $placeService;
     private TemplateService $templateService;
 
     public function __construct()
     {
+        $pdo = new SQLService();
+        $this->placeService = new PlaceService($pdo->getPdo());
+        $this->peopleService = new PeopleService($pdo->getPdo());
         $this->templateService = new TemplateService();
     }
 
@@ -36,9 +43,26 @@ class ContainerController
         header('Location: ' . $url, true, 302);
         exit();
     }
+    public function getProfileRequest(bool $sign,array $data): string
+    {
+        if ($sign){
+            $this->signUp($data);
+            $this->signIn($data['email'], $data['password']);
+        }
+        else{
+            $this->signIn($data['email'], $data['password']);
+        }
+        return $this->templateService->render('pages/servicesPage', ["servicesNavBar" => 1,"footer" => 1]);
+    }
 
-
-
+    private function signUp($data): void{
+        $countryId = $this->placeService->getOneCountry($data['country']);
+        $this->peopleService->insertClient($data['name'], $data['email'], $countryId['country_id'], $data['surname'], $data['address'], $data['phone_number']);
+    }
+    private function signIn(string $mail, string $password): array{
+        $data = $this->peopleService->getOneClientByEmail($mail);
+        return $data['password'] === password_hash($password, PASSWORD_DEFAULT) ? $data : [];
+    }
 
 
     //////////////////////*******************

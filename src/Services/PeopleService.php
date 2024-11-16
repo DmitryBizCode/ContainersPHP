@@ -20,14 +20,19 @@ class PeopleService
     {
         $this->sqlSupportService::delete('clients', 'client_id', $clientId);
     }
-    public function insertClient(string $name, string $email,int $countryId, string $surname = null, string $address = null, string $phoneNumber = null, string $photo = null): void
+    public function insertClient(string $name, string $email,int $countryId,string $password, string $surname = null, string $address = null, string $phoneNumber = null, string $photo = null): void
     {
-        $stmt = $this->pdo->prepare("INSERT INTO clients (name, email,country_id, surname, address, phone_number, photo) VALUES (:name, :email,:country_id, :surname, :address, :phone_number, :photo)");
-        $stmt->execute(['name' => $name, 'email' => $email, 'country_id' => $countryId, 'surname' => $surname, 'address' => $address, 'phone_number' => $phoneNumber, 'photo' => $photo]);
+        $password = password_hash($password, PASSWORD_DEFAULT);
+        $stmt = $this->pdo->prepare("INSERT INTO clients (name, email, country_id, password, surname, address, phone_number, photo) VALUES (:name, :email,:country_id, :password, :surname, :address, :phone_number, :photo)");
+        $stmt->execute(['name' => $name, 'email' => $email, 'country_id' => $countryId, 'password' => $password, 'surname' => $surname, 'address' => $address, 'phone_number' => $phoneNumber, 'photo' => $photo]);
     }
-    public function getOneClient($clientId): array
+    public function getOneClient(int $clientId): array
     {
         return $this->sqlSupportService::getById('clients', 'client_id', $clientId);
+    }
+    public function getOneClientByEmail(string $mail): array
+    {
+        return $this->sqlSupportService::getById('clients', 'email', $mail);
     }
     public function getAllClients(): array
     {

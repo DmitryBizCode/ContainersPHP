@@ -13,7 +13,7 @@ class Router
         $this->containerController = new ContainerController();
     }
 
-    public function route(string $action = null, string $id = null, string $method = 'GET', array $data = [], array $image = [])
+    public function route(string $action = null, string $id = null, string $method = 'GET', array $data = [], array $image = [], bool $sign = null): void
     {
         switch ($action) {
             case 'sign':
@@ -44,11 +44,20 @@ class Router
                     break;
                 }
             // no break
+            case 'profile':
+                if ($method == 'POST') {
+                    echo $id;
+                    $this->containerController->delete($id);
+                    break;
+                } else {
+                    $content = $this->containerController->getProfileRequest($sign,$data);
+                    break;
+                }
+            // no break
             default:
                 $content = $this->containerController->getHome();
                 break;
         }
-
         echo $content;
     }
 }
