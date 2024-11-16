@@ -21,5 +21,6 @@ use App\Services\TemplateService;
 //$mail = new \App\Services\Mail();
 //$mail->sendMail("dimapryme@gmail.com","Dmitry Beznosiuk", "hello its me charlie");
 $templateService = new TemplateService();
-echo $templateService->render('pages/rentalPage',[]);
+echo $templateService->render('pages/ordersPage',[]);
+
 

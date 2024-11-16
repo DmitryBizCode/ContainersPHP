@@ -43,10 +43,14 @@ class ContainerController
         header('Location: ' . $url, true, 302);
         exit();
     }
+    public function getProfile(array $data): string
+    {
+        return $this->templateService->render('pages/profilePage',[ 'client' =>$personalData]);
+    }
     public function getProfileRequest(bool $sign,array $data): string
     {
         if ($sign){
-            $this->signUp($data);
+            $this->signOut($data);
         }
         $personalData = $this->signIn($data['email'], $data['password']);
         if(!empty($personalData)){
@@ -61,15 +65,17 @@ class ContainerController
         }
     }
 
-    private function signUp($data): void{
+    private function getProfileData($mail): array{
+        return $this->peopleService->getOneClientByEmail($mail);
+    }
+    private function signIn(string $mail, string $password): array{
+        $data = $this->getProfileData($mail);
+        return password_verify($password, $data[0]['password']) ? $data[0] : [];
+    }
+    private function signOut($data): void{
         $countryId = $this->placeService->getOneCountry($data['country']);
         $this->peopleService->insertClient($data['name'], $data['email'], $countryId['country_id'], $data['password'], $data['surname'], $data['address'], $data['phone_number']);
     }
-    private function signIn(string $mail, string $password): array{
-        $data = $this->peopleService->getOneClientByEmail($mail);
-        return password_verify($password, $data[0]['password']) ? $data[0] : [];
-    }
-
 
 //dump($data[0]);
 //dump($password);

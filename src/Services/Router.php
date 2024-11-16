@@ -49,9 +49,10 @@ class Router
                     $content = $this->containerController->getProfileRequest($sign,$data);
                     break;
                 } else {
-                    $content = $this->containerController->getProfileRequest($sign,$data);
+                    $content = $this->containerController->getProfile($sign,$data);
                     break;
                 }
+
             // no break
             default:
                 $content = $this->containerController->getHome();
