@@ -1,0 +1,116 @@
+/* styleRental.css */
+
+/* Hero Section */
+.hero-section {
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #fff;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+.hero-section h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.hero-section p {
+    font-size: 1.2rem;
+}
+
+/* Rental Form Section */
+.rental-form-section {
+    background-color: #f8f9fa;
+    padding: 2rem 0;
+}
+
+.rental-form-section h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #343a40;
+}
+
+form {
+    border: 1px solid #dee2e6;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.form-label {
+    font-weight: bold;
+    color: #495057;
+}
+
+.form-control {
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    box-shadow: none;
+}
+
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+textarea.form-control {
+    resize: none;
+}
+
+/* Input Validation Message */
+#dateError {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* Button Styling */
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    font-size: 1rem;
+    padding: 0.5rem 1.5rem;
+    border-radius: 8px;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-primary {
+    font-size: 1.1rem;
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Why Choose Us Section */
+.why-choose-us-section {
+    background-color: #f8f9fa;
+}
+
+.why-choose-us-section h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    color: #343a40;
+}
+
+.why-choose-us-section .display-4 {
+    font-size: 3rem;
+    color: #6c757d;
+}
+
+.why-choose-us-section h5 {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    color: #343a40;
+}
+
+.why-choose-us-section p {
+    font-size: 1rem;
+    color: #6c757d;
+}

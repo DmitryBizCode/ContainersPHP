@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS rentals (
     status VARCHAR(50) NOT NULL,
     price FLOAT NOT NULL,
     payment_status VARCHAR(255) NOT NULL DEFAULT 'unpaid',
+    description TEXT NOT NULL,
     container_id INT NOT NULL,
     client_id INT NOT NULL,
 

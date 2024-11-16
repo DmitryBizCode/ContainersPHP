@@ -1,0 +1,147 @@
+{% extends '/templates/base_concept.twig' %}
+
+{% block linksScript %}
+    <link rel="stylesheet" href="/views/stylesheet/styleRental.css">
+    <script src="/src/supportJS/CalculatePriceRentalForm.js" defer></script>
+{% endblock %}
+
+{% block content %}
+
+    <!-- Hero Section -->
+    <section class="hero-section py-5 text-white text-center" style="background-image: url('/image/main.webp'); background-size: cover;">
+        <div class="container">
+            <h1 class="display-4">Rent a Container</h1>
+            <p class="lead">Find the perfect container for your cargo needs.</p>
+        </div>
+    </section>
+
+    <!-- Rental Form Section -->
+    <section class="rental-form-section py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Rental Form</h2>
+            <form action="/rental/submit" method="POST" class="bg-white p-4 rounded shadow">
+                <!-- Select Container -->
+                <div class="mb-4">
+                    <label for="container" class="form-label"><i class="fas fa-box text-primary me-2"></i> Select Container</label>
+                    <select id="container" name="container_id" class="form-select" required>
+                        <option value="1">Oceanic Cargo - 2.5m x 6m x 2.5m</option>
+                        <option value="2">Heavy Duty - 3m x 8m x 3m</option>
+                    </select>
+                    <small class="text-muted">Owner: Global Logistics Inc., Country: Germany</small>
+                </div>
+
+                <!-- Route Information -->
+                <div class="mb-4">
+                    <label for="route" class="form-label"><i class="fas fa-map-marked-alt text-success me-2"></i> Route</label>
+                    <select id="route" name="route_id" class="form-select" required>
+                        <option value="1">Hamburg, Germany ➔ Shanghai, China - 20,000 km</option>
+                        <option value="2">New York, USA ➔ Tokyo, Japan - 15,000 km</option>
+                    </select>
+                    <small class="text-muted">Estimated Time: 14 days</small>
+                </div>
+
+                <!-- Rental Duration -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label for="start_date" class="form-label"><i class="fas fa-calendar-alt text-warning me-2"></i> Start Date</label>
+                        <input type="date" id="start_date" name="start_date" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="end_date" class="form-label"><i class="fas fa-calendar-check text-info me-2"></i> End Date</label>
+                        <input type="date" id="end_date" name="end_date" class="form-control" required>
+                        <small id="dateError" class="text-danger d-none">The rental period must be at least 10 days.</small>
+                    </div>
+                </div>
+
+                <!-- Cargo Description -->
+                <div class="mb-4">
+                    <label for="cargo_type" class="form-label"><i class="fas fa-box-open text-primary me-2"></i> Cargo Type</label>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="checkbox" id="electronics" name="cargo[]" value="Electronics">
+                            <label for="electronics">Electronics</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="checkbox" id="furniture" name="cargo[]" value="Furniture">
+                            <label for="furniture">Furniture</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="checkbox" id="clothing" name="cargo[]" value="Clothing">
+                            <label for="clothing">Clothing</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="checkbox" id="food" name="cargo[]" value="Food">
+                            <label for="food">Food</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="checkbox" id="machinery" name="cargo[]" value="Machinery">
+                            <label for="machinery">Machinery</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="checkbox" id="other" name="cargo[]" value="Other">
+                            <label for="other">Other</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Cargo Details -->
+                <div class="mb-4">
+                    <label for="cargo_details" class="form-label"><i class="fas fa-info-circle text-danger me-2"></i> Additional Cargo Details</label>
+                    <textarea id="cargo_details" name="cargo_details" class="form-control" rows="3" placeholder="Specify weight, special handling, etc."></textarea>
+                </div>
+
+                <!-- Delivery Details -->
+                <div class="mb-4">
+                    <label class="form-label"><i class="fas fa-truck text-primary me-2"></i> Delivery Details</label>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Origin Port:</strong> Hamburg, Germany</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Destination Port:</strong> Shanghai, China</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Estimated Distance:</strong> 20,000 km</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Estimated Price:</strong> <span id="calculatedPrice">$5,000</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calculate Price -->
+                <div class="mb-4 text-center">
+                    <button type="button" class="btn btn-secondary" id="calculatePrice"><i class="fas fa-calculator me-2"></i> Calculate Price</button>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary w-100"><i class="fas fa-paper-plane me-2"></i> Submit Request</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="why-choose-us-section py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-4">Why Choose Us?</h2>
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-boxes text-primary display-4 mb-3"></i>
+                    <h5>Wide Selection of Containers</h5>
+                    <p>Choose from various sizes and IoT-enabled containers to suit your needs.</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-shield-alt text-success display-4 mb-3"></i>
+                    <h5>Safe and Reliable</h5>
+                    <p>Our containers meet global standards for secure cargo transportation.</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-handshake text-warning display-4 mb-3"></i>
+                    <h5>Transparent Process</h5>
+                    <p>From booking to delivery, we ensure clear communication and fair pricing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
