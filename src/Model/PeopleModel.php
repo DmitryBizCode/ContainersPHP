@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Model;
-////////////////////************************
 class PeopleModel
 {
     public string $name;
@@ -11,8 +10,9 @@ class PeopleModel
     public string $phone_number;
     public string $address;
     public string $password;
+    public string $country;
     public int $id_people;
-    public function __construct(int $id_people,string $name, string $email, string $password, string $phone_number = null,string $surname = null, string $address = null){
+    public function __construct(int $id_people,string $name, string $email, string $password, string $country = null, string $phone_number = null,string $surname = null, string $address = null){
         $this->id_people = $id_people;
         $this->name = $name;
         $this->surname = $surname;
@@ -20,6 +20,7 @@ class PeopleModel
         $this->password = $password;
         $this->phone_number = $phone_number;
         $this->address = $address;
+        $this->country = $country;
     }
     public function toArray(): array {
         $data = [
@@ -27,6 +28,7 @@ class PeopleModel
             'name' => $this->name,
             'email' => $this->email,
             'password' => $this->password,
+            'country' => $this->country,
             'phone_number' => $this->phone_number ?? null,
             'address' => $this->address ?? null,
             'surname' => $this->surname ?? null
@@ -41,6 +43,7 @@ class PeopleModel
             $data['name'] ?? '',
             $data['email'] ?? '',
             $data['password'] ?? '',
+            $data['country'] ?? '',
             $data['phone_number'] ?? null,
             $data['surname'] ?? null,
             $data['address'] ?? null,

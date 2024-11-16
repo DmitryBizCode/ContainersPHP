@@ -7,7 +7,7 @@ use App\Services\PlaceService;
 use App\Services\SQLService;
 use App\Services\TemplateService;
 use PDO;
-
+use App\Model\PeopleModel;
 class ContainerController
 {
     private PeopleService $peopleService;
@@ -47,24 +47,34 @@ class ContainerController
     {
         if ($sign){
             $this->signUp($data);
-            $this->signIn($data['email'], $data['password']);
+        }
+        $personalData = $this->signIn($data['email'], $data['password']);
+        if(!empty($personalData)){
+            $personalData['country'] = $this->placeService->getOneCountryById($personalData['country_id'])[0]['name'];
+            $personalData = PeopleModel::fromArray($personalData);
+        }
+        if (!empty($personalData)){
+            return $this->templateService->render('pages/profilePage',[ 'client' =>$personalData]);
         }
         else{
-            $this->signIn($data['email'], $data['password']);
+            return $this->templateService->render('pages/signPage', ["signNavBar" => 1]);
         }
-        return $this->templateService->render('pages/servicesPage', ["servicesNavBar" => 1,"footer" => 1]);
     }
 
     private function signUp($data): void{
         $countryId = $this->placeService->getOneCountry($data['country']);
-        $this->peopleService->insertClient($data['name'], $data['email'], $countryId['country_id'], $data['surname'], $data['address'], $data['phone_number']);
+        $this->peopleService->insertClient($data['name'], $data['email'], $countryId['country_id'], $data['password'], $data['surname'], $data['address'], $data['phone_number']);
     }
     private function signIn(string $mail, string $password): array{
         $data = $this->peopleService->getOneClientByEmail($mail);
-        return $data['password'] === password_hash($password, PASSWORD_DEFAULT) ? $data : [];
+        return password_verify($password, $data[0]['password']) ? $data[0] : [];
     }
 
 
+//dump($data[0]);
+//dump($password);
+//dump($data[0]['password']);
+//dump(password_verify($password, $data[0]['password'])?1:0);
     //////////////////////*******************
     public function getList(): string
     {

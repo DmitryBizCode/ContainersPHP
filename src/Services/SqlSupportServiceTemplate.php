@@ -18,7 +18,7 @@ class SqlSupportServiceTemplate
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC) ?? [];
     }
-    public static function getById(string $tableName, string $idTableName,int $id):array {
+    public static function getById(string $tableName, string $idTableName, $id):array {
         $stmt = self::$pdo->prepare("SELECT * FROM $tableName WHERE $idTableName = :id");
         $stmt->execute([':id' => $id]);
 

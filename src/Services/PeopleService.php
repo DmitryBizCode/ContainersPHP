@@ -34,6 +34,10 @@ class PeopleService
     {
         return $this->sqlSupportService::getById('clients', 'email', $mail);
     }
+    public function getInformationForClient(int $clientId): array{
+        ////join
+        return[];
+    }
     public function getAllClients(): array
     {
         return $this->sqlSupportService::getAll('clients');

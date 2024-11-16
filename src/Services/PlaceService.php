@@ -25,9 +25,11 @@ class PlaceService
     }
     public function getOneCountry($name): array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM countries where name = :name");
-        $stmt->execute(['name' => $name]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $this->sqlSupportService::getById('countries', 'name', $name);
+    }
+    public function getOneCountryById($countryId): array
+    {
+        return $this->sqlSupportService::getById('countries', 'country_id', $countryId);
     }
     public function insertPorts(string $name,int $location, int $countryId): void
     {

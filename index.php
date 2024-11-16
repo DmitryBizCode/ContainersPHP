@@ -13,7 +13,7 @@ $image = $_FILES;
 
 $router = new Router();
 try{
-    $router->route($action, $id, $method, $data,$image);
+    $router->route($action, $id, $method, $data,$image,$sign);
 }
 catch(\Exception $e){
     echo $e->getMessage();

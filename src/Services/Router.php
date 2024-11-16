@@ -46,8 +46,7 @@ class Router
             // no break
             case 'profile':
                 if ($method == 'POST') {
-                    echo $id;
-                    $this->containerController->delete($id);
+                    $content = $this->containerController->getProfileRequest($sign,$data);
                     break;
                 } else {
                     $content = $this->containerController->getProfileRequest($sign,$data);

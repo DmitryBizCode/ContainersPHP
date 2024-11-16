@@ -12,8 +12,8 @@
                 <div class="card shadow-sm">
                     <div class="card-body text-center">
                         <img src="/image/1.png" alt="User Avatar" class="rounded-circle mb-3 user-avatar">
-                        <h4 class="card-title text-primary">John Doe</h4>
-                        <p class="text-muted">johndoe@example.com</p>
+                        {% if client.name is not empty %}<h4 class="card-title text-primary">{{client.name}} {{client.surname}}</h4>{% endif %}
+                        {% if client.email is not empty %}<p class="text-muted">{{client.email}}</p>{% endif %}
                         <div class="progress mt-3 mb-4">
                             <div class="progress-bar bg-primary" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">70% Complete</div>
                         </div>
@@ -41,13 +41,34 @@
                     </div>
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><strong>Full Name:</strong> John Doe</li>
-                            <li class="list-group-item"><strong>Email Address:</strong> johndoe@example.com</li>
-                            <li class="list-group-item"><strong>Phone Number:</strong> +1234567890</li>
-                            <li class="list-group-item"><strong>Address:</strong> 123 Main Street, Berlin, Germany</li>
-                            <li class="list-group-item"><strong>Country:</strong> Germany</li>
+                            {% if client.name %}
+                                <li class="list-group-item">
+                                    <strong>Full Name:</strong> {{ client.name }} {{ client.surname }}
+                                </li>
+                            {% endif %}
+                            {% if client.email %}
+                                <li class="list-group-item">
+                                    <strong>Email Address:</strong> {{ client.email }}
+                                </li>
+                            {% endif %}
+                            {% if client.phone_number %}
+                                <li class="list-group-item">
+                                    <strong>Phone Number:</strong> {{ client.phone_number }}
+                                </li>
+                            {% endif %}
+                            {% if client.address %}
+                                <li class="list-group-item">
+                                    <strong>Address:</strong> {{ client.address }}
+                                </li>
+                            {% endif %}
+                            {% if client.country %}
+                                <li class="list-group-item">
+                                    <strong>Country:</strong> {{ client.country }}
+                                </li>
+                            {% endif %}
                         </ul>
                     </div>
+
                 </div>
 
                 <!-- Recent Container Activity Card -->
