@@ -9,11 +9,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const destinationPort = selectedOption.getAttribute('data-destination-port');
         const destinationCountry = selectedOption.getAttribute('data-destination-country');
         const distance = selectedOption.getAttribute('data-distance');
-
         // Update Estimated Time
         const infoDisplay = document.getElementById(routeSelector.getAttribute('data-info-target'));
         if (infoDisplay) {
             infoDisplay.textContent = `Estimated Time: ${estimatedTime || 'N/A'} days`;
+            document.getElementById('time_shipment').value = estimatedTime;
         }
 
         // Update Delivery Details

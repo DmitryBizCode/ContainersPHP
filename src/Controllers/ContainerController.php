@@ -2,10 +2,12 @@
 
 namespace App\Controllers;
 
+use App\Services\CalculateShipments;
 use App\Services\ContainerService;
 use App\Services\Mail;
 use App\Services\PeopleService;
 use App\Services\PlaceService;
+use App\Services\RentService;
 use App\Services\SQLService;
 use App\Services\TemplateService;
 use PDO;
@@ -16,13 +18,16 @@ class ContainerController
     private PlaceService $placeService;
     private TemplateService $templateService;
     private containerService $containerService;
-
+    private RentService  $rentService;
+    private CalculateShipments $calculateShipments;
     public function __construct()
     {
         $pdo = new SQLService();
         $this->placeService = new PlaceService($pdo->getPdo());
         $this->peopleService = new PeopleService($pdo->getPdo());
         $this->containerService = new ContainerService($pdo->getPdo());
+        $this->rentService = new RentService($pdo->getPdo());
+        $this->calculateShipments = new CalculateShipments($pdo->getPdo());
         $this->templateService = new TemplateService();
     }
     private function redirect(string $url): void
@@ -56,12 +61,19 @@ class ContainerController
         if(!empty($personalData)){
             $personalData['country'] = $this->placeService->getOneCountryById($personalData['country_id'])[0]['name'];
             $personalData = PeopleModel::fromArray($personalData);
-            //$dataContainer = $this->placeService->
+
+            $dataContainer = $this->containerService->getStatusAllByClient($personalData->id_people);
+            dump($dataContainer);
+            usort($dataContainer, function ($a, $b) {
+                return strtotime($a['status_update_time']) <=> strtotime($b['status_update_time']);
+            });
+            $dataContainerLast = end($dataContainer);
         }
         if (!empty($personalData)){
             return $this->templateService->render('pages/profilePage',[
-                'client' =>$personalData//,
-                //'' =>
+                'client' => $personalData,
+                'container' => $dataContainer,
+                'last' => $dataContainerLast
             ]);
         }
         else{
@@ -110,32 +122,36 @@ class ContainerController
         $personalData = PeopleModel::fromArray($personalData);
         $allDataContainer = $this->containerService->getFreeStatusAllContainers();
         $routes = $this->placeService->getRoutesWithAllInformation();
-        dump($allDataContainer);
         return $this->templateService->render('pages/rentalPage',[
             'client' =>$personalData,
             'containers' => $allDataContainer,
             'routes' => $routes
         ]);
     }
-    public function Rental($id,$data):void
+    public function getDetail($id,$data):string
     {
-//        $personalData = $this->peopleService->getOneClient($id)[0];
-//        $personalData['country'] = $this->placeService->getOneCountryById($personalData['country_id'])[0]['name'];
-//        $personalData = PeopleModel::fromArray($personalData);
-//        $allDataContainer = $this->containerService->getFreeStatusAllContainers();
-//        $routes = $this->placeService->getRoutesWithAllInformation();
-
-        dump($data);
-
-
-
-//        return $this->templateService->render('pages/rentalPage',[
-//            'client' =>$personalData,
-//            'containers' => $allDataContainer,
-//            'routes' => $routes
-//        ]);
-        //$this->redirect("/index.php?action=profile&id=$id");
+        $personalData = $this->peopleService->getOneClient($id)[0];
+        $personalData['country'] = $this->placeService->getOneCountryById($personalData['country_id'])[0]['name'];
+        $personalData = PeopleModel::fromArray($personalData);
+        $dataContainer = $this->containerService->getStatusAllByClient($personalData->id_people)[0];
+        dump($dataContainer);
+        return $this->templateService->render('pages/containerDetailPage',[
+            'client' =>$personalData,
+            'container' => $dataContainer,
+        ]);
     }
+    public function Rental($id,$data):string
+    {
+        $this->containerService->insertStatus('rented',$data['container_id']);
+        $this->rentService->insertRental($data["start_date"],$data["end_date"],'rent',$data['price'],'paid',$data['container_id'],$id,$data['cargo_details']);
+        $rent = $this->rentService->getOneRentalByClientAndContainer($data['container_id'],$id);
+        $this->calculateShipments->insertShipment($data["start_date"],$data["end_date"],'Pending',$rent['rental_id'],$data['route_id']);
+        return $this->getProfile($id);
+    }
+
+
+
+
 //dump($data[0]);
 //dump($password);
 //dump($data[0]['password']);

@@ -81,27 +81,31 @@
                     <div class="card-header bg-primary text-white">
                         <h5 class="mb-0">Recent Container Activity</h5>
                     </div>
-                    <div class="card-body">
-                        <h6 class="text-primary">Container Details</h6>
-                        <ul class="list-group mb-3">
-                            <li class="list-group-item"><strong>Container Name:</strong> Container XYZ</li>
-                            <li class="list-group-item"><strong>Dimensions (WxLxH):</strong> 2.5m x 6.0m x 2.7m</li>
-                            <li class="list-group-item"><strong>Country:</strong> Germany</li>
-                            <li class="list-group-item"><strong>IoT Enabled:</strong> Yes</li>
-                        </ul>
-                        <h6 class="text-primary">Rental Information</h6>
-                        <ul class="list-group mb-3">
-                            <li class="list-group-item"><strong>Rental Start Date:</strong> 2023-11-01</li>
-                            <li class="list-group-item"><strong>Rental End Date:</strong> 2023-12-01</li>
-                            <li class="list-group-item"><strong>Price:</strong> $1200.00</li>
-                        </ul>
-                        <h6 class="text-primary">Route Information</h6>
-                        <ul class="list-group">
-                            <li class="list-group-item"><strong>Origin Port:</strong> Odesa port</li>
-                            <li class="list-group-item"><strong>Destination Port:</strong> Kiel port</li>
-                            <li class="list-group-item"><strong>Distance:</strong> 555 km</li>
-                        </ul>
-                    </div>
+                    {% if last is defined and last is not empty %}
+                        <div class="card-body">
+                            <h6 class="text-primary">Container Details</h6>
+                            <ul class="list-group mb-3">
+                                <li class="list-group-item"><strong>Container Name:</strong> {{ last['container_name']}}</li>
+                                <li class="list-group-item"><strong>Dimensions (WxLxH):</strong> {{ last['width']}}m x {{ last['length']}}m x {{ last['height']}}m</li>
+                                <li class="list-group-item"><strong>Country:</strong> {{ last['country_name']}}</li>
+                                <li class="list-group-item"><strong>IoT Enabled:</strong>{% if last['iot']%} Yes {% else%} Not {% endif %}</li>
+                            </ul>
+                            <h6 class="text-primary">Rental Information</h6>
+                            <ul class="list-group mb-3">
+                                <li class="list-group-item"><strong>Rental Start Date:</strong> {{ last['rental_start_date']}}</li>
+                                <li class="list-group-item"><strong>Rental End Date:</strong> {{ last['rental_end_date']}}</li>
+                                <li class="list-group-item"><strong>Price:</strong> ${{ last['rental_price']}}</li>
+                            </ul>
+                            <h6 class="text-primary">Route Information</h6>
+                            <ul class="list-group">
+                                <li class="list-group-item"><strong>Origin Port:</strong> {{ last['origin_port_name']}}</li>
+                                <li class="list-group-item"><strong>Destination Port:</strong> {{ last['destination_port_name']}}</li>
+                                <li class="list-group-item"><strong>Distance:</strong> {{ last['distance']}} km</li>
+                            </ul>
+                        </div>
+                    {% else %}
+                        <p class="mb-0">not</p>
+                    {% endif %}
                 </div>
 
                 <!-- Order History Card -->
@@ -121,20 +125,17 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>12345</td>
-                                <td>2023-11-05</td>
-                                <td><span class="badge bg-success">Completed</span></td>
-                                <td>$250.00</td>
-                                <td><a href="/index.php?action=detail&id=" class="btn btn-sm btn-secondary">View</a></td>
-                            </tr>
-                            <tr>
-                                <td>12346</td>
-                                <td>2023-10-20</td>
-                                <td><span class="badge bg-warning">Pending</span></td>
-                                <td>$150.00</td>
-                                <td><a href="/index.php?action=detail&id=" class="btn btn-sm btn-secondary">View</a></td>
-                            </tr>
+                                {% if container is defined and container is not empty %}
+                                    {% for con in container%}
+                                        <tr>
+                                            <td>{{ con['rental_id'] }}</td>
+                                            <td>{{ con['status_update_time'] }}</td>
+                                            <td><span class="badge {% if con['shipment_status'] == Completed %}bg-success{% else %}bg-warning{% endif %}">{{ con['shipment_status'] }}</span></td>
+                                            <td>${{ con['rental_price'] }}</td>
+                                            <td><a href="/index.php?action=detail&id={{client.id_people}}&id_containers={{con['container_id']}}" class="btn btn-sm btn-secondary">View</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
                             </tbody>
                         </table>
                     </div>

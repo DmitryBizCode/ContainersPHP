@@ -18,7 +18,7 @@ class Router
         switch ($action) {
             case 'sign':
                 if ($method == 'POST') {
-                    $this->containerController->create($data, $image);
+                    //$this->containerController->create($data, $image);
                     break;
                 } else {
                     $content = $this->containerController->getSign();
@@ -36,8 +36,7 @@ class Router
             // no break
             case 'services':
                 if ($method == 'POST') {
-                    echo $id;
-                    $this->containerController->delete($id);
+                    //$this->containerController->delete($id);
                     break;
                 } else {
                     $content = $this->containerController->getServices();
@@ -55,7 +54,7 @@ class Router
             // no break
             case 'orders':
                 if ($method == 'POST') {
-                    $content = $this->containerController->getProfileRequest($sign,$data);
+                    //$content = $this->containerController->getProfileRequest($sign,$data);
                     break;
                 } else {
                     $content = $this->containerController->getOrders($id,$data);
@@ -64,7 +63,7 @@ class Router
             // no break
             case 'setting':
                 if ($method == 'POST') {
-                    $content = $this->containerController->getProfileRequest($sign,$data);
+                    //$content = $this->containerController->getProfileRequest($sign,$data);
                     break;
                 } else {
                     $content = $this->containerController->getSetting($id,$data);
@@ -84,7 +83,7 @@ class Router
                     $content = $this->containerController->Detail($id,$data);
                     break;
                 } else {
-                    $content = $this->containerController->getDetail($id);
+                    $content = $this->containerController->getDetail($id,$data);
                     break;
                 }
             // no break
