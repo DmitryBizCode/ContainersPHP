@@ -47,6 +47,7 @@ class PeopleService
         return $this->sqlSupportService::getById('clients', 'country_id', $countryId);
     }
 
+    ///owners
     public function insertOwner(string $name, string $email, string $phoneNumber ): void
     {
         $stmt = $this->pdo->prepare("INSERT INTO owners (name, email,phone_number) VALUES (:name, :email,:phone_number)");

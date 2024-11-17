@@ -5,14 +5,13 @@ use App\Services\ContainerService;
 use App\Services\Router;
 use App\Services\SQLService;
 use App\Services\TemplateService;
-use PDO;
+
 $action = $_GET['action'] ?? null;
 $id = $_GET['id'] ?? null;
 $method = $_SERVER['REQUEST_METHOD'];
 $data = $_POST;
 $sign = $_GET['sign'] ?? null;
 $image = $_FILES;
-
 $router = new Router();
 try{
     $router->route($action, $id, $method, $data,$image,$sign);
@@ -20,7 +19,6 @@ try{
 catch(\Exception $e){
     echo $e->getMessage();
 }
-
 
 //$mail = new \App\Services\Mail();
 //$mail->sendMail("dimapryme@gmail.com","Dmitry Beznosiuk", "hello its me charlie");

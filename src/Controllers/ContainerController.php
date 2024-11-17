@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Services\ContainerService;
 use App\Services\Mail;
 use App\Services\PeopleService;
 use App\Services\PlaceService;
@@ -14,12 +15,14 @@ class ContainerController
     private PeopleService $peopleService;
     private PlaceService $placeService;
     private TemplateService $templateService;
+    private containerService $containerService;
 
     public function __construct()
     {
         $pdo = new SQLService();
         $this->placeService = new PlaceService($pdo->getPdo());
         $this->peopleService = new PeopleService($pdo->getPdo());
+        $this->containerService = new ContainerService($pdo->getPdo());
         $this->templateService = new TemplateService();
     }
     private function redirect(string $url): void
@@ -99,6 +102,39 @@ class ContainerController
         $personalData['country'] = $this->placeService->getOneCountryById($personalData['country_id'])[0]['name'];
         $personalData = PeopleModel::fromArray($personalData);
         return $this->templateService->render('pages/settingProfile',['client' =>$personalData]);
+    }
+    public function getRental($id,$data):string
+    {
+        $personalData = $this->peopleService->getOneClient($id)[0];
+        $personalData['country'] = $this->placeService->getOneCountryById($personalData['country_id'])[0]['name'];
+        $personalData = PeopleModel::fromArray($personalData);
+        $allDataContainer = $this->containerService->getFreeStatusAllContainers();
+        $routes = $this->placeService->getRoutesWithAllInformation();
+        dump($allDataContainer);
+        return $this->templateService->render('pages/rentalPage',[
+            'client' =>$personalData,
+            'containers' => $allDataContainer,
+            'routes' => $routes
+        ]);
+    }
+    public function Rental($id,$data):void
+    {
+//        $personalData = $this->peopleService->getOneClient($id)[0];
+//        $personalData['country'] = $this->placeService->getOneCountryById($personalData['country_id'])[0]['name'];
+//        $personalData = PeopleModel::fromArray($personalData);
+//        $allDataContainer = $this->containerService->getFreeStatusAllContainers();
+//        $routes = $this->placeService->getRoutesWithAllInformation();
+
+        dump($data);
+
+
+
+//        return $this->templateService->render('pages/rentalPage',[
+//            'client' =>$personalData,
+//            'containers' => $allDataContainer,
+//            'routes' => $routes
+//        ]);
+        //$this->redirect("/index.php?action=profile&id=$id");
     }
 //dump($data[0]);
 //dump($password);

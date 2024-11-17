@@ -3,6 +3,8 @@
 {% block linksScript %}
     <link rel="stylesheet" href="/views/stylesheet/styleRental.css">
     <script src="/src/supportJS/CalculatePriceRentalForm.js" defer></script>
+    <script src="/src/supportJS/RouteSelectorRentalForm.js" defer></script>
+    <script src="/src/supportJS/SelectorContainerRentalForm.js" defer></script>
 {% endblock %}
 
 {% block content %}
@@ -56,25 +58,55 @@
                 <!-- Rental Form -->
                 <div class="col-md-8">
                     <h2 class="text-center mb-4">Rental Form</h2>
-                    <form action="/rental/submit" method="POST" class="bg-white p-4 rounded shadow">
+                    <form action="/index.php?action=rental&id={{client.id_people}}" method="POST" class="bg-white p-4 rounded shadow">
                         <!-- Select Container -->
                         <div class="mb-4">
                             <label for="container" class="form-label"><i class="fas fa-box text-primary me-2"></i> Select Container</label>
-                            <select id="container" name="container_id" class="form-select" required>
-                                <option value="1">Oceanic Cargo - 2.5m x 6m x 2.5m</option>
-                                <option value="2">Heavy Duty - 3m x 8m x 3m</option>
+                            <select id="container" name="container_id" class="form-select container-selector" data-info-target="container-info" required>
+                                {% if containers is not empty %}
+                                    {% for container in containers %}
+                                        <option
+                                                value="{{ container['container_id'] }}"
+                                                data-owner="{{ container['owner_name'] }}"
+                                                data-country="{{ container['country_name'] }}">
+                                            {{ container['container_name'] }} - {{ container['width'] }}m x {{ container['length'] }}m x {{ container['height'] }}m
+                                        </option>
+                                    {% endfor %}
+                                {% else %}
+                                    <option disabled>No containers available</option>
+                                {% endif %}
                             </select>
-                            <small class="text-muted">Owner: Global Logistics Inc., Country: Germany</small>
+                            <small class="text-muted" id="container-info">
+                                Owner: {{ containers[0]['owner_name'] ?? 'N/A' }}, Country: {{ containers[0]['country_name'] ?? 'N/A' }}
+                            </small>
                         </div>
 
                         <!-- Route Information -->
                         <div class="mb-4">
-                            <label for="route" class="form-label"><i class="fas fa-map-marked-alt text-success me-2"></i> Route</label>
-                            <select id="route" name="route_id" class="form-select" required>
-                                <option value="1">Hamburg, Germany ➔ Shanghai, China - 20,000 km</option>
-                                <option value="2">New York, USA ➔ Tokyo, Japan - 15,000 km</option>
+                            <label for="route" class="form-label"><i class="fas fa-map-marked-alt text-success me-2"></i> Select Route</label>
+                            <select id="route" name="route_id" class="form-select route-selector"
+                                    data-info-target="route-info"
+                                    data-info-target-bottom-origin="bottom-origin-port"
+                                    data-info-target-bottom-destination="bottom-destination-port"
+                                    data-info-target-bottom-distance="bottom-distance" required>
+                                {% if routes is not empty %}
+                                    {% for route in routes %}
+                                        <option value="{{ route['route_id'] }}"
+                                                data-time="{{ route['estimated_time'] }}"
+                                                data-origin-port="{{ route['origin_port_name'] }}"
+                                                data-origin-country="{{ route['origin_country_name'] }}"
+                                                data-destination-port="{{ route['destination_port_name'] }}"
+                                                data-destination-country="{{ route['destination_country_name'] }}"
+                                                data-distance="{{ route['distance'] }}">
+                                            {{ route['origin_port_name'] }}, {{ route['origin_country_name'] }} ➔
+                                            {{ route['destination_port_name'] }}, {{ route['destination_country_name'] }} - {{ route['distance'] }} km
+                                        </option>
+                                    {% endfor %}
+                                {% else %}
+                                    <option disabled>No route available</option>
+                                {% endif %}
                             </select>
-                            <small class="text-muted">Estimated Time: 14 days</small>
+                            <small class="text-muted" id="route-info">Estimated Time: {{ routes[0]['estimated_time'] ?? 'N/A' }} days</small>
                         </div>
 
                         <!-- Rental Duration -->
@@ -86,7 +118,7 @@
                             <div class="col-md-6">
                                 <label for="end_date" class="form-label"><i class="fas fa-calendar-check text-info me-2"></i> End Date</label>
                                 <input type="date" id="end_date" name="end_date" class="form-control" required>
-                                <small id="dateError" class="text-danger d-none">The rental period must be at least 10 days.</small>
+                                <small id="dateError" class="text-danger d-none">The rental period must be valid.</small>
                             </div>
                         </div>
 
@@ -132,16 +164,17 @@
                             <label class="form-label"><i class="fas fa-truck text-primary me-2"></i> Delivery Details</label>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <p><strong>Origin Port:</strong> Hamburg, Germany</p>
+                                    <p><strong>Origin Port:</strong> <span id="bottom-origin-port">N/A</span></p>
                                 </div>
                                 <div class="col-md-6">
-                                    <p><strong>Destination Port:</strong> Shanghai, China</p>
+                                    <p><strong>Destination Port:</strong> <span id="bottom-destination-port">N/A</span></p>
                                 </div>
                                 <div class="col-md-6">
-                                    <p><strong>Estimated Distance:</strong> 20,000 km</p>
+                                    <p><strong>Estimated Distance:</strong> <span id="bottom-distance">N/A</span></p>
                                 </div>
                                 <div class="col-md-6">
                                     <p><strong>Estimated Price:</strong> <span id="calculatedPrice">$5,000</span></p>
+                                    <input type="hidden" id="hiddenPrice" name="price" value="5000">
                                 </div>
                             </div>
                         </div>
@@ -154,6 +187,7 @@
                         <!-- Submit Button -->
                         <button type="submit" class="btn btn-primary w-100"><i class="fas fa-paper-plane me-2"></i> Submit Request</button>
                     </form>
+
                 </div>
             </div>
         </div>

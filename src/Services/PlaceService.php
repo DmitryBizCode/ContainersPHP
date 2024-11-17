@@ -72,6 +72,36 @@ class PlaceService
     {
         return $this->sqlSupportService::getById('routes', 'destination_port_id', $destinationPortID);
     }
+    public function getRoutesWithAllInformation(): array{
+        $stmt = $this->pdo->prepare("SELECT 
+            routes.route_id,
+            routes.origin_port_id,
+            origin_ports.name AS origin_port_name,
+            origin_ports.location AS origin_port_location,
+            origin_countries.name AS origin_country_name,
+            routes.destination_port_id,
+            destination_ports.name AS destination_port_name,
+            destination_ports.location AS destination_port_location,
+            destination_countries.name AS destination_country_name,
+            routes.estimated_time,
+            routes.distance
+        FROM 
+            routes
+        INNER JOIN 
+            ports AS origin_ports ON routes.origin_port_id = origin_ports.port_id
+        INNER JOIN 
+            countries AS origin_countries ON origin_ports.country_id = origin_countries.country_id
+        INNER JOIN 
+            ports AS destination_ports ON routes.destination_port_id = destination_ports.port_id
+        INNER JOIN 
+            countries AS destination_countries ON destination_ports.country_id = destination_countries.country_id
+        WHERE 
+            container.routes.origin_port_id IS NOT NULL 
+            AND routes.destination_port_id IS NOT NULL;
+        ");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     public function getAllRoutesByDestinationAndOriginPortID(int $destinationPortID,int $originPortID): array
     {
         $stmt = $this->pdo->prepare("SELECT * FROM routes WHERE destination_port_id = :destination_port_id AND origin_port_id = :origin_port_id");

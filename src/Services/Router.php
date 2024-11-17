@@ -73,10 +73,18 @@ class Router
             // no break
             case 'rental':
                 if ($method == 'POST') {
-                    $content = $this->containerController->getProfileRequest($sign,$data);
+                    $content = $this->containerController->Rental($id,$data);
                     break;
                 } else {
                     $content = $this->containerController->getRental($id,$data);
+                    break;
+                }
+            case 'detail':
+                if ($method == 'POST') {
+                    $content = $this->containerController->Detail($id,$data);
+                    break;
+                } else {
+                    $content = $this->containerController->getDetail($id);
                     break;
                 }
             // no break

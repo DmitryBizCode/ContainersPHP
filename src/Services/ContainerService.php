@@ -34,6 +34,37 @@ class ContainerService
     {
         return $this->sqlSupportService::getById('statuses', 'container_id',$idContainer);
     }
+    public function getFreeStatusAllContainers(): array{
+        $stmt = $this->pdo->prepare("SELECT 
+            containers.container_id,
+            containers.name AS container_name,
+            containers.width,
+            containers.length,
+            containers.height,
+            containers.country_id,
+            countries.name AS country_name,
+            containers.old,
+            containers.iot,
+            statuses.status,
+            statuses.update_at,
+            owners.name AS owner_name,
+            owners.email AS owner_email,
+            owners.phone_number AS owner_phone
+        FROM 
+            containers
+        INNER JOIN 
+            statuses ON containers.container_id = statuses.container_id
+        INNER JOIN 
+            owners ON containers.owner_id = owners.owner_id
+        INNER JOIN 
+            countries ON containers.country_id = countries.country_id -- Додано з'єднання з таблицею countries
+
+        WHERE 
+            statuses.status = 'free';
+        ");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     ////Container
     public function getAllContainers(): array
