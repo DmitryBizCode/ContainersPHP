@@ -18,6 +18,7 @@ class ContainerService
         $this->sqlSupportService = new SqlSupportServiceTemplate($pdo);
 
     }
+    ////statuses
     public function insertStatus(string $status,int $containerId): void
     {
         $stmt = $this->pdo->prepare("INSERT INTO statuses (status, container_id) VALUES (:status, :container_id)");
@@ -34,7 +35,7 @@ class ContainerService
         return $this->sqlSupportService::getById('statuses', 'container_id',$idContainer);
     }
 
-
+    ////Container
     public function getAllContainers(): array
     {
         $data = $this->sqlSupportService::getAll('containers');
@@ -60,7 +61,6 @@ class ContainerService
     public function getOneContainer(string $id): ContainerModel
     {
         $containerData = $this->sqlSupportService::getById('containers', 'container_id',$id);
-
         return $containerData ? ContainerModel::fromArray($containerData) : ContainerModel::emptyContainerModel();
     }
 
@@ -86,7 +86,7 @@ class ContainerService
         return hash('sha256', uniqid('', true) . pathinfo($name, PATHINFO_FILENAME)) . '.' . pathinfo($name, PATHINFO_EXTENSION);
     }
 
-
+////maintenances
     public function insertMaintenance($description, $cost, $id): void
     {
         $stmt = $this->pdo->prepare("INSERT INTO maintenances (description, cost, container_id) VALUES (:description, :cost, :container_id)");

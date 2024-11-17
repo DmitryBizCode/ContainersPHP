@@ -1,3 +1,25 @@
+.user-profile-card {
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.user-avatar {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card .list-group-item {
+    font-size: 0.95rem;
+}
+
+.progress-bar {
+    font-size: 0.85rem;
+}
+
 /* Загальні стилі */
 body {
     font-family: 'Arial', sans-serif;

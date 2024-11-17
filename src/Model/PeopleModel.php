@@ -39,7 +39,7 @@ class PeopleModel
 
     public static function fromArray($data): self {
         return new self(
-            $data['id_people'] ?? 0,
+            $data['client_id'] ?? 0,
             $data['name'] ?? '',
             $data['email'] ?? '',
             $data['password'] ?? '',

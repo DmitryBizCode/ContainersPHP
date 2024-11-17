@@ -58,7 +58,7 @@ class PeopleService
     }
     public function getAllOwners(): array
     {
-        return $this->sqlSupportService::getAll('owners');;
+        return $this->sqlSupportService::getAll('owners');
     }
     public function deleteOwner(string $ownerId): void
     {

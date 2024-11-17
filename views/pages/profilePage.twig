@@ -11,7 +11,9 @@
             <div class="col-md-3 mb-4">
                 <div class="card shadow-sm">
                     <div class="card-body text-center">
-                        <img src="/image/1.png" alt="User Avatar" class="rounded-circle mb-3 user-avatar">
+                        <a href="/index.php?action=profile&id={{ client.id_people }}">
+                            <img src="/image/1.png" alt="User Avatar" class="rounded-circle mb-3 user-avatar">
+                        </a>
                         {% if client.name is not empty %}<h4 class="card-title text-primary">{{client.name}} {{client.surname}}</h4>{% endif %}
                         {% if client.email is not empty %}<p class="text-muted">{{client.email}}</p>{% endif %}
                         <div class="progress mt-3 mb-4">
@@ -25,8 +27,8 @@
                         <a href="/index.php?action=orders&id={{client.id_people}}" class="list-group-item list-group-item-action d-flex align-items-center">
                             <i class="fas fa-box me-2 text-success"></i> Orders
                         </a>
-                        <a href="/index.php?action=rental&id={{client.id_people}}" class="list-group-item list-group-item-action d-flex align-items-center text-info">
-                            <i class="fas fa-handshake me-2"></i> Request Rental
+                        <a href="/index.php?action=rental&id={{client.id_people}}" class="list-group-item list-group-item-action d-flex align-items-center ">
+                            <i class="fas fa-handshake me-2 text-info"></i> Request Rental
                         </a>
                         <a href="#" class="list-group-item list-group-item-action d-flex align-items-center">
                             <i class="fas fa-sign-out-alt me-2 text-warning"></i> Log Out

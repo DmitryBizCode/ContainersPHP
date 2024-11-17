@@ -27,7 +27,7 @@ class Router
             // no break
             case 'contact':
                 if ($method == 'POST') {
-                    $this->containerController->edit($id, $data, $image);
+                    $this->containerController->сontactMail($data['email'], $data['name'], $data['message']);
                     break;
                 } else {
                     $content = $this->containerController->getContact();
@@ -49,10 +49,36 @@ class Router
                     $content = $this->containerController->getProfileRequest($sign,$data);
                     break;
                 } else {
-                    $content = $this->containerController->getProfile($sign,$data);
+                    $content = $this->containerController->getProfile($id);
                     break;
                 }
-
+            // no break
+            case 'orders':
+                if ($method == 'POST') {
+                    $content = $this->containerController->getProfileRequest($sign,$data);
+                    break;
+                } else {
+                    $content = $this->containerController->getOrders($id,$data);
+                    break;
+                }
+            // no break
+            case 'setting':
+                if ($method == 'POST') {
+                    $content = $this->containerController->getProfileRequest($sign,$data);
+                    break;
+                } else {
+                    $content = $this->containerController->getSetting($id,$data);
+                    break;
+                }
+            // no break
+            case 'rental':
+                if ($method == 'POST') {
+                    $content = $this->containerController->getProfileRequest($sign,$data);
+                    break;
+                } else {
+                    $content = $this->containerController->getRental($id,$data);
+                    break;
+                }
             // no break
             default:
                 $content = $this->containerController->getHome();

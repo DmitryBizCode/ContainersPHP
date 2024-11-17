@@ -23,7 +23,9 @@
                 <div class="col-md-4">
                     <div class="card shadow-sm">
                         <div class="card-body text-center">
-                            <img src="/image/1.png" alt="User Avatar" class="rounded-circle mb-3 user-avatar img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
+                            <a href="/index.php?action=profile&id={{ client.id_people }}">
+                                <img src="/image/1.png" alt="User Avatar" class="rounded-circle mb-3 user-avatar img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
+                            </a>
                             {% if client.name is not empty %}
                                 <h4 class="text-primary">{{ client.name }} {{ client.surname }}</h4>
                             {% endif %}

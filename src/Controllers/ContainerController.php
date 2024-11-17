@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Services\Mail;
 use App\Services\PeopleService;
 use App\Services\PlaceService;
 use App\Services\SQLService;
@@ -21,7 +22,11 @@ class ContainerController
         $this->peopleService = new PeopleService($pdo->getPdo());
         $this->templateService = new TemplateService();
     }
-
+    private function redirect(string $url): void
+    {
+        header('Location: ' . $url, true, 302);
+        exit();
+    }
     public function getSign(): string
     {
         return $this->templateService->render('pages/signPage', ["signNavBar" => 1,]);
@@ -38,14 +43,32 @@ class ContainerController
     {
         return $this->templateService->render('pages/contactPage', ["contactNavBar" => 1,"footer" => 1]);
     }
-    private function redirect(string $url): void
+    public function сontactMail(string $mail = null, string $name = null, string $message = null): void
     {
-        header('Location: ' . $url, true, 302);
-        exit();
+        $mailPush = new Mail();
+        $mailPush->sendMail($mail,  $name, $message);
+        $this->redirect("/index.php?action=contact");
     }
-    public function getProfile(array $data): string
+    private function supportProfile($personalData): string{
+        if(!empty($personalData)){
+            $personalData['country'] = $this->placeService->getOneCountryById($personalData['country_id'])[0]['name'];
+            $personalData = PeopleModel::fromArray($personalData);
+            //$dataContainer = $this->placeService->
+        }
+        if (!empty($personalData)){
+            return $this->templateService->render('pages/profilePage',[
+                'client' =>$personalData//,
+                //'' =>
+            ]);
+        }
+        else{
+            return $this->templateService->render('pages/signPage', ["signNavBar" => 1]);
+        }
+    }
+    public function getProfile(int $id_client)
     {
-        return $this->templateService->render('pages/profilePage',[ 'client' =>$personalData]);
+        $personalData = $this->peopleService->getOneClient($id_client)[0];
+        return $this->supportProfile($personalData);
     }
     public function getProfileRequest(bool $sign,array $data): string
     {
@@ -53,23 +76,10 @@ class ContainerController
             $this->signOut($data);
         }
         $personalData = $this->signIn($data['email'], $data['password']);
-        if(!empty($personalData)){
-            $personalData['country'] = $this->placeService->getOneCountryById($personalData['country_id'])[0]['name'];
-            $personalData = PeopleModel::fromArray($personalData);
-        }
-        if (!empty($personalData)){
-            return $this->templateService->render('pages/profilePage',[ 'client' =>$personalData]);
-        }
-        else{
-            return $this->templateService->render('pages/signPage', ["signNavBar" => 1]);
-        }
-    }
-
-    private function getProfileData($mail): array{
-        return $this->peopleService->getOneClientByEmail($mail);
+        return $this->supportProfile($personalData);
     }
     private function signIn(string $mail, string $password): array{
-        $data = $this->getProfileData($mail);
+        $data = $this->peopleService->getOneClientByEmail($mail);
         return password_verify($password, $data[0]['password']) ? $data[0] : [];
     }
     private function signOut($data): void{
@@ -77,6 +87,19 @@ class ContainerController
         $this->peopleService->insertClient($data['name'], $data['email'], $countryId['country_id'], $data['password'], $data['surname'], $data['address'], $data['phone_number']);
     }
 
+    public function getOrders($id,$data):string
+    {
+        $personalData = PeopleModel::fromArray($this->peopleService->getOneClient($id)[0]);
+        return $this->templateService->render('pages/ordersPage',['client' =>$personalData]);
+    }
+
+    public function getSetting($id,$data):string
+    {
+        $personalData = $this->peopleService->getOneClient($id)[0];
+        $personalData['country'] = $this->placeService->getOneCountryById($personalData['country_id'])[0]['name'];
+        $personalData = PeopleModel::fromArray($personalData);
+        return $this->templateService->render('pages/settingProfile',['client' =>$personalData]);
+    }
 //dump($data[0]);
 //dump($password);
 //dump($data[0]['password']);

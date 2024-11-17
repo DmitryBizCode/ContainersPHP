@@ -16,12 +16,14 @@
                 <div class="card shadow-sm">
                     <div class="card-body text-center">
                         <div class="profile-photo-preview mb-3">
-                            <img src="/image/1.png" alt="User Avatar" id="photoImage" class="rounded-circle img-fluid shadow-sm" style="width: 150px; height: 150px; object-fit: cover;">
+                            <a href="/index.php?action=profile&id={{ client.id_people }}">
+                                <img src="/image/1.png" alt="User Avatar" id="photoImage" class="rounded-circle img-fluid shadow-sm" style="width: 150px; height: 150px; object-fit: cover;">
+                            </a>
                         </div>
                         <input type="file" id="photo" name="photo" class="d-none" onchange="previewPhoto()">
                         <label for="photo" class="btn btn-primary btn-sm mt-2">Upload New Photo</label>
                         {% if client.name is not empty %}
-                            <h4 class="mt-3 text-primary">{{ client.name }} {{ client.surname }}</h4>
+                            <h4 class="mt-3 text-primary">{{ client.name }} {% if client.surname is not empty %} {{ client.surname }} {% endif %}</h4>
                         {% endif %}
                         {% if client.email is not empty %}
                             <p class="text-muted">{{ client.email }}</p>
@@ -54,21 +56,21 @@
                         <div class="card-body">
                             <div class="form-group mb-3">
                                 <label for="name">First Name</label>
-                                <input type="text" id="name" name="name" class="form-control" value="John" required>
+                                <input type="text" id="name" name="name" class="form-control" value="{{ client.name }}" required>
                                 <small id="nameError" class="error-message">Name is required</small>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="surname">Last Name</label>
-                                <input type="text" id="surname" name="surname" class="form-control" value="Doe">
+                                <input type="text" id="surname" name="surname" class="form-control" value="{{ client.surname }}">
                             </div>
                             <div class="form-group mb-3">
                                 <label for="email">Email Address</label>
-                                <input type="email" id="email" name="email" class="form-control" value="johndoe@example.com" required>
+                                <input type="email" id="email" name="email" class="form-control" value="{{ client.email }}" required>
                                 <small id="emailError" class="error-message">Email is required</small>
                             </div>
                             <div class="form-group mb-3">
-                                <label for="password">New Password</label>
-                                <input type="password" id="password" name="password" class="form-control">
+                                <label for="new_password">New Password</label>
+                                <input type="password" id="new_password" name="new_password" class="form-control">
                             </div>
                             <div class="form-group mb-3">
                                 <label for="confirm_password">Confirm Password</label>
@@ -77,19 +79,20 @@
                             </div>
                             <div class="form-group mb-3">
                                 <label for="address">Address</label>
-                                <input type="text" id="address" name="address" class="form-control" value="123 Street, City">
+                                <input type="text" id="address" name="address" class="form-control" value="{{ client.address }}">
                             </div>
                             <div class="form-group mb-3">
                                 <label for="phone_number">Phone Number</label>
-                                <input type="tel" id="phone_number" name="phone_number" class="form-control" value="+1234567890">
+                                <input type="tel" id="phone_number" name="phone_number" class="form-control" value="{{ client.phone_number }}">
                             </div>
                             <div class="form-group">
                                 <label for="country">Country</label>
                                 <select id="country" name="country_id" class="form-control" required>
-                                    <option value="1" selected>Ukraine</option>
-                                    <option value="2">Poland</option>
-                                    <option value="3">Germany</option>
+                                    <option value="1" {% if client.country == 'Poland' %}selected{% endif %}>Poland</option>
+                                    <option value="2" {% if client.country == 'Ukraine' %}selected{% endif %}>Ukraine</option>
+                                    <option value="3" {% if client.country == 'Germany' %}selected{% endif %}>Germany</option>
                                 </select>
+
                             </div>
                         </div>
                     </div>
