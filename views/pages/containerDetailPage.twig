@@ -59,9 +59,9 @@
                             <i class="fas fa-box"></i>
                         </div>
                         <div class="info-content">
-                            <p><strong>Name:</strong> Oceanic Cargo</p>
+                            <p><strong>Name:</strong> {{ container['container_name'] }}</p>
                             <p><strong>Type:</strong> Refrigerated</p>
-                            <p><strong>Created:</strong> 2018-05-14</p>
+                            <p><strong>Created during:</strong> {{ container['old'] }}</p>
                         </div>
                     </div>
                     <div class="info-card rounded shadow mb-3 p-3">
@@ -69,8 +69,8 @@
                             <i class="fas fa-ruler-combined"></i>
                         </div>
                         <div class="info-content">
-                            <p><strong>Dimensions:</strong> 2.5m x 6m x 2.5m</p>
-                            <p><strong>Volume:</strong> 15m³</p>
+                            <p><strong>Dimensions:</strong> {{ container['width'] }}m x {{ container['length'] }}m x {{ container['height'] }}m</p>
+                            <p><strong>Volume:</strong> {{ container['width'] * container['length'] * container['height'] }}m³</p>
                             <p><strong>Weight Capacity:</strong> 30,000 kg</p>
                         </div>
                     </div>
@@ -79,8 +79,9 @@
                             <i class="fas fa-flag"></i>
                         </div>
                         <div class="info-content">
-                            <p><strong>Country of Origin:</strong> Germany</p>
-                            <p><strong>Port of Registration:</strong> Hamburg</p>
+{#                            тут треба замінити #}
+                            <p><strong>Country of Origin:</strong> {{ container['country_name'] }}</p>
+                            <p><strong>Port of Registration:</strong> {{ container['origin_port_name'] }}</p>
                         </div>
                     </div>
                     <div class="info-card rounded shadow mb-3 p-3">
@@ -88,8 +89,8 @@
                             <i class="fas fa-user-tie"></i>
                         </div>
                         <div class="info-content">
-                            <p><strong>Owner:</strong> Global Logistics Inc.</p>
-                            <p><strong>Contact:</strong> +49 123 456 789</p>
+                            <p><strong>Owner:</strong> {{ container['owner_name'] }}</p>
+                            <p><strong>Contact:</strong> {{ container['owner_phone'] }}</p>
                         </div>
                     </div>
                     <div class="info-card rounded shadow mb-3 p-3">
@@ -97,7 +98,7 @@
                             <i class="fas fa-tools"></i>
                         </div>
                         <div class="info-content">
-                            <p><strong>Old:</strong> No</p>
+                            <p><strong>Old:</strong> {{ container['old'] }}</p>
                             <p><strong>Last Maintenance:</strong> 2023-09-10</p>
                         </div>
                     </div>
@@ -106,8 +107,8 @@
                             <i class="fas fa-wifi"></i>
                         </div>
                         <div class="info-content">
-                            <p><strong>IoT Enabled:</strong> Yes</p>
-                            <p><strong>Integrated Sensors:</strong> Temperature, Humidity</p>
+                            <p><strong>IoT Enabled:</strong> {% if container['iot']%} Yes {% else%} Not {% endif %}</p>
+                            <p><strong>Integrated Sensors:</strong> Temperature, Humidity,Vibrometers,Inclines,Openings,GPS,Illuminated,Gases</p>
                         </div>
                     </div>
                 </div>
@@ -136,7 +137,7 @@
                     <div class="row align-items-center">
                         <div class="col-md-4 text-center">
                             <i class="fas fa-ship route-icon"></i>
-                            <p><strong>Origin Port:</strong> Hamburg, Germany</p>
+                            <p><strong>Origin Port:</strong> {{ container['origin_port_name'] }}</p>
                         </div>
                         <div class="col-md-4 text-center">
                             <div class="route-line">
@@ -149,7 +150,7 @@
                         </div>
                         <div class="col-md-4 text-center">
                             <i class="fas fa-map-marker-alt route-icon"></i>
-                            <p><strong>Destination Port:</strong> Shanghai, China</p>
+                            <p><strong>Destination Port:</strong> {{ container['destination_port_name'] }}</p>
                         </div>
                     </div>
                 </div>
@@ -160,17 +161,17 @@
                     <div class="col-md-6">
                         <div class="detail-card shadow p-4 mb-3">
                             <h5><i class="fas fa-calendar-alt detail-icon"></i> Departure Date:</h5>
-                            <p>2023-10-15</p>
+                            <p> {{ container['shipment_departure_date'] }}</p>
                         </div>
                         <div class="detail-card shadow p-4 mb-3">
                             <h5><i class="fas fa-calendar-check detail-icon"></i> Estimated Arrival:</h5>
-                            <p>2023-11-01</p>
+                            <p>{{ container['shipment_arrival_date'] }}</p>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="detail-card shadow p-4 mb-3">
                             <h5><i class="fas fa-route detail-icon"></i> Route Distance:</h5>
-                            <p>20,000 km</p>
+                            <p>{{ container['distance'] }} km</p>
                         </div>
                         <div class="detail-card shadow p-4 mb-3">
                             <h5><i class="fas fa-box detail-icon"></i> Cargo Type:</h5>
@@ -191,7 +192,7 @@
                     <div class="transaction-card shadow p-4 rounded text-center">
                         <i class="fas fa-dollar-sign transaction-icon"></i>
                         <h5>Amount</h5>
-                        <p class="transaction-value">$5000</p>
+                        <p class="transaction-value">${{ container['rental_price'] }}</p>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -236,13 +237,13 @@
                             <div class="col">
                                 <div class="client-details">
                                     <h5><i class="fas fa-user detail-icon"></i> Name:</h5>
-                                    <p>John Doe</p>
+                                    <p>{{ client.name }} {{ client.surname }}</p>
                                     <h5><i class="fas fa-envelope detail-icon"></i> Email:</h5>
-                                    <p>johndoe@example.com</p>
+                                    <p>{{ client.email }}</p>
                                     <h5><i class="fas fa-phone-alt detail-icon"></i> Phone Number:</h5>
-                                    <p>+123456789</p>
+                                    <p>{{ client.phone_number }}</p>
                                     <h5><i class="fas fa-map-marker-alt detail-icon"></i> Address:</h5>
-                                    <p>123 Ocean Drive, Miami, FL, USA</p>
+                                    <p>{{ client.address }}</p>
                                 </div>
                             </div>
                         </div>
@@ -261,11 +262,11 @@
                             <div class="col">
                                 <div class="owner-details">
                                     <h5><i class="fas fa-user-tie detail-icon"></i> Name:</h5>
-                                    <p>Global Logistics Inc.</p>
+                                    <p>{{ container.owner_name }}</p>
                                     <h5><i class="fas fa-envelope detail-icon"></i> Email:</h5>
-                                    <p>owner@example.com</p>
+                                    <p>{{ container.owner_email }}</p>
                                     <h5><i class="fas fa-phone-alt detail-icon"></i> Phone Number:</h5>
-                                    <p>+49 987654321</p>
+                                    <p>{{ container.owner_phone }}</p>
                                 </div>
                             </div>
                         </div>

@@ -36,61 +36,64 @@ class ContainerService
     }
     public function getStatusAllByClient(int $idContainer){
         $stmt = $this->pdo->prepare("SELECT 
-    containers.container_id,
-    containers.name AS container_name,
-    containers.width,
-    containers.length,
-    containers.height,
-    containers.country_id,
-    countries.name AS country_name,
-    containers.old,
-    containers.iot,
-    statuses.status AS container_status,
-    statuses.update_at AS status_update_time,
-    rentals.rental_id,
-    rentals.start_date AS rental_start_date,
-    rentals.end_date AS rental_end_date,
-    rentals.status AS rental_status,
-    rentals.price AS rental_price,
-    routes.distance,
-    shipments.departure_date AS shipment_departure_date,
-    shipments.arrival_date AS shipment_arrival_date,
-    shipments.status AS shipment_status,
-    routes.origin_port_id,
-    origin_ports.name AS origin_port_name,
-    origin_ports.location AS origin_port_location,
-    routes.destination_port_id,
-    destination_ports.name AS destination_port_name,
-    destination_ports.location AS destination_port_location
-FROM 
-    rentals
-INNER JOIN 
-    containers ON rentals.container_id = containers.container_id
-INNER JOIN 
-    clients ON rentals.client_id = clients.client_id
-INNER JOIN 
-    countries ON containers.country_id = countries.country_id
-LEFT JOIN 
-    statuses ON containers.container_id = statuses.container_id
-    AND statuses.update_at = (
-        SELECT 
-            MAX(s.update_at)
+            containers.container_id,
+            containers.name AS container_name,
+            containers.width,
+            containers.length,
+            containers.height,
+            containers.country_id,
+            countries.name AS country_name,
+            containers.old,
+            containers.iot,
+            statuses.status AS container_status,
+            statuses.update_at AS status_update_time,
+            rentals.start_date AS rental_start_date,
+            rentals.end_date AS rental_end_date,
+            rentals.status AS rental_status,
+            rentals.price AS rental_price,
+            shipments.departure_date AS shipment_departure_date,
+            shipments.arrival_date AS shipment_arrival_date,
+            shipments.status AS shipment_status,
+            routes.origin_port_id,
+            origin_ports.name AS origin_port_name,
+            origin_ports.location AS origin_port_location,
+            routes.distance,
+            routes.destination_port_id,
+            destination_ports.name AS destination_port_name,
+            destination_ports.location AS destination_port_location,
+            owners.name AS owner_name,
+            owners.email AS owner_email,
+            owners.phone_number AS owner_phone
         FROM 
-            statuses AS s
+            rentals
+        INNER JOIN 
+            containers ON rentals.container_id = containers.container_id
+        INNER JOIN 
+            clients ON rentals.client_id = clients.client_id
+        INNER JOIN 
+            countries ON containers.country_id = countries.country_id
+        INNER JOIN 
+            owners ON containers.owner_id = owners.owner_id
+        LEFT JOIN 
+            statuses ON containers.container_id = statuses.container_id
+            AND statuses.update_at = (
+                SELECT 
+                    MAX(s.update_at)
+                FROM 
+                    statuses AS s
+                WHERE 
+                    s.container_id = containers.container_id
+            )
+        LEFT JOIN 
+            shipments ON rentals.rental_id = shipments.rental_id
+        LEFT JOIN 
+            routes ON shipments.route_id = routes.route_id
+        LEFT JOIN 
+            ports AS origin_ports ON routes.origin_port_id = origin_ports.port_id
+        LEFT JOIN 
+            ports AS destination_ports ON routes.destination_port_id = destination_ports.port_id
         WHERE 
-            s.container_id = containers.container_id
-    )
-LEFT JOIN 
-    shipments ON rentals.rental_id = shipments.rental_id
-LEFT JOIN 
-    routes ON shipments.route_id = routes.route_id
-LEFT JOIN 
-    ports AS origin_ports ON routes.origin_port_id = origin_ports.port_id
-LEFT JOIN 
-    ports AS destination_ports ON routes.destination_port_id = destination_ports.port_id
-WHERE 
-    clients.client_id = :client_id;
-
+            clients.client_id = :client_id;
         ");
         $stmt->execute([':client_id' => $idContainer]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
