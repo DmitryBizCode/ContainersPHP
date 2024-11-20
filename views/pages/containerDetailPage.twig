@@ -206,7 +206,7 @@
                     <div class="transaction-card shadow p-4 rounded text-center">
                         <i class="fas fa-calendar-alt transaction-icon"></i>
                         <h5>Transaction Date</h5>
-                        <p class="transaction-date">2023-10-10</p>
+                        <p class="transaction-date">{{ container['status_update_time'] }}</p>
                     </div>
                 </div>
             </div>
@@ -297,7 +297,9 @@
                         <p><strong>Current Value:</strong> 21.5°C</p>
                         <label for="temperature_value">Adjust Value:</label>
                         <input type="number" id="temperature_value" name="temperature_value" value="21.5" class="form-control mb-2">
-                        <button class="btn btn-primary btn-block">Confirm Update</button>
+                        <a class="btn btn-primary btn-block" href="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}">
+                            Confirm Update
+                        </a>
                     </div>
                 </div>
                 <!-- Humidity Sensor -->
@@ -307,7 +309,9 @@
                         <p><strong>Current Value:</strong> 45%</p>
                         <label for="humidity_value">Adjust Value:</label>
                         <input type="number" id="humidity_value" name="humidity_value" value="45" class="form-control mb-2">
-                        <button class="btn btn-primary btn-block">Confirm Update</button>
+                        <a class="btn btn-primary btn-block" href="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}">
+                            Confirm Update
+                        </a>
                     </div>
                 </div>
                 <!-- Vibration Sensor -->
@@ -317,7 +321,9 @@
                         <p><strong>Current Value:</strong> 0.02g</p>
                         <label for="vibration_value">Adjust Value:</label>
                         <input type="number" id="vibration_value" name="vibration_value" value="0.02" class="form-control mb-2">
-                        <button class="btn btn-primary btn-block">Confirm Update</button>
+                        <a class="btn btn-primary btn-block" href="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}">
+                            Confirm Update
+                        </a>
                     </div>
                 </div>
                 <!-- Illumination Sensor -->
@@ -327,7 +333,9 @@
                         <p><strong>Current Value:</strong> 0.88</p>
                         <label for="illumination_value">Adjust Value:</label>
                         <input type="number" id="illumination_value" name="illumination_value" value="0.88" class="form-control mb-2">
-                        <button class="btn btn-primary btn-block">Confirm Update</button>
+                        <a class="btn btn-primary btn-block" href="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}">
+                            Confirm Update
+                        </a>
                     </div>
                 </div>
                 <!-- Openings Sensor -->
@@ -337,7 +345,9 @@
                         <p><strong>Current Value:</strong> 3</p>
                         <label for="openings_value">Adjust Value:</label>
                         <input type="number" id="openings_value" name="openings_value" value="3" class="form-control mb-2">
-                        <button class="btn btn-primary btn-block">Confirm Update</button>
+                        <a class="btn btn-primary btn-block" href="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}">
+                            Confirm Update
+                        </a>
                     </div>
                 </div>
                 <!-- GPS Sensor -->
@@ -347,7 +357,9 @@
                         <p><strong>Current Location:</strong> 40.7128° N, 74.0060° W</p>
                         <label for="gps_location">Adjust Location:</label>
                         <input type="text" id="gps_location" name="gps_location" value="40.7128, 74.0060" class="form-control mb-2">
-                        <button class="btn btn-primary btn-block">Confirm Update</button>
+                        <a class="btn btn-primary btn-block" href="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}">
+                            Confirm Update
+                        </a>
                     </div>
                 </div>
                 <!-- Gases Sensor -->
@@ -357,7 +369,9 @@
                         <p><strong>Current Value:</strong> 0.03%</p>
                         <label for="gases_value">Adjust Value:</label>
                         <input type="number" id="gases_value" name="gases_value" value="0.03" class="form-control mb-2">
-                        <button class="btn btn-primary btn-block">Confirm Update</button>
+                        <a class="btn btn-primary btn-block" href="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}">
+                            Confirm Update
+                        </a>
                     </div>
                 </div>
                 <!-- Inclines Sensor -->
@@ -367,7 +381,9 @@
                         <p><strong>Current Angle:</strong> 5°</p>
                         <label for="inclines_value">Adjust Angle:</label>
                         <input type="number" id="inclines_value" name="inclines_value" value="5" class="form-control mb-2">
-                        <button class="btn btn-primary btn-block">Confirm Update</button>
+                        <a class="btn btn-primary btn-block" href="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}">
+                            Confirm Update
+                        </a>
                     </div>
                 </div>
             </div>

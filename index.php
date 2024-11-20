@@ -13,8 +13,9 @@ $data = $_POST;
 $sign = $_GET['sign'] ?? null;
 $image = $_FILES;
 $router = new Router();
+$id_containers = $_GET['id_containers'] ?? null;
 try{
-    $router->route($action, $id, $method, $data,$image,$sign);
+    $router->route($action, $id, $method, $data,$image,$sign,$id_containers);
 }
 catch(\Exception $e){
     echo $e->getMessage();

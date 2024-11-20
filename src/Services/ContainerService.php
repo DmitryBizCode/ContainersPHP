@@ -50,6 +50,7 @@ class ContainerService
             rentals.start_date AS rental_start_date,
             rentals.end_date AS rental_end_date,
             rentals.status AS rental_status,
+            rentals.rental_id,
             rentals.price AS rental_price,
             shipments.departure_date AS shipment_departure_date,
             shipments.arrival_date AS shipment_arrival_date,

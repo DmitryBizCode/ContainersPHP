@@ -63,13 +63,14 @@ class ContainerController
             $personalData = PeopleModel::fromArray($personalData);
 
             $dataContainer = $this->containerService->getStatusAllByClient($personalData->id_people);
-            dump($dataContainer);
+            //dump($dataContainer);
             usort($dataContainer, function ($a, $b) {
                 return strtotime($a['status_update_time']) <=> strtotime($b['status_update_time']);
             });
             $dataContainerLast = end($dataContainer);
         }
         if (!empty($personalData)){
+//            dump($dataContainerLast);
             return $this->templateService->render('pages/profilePage',[
                 'client' => $personalData,
                 'container' => $dataContainer,
@@ -99,9 +100,8 @@ class ContainerController
     }
     private function signOut($data): void{
         $countryId = $this->placeService->getOneCountry($data['country']);
-        $this->peopleService->insertClient($data['name'], $data['email'], $countryId['country_id'], $data['password'], $data['surname'], $data['address'], $data['phone_number']);
+        $this->peopleService->insertClient($data['name'], $data['email'], $countryId[0]['country_id'], $data['password'], $data['surname'], $data['address'], $data['phone_number']);
     }
-
     public function getOrders($id,$data):string
     {
         $personalData = PeopleModel::fromArray($this->peopleService->getOneClient($id)[0]);
@@ -114,6 +114,13 @@ class ContainerController
         $personalData['country'] = $this->placeService->getOneCountryById($personalData['country_id'])[0]['name'];
         $personalData = PeopleModel::fromArray($personalData);
         return $this->templateService->render('pages/settingProfile',['client' =>$personalData]);
+    }
+    public function setting($id,array $data)
+    {
+        $countryId = $this->placeService->getOneCountry($data['country_id']);
+
+        $this->peopleService->updateClient( $id,$data['name'], $data['email'], $countryId[0]['country_id'], $data['new_password'], $data['surname'], $data['address'], $data['phone_number'],null);
+        echo $this->getProfile($id);
     }
     public function getRental($id,$data):string
     {
@@ -128,13 +135,19 @@ class ContainerController
             'routes' => $routes
         ]);
     }
-    public function getDetail($id,$data):string
+    public function getDetail($id,$data,$id_containers):string
     {
         $personalData = $this->peopleService->getOneClient($id)[0];
         $personalData['country'] = $this->placeService->getOneCountryById($personalData['country_id'])[0]['name'];
         $personalData = PeopleModel::fromArray($personalData);
-        $dataContainer = $this->containerService->getStatusAllByClient($personalData->id_people)[0];
-        dump($dataContainer);
+        $dataContainer = $this->containerService->getStatusAllByClient($personalData->id_people);
+
+        foreach ($dataContainer as $item) {
+            if ($item['container_id'] === $id_containers){
+                $dataContainer = $item;
+                break;
+            }
+        }
         return $this->templateService->render('pages/containerDetailPage',[
             'client' =>$personalData,
             'container' => $dataContainer,

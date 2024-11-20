@@ -26,6 +26,18 @@ class PeopleService
         $stmt = $this->pdo->prepare("INSERT INTO clients (name, email, country_id, password, surname, address, phone_number, photo) VALUES (:name, :email,:country_id, :password, :surname, :address, :phone_number, :photo)");
         $stmt->execute(['name' => $name, 'email' => $email, 'country_id' => $countryId, 'password' => $password, 'surname' => $surname, 'address' => $address, 'phone_number' => $phoneNumber, 'photo' => $photo]);
     }
+
+    public function updateClient(int $id,string $name, string $email,int $countryId,string $password, string $surname = null, string $address = null, string $phoneNumber = null, string $photo = null): void
+    {
+        if($password != null){
+            $password = password_hash($password, PASSWORD_DEFAULT);
+        }
+        else{
+            $password = $this->getOneClient($id)[0]['password'];
+        }
+        $stmt = $this->pdo->prepare("UPDATE clients SET name = :name,surname = :surname,email = :email,password = :password,address = :address,phone_number = :phone_number,photo = :photo,country_id = :country_id WHERE client_id = :id");
+        $stmt->execute(['name' => $name, 'email' => $email, 'country_id' => $countryId, 'password' => $password, 'surname' => $surname, 'address' => $address, 'phone_number' => $phoneNumber, 'photo' => $photo, 'id' => $id]);
+    }
     public function getOneClient(int $clientId): array
     {
         return $this->sqlSupportService::getById('clients', 'client_id', $clientId);

@@ -13,7 +13,7 @@ class Router
         $this->containerController = new ContainerController();
     }
 
-    public function route(string $action = null, string $id = null, string $method = 'GET', array $data = [], array $image = [], bool $sign = null): void
+    public function route(string $action = null, string $id = null, string $method = 'GET', array $data = [], array $image = [], bool $sign = null, int $id_containers = null): void
     {
         switch ($action) {
             case 'sign':
@@ -63,7 +63,7 @@ class Router
             // no break
             case 'setting':
                 if ($method == 'POST') {
-                    //$content = $this->containerController->getProfileRequest($sign,$data);
+                    $content = $this->containerController->setting($id,$data);
                     break;
                 } else {
                     $content = $this->containerController->getSetting($id,$data);
@@ -83,7 +83,7 @@ class Router
                     $content = $this->containerController->Detail($id,$data);
                     break;
                 } else {
-                    $content = $this->containerController->getDetail($id,$data);
+                    $content = $this->containerController->getDetail($id,$data,$id_containers);
                     break;
                 }
             // no break
