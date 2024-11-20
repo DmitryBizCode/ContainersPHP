@@ -4,14 +4,18 @@ namespace App\Controllers;
 
 use App\Services\CalculateShipments;
 use App\Services\ContainerService;
+use App\Services\IotService;
 use App\Services\Mail;
 use App\Services\PeopleService;
 use App\Services\PlaceService;
 use App\Services\RentService;
 use App\Services\SQLService;
 use App\Services\TemplateService;
+use Exception;
 use PDO;
 use App\Model\PeopleModel;
+use TypeError;
+
 class ContainerController
 {
     private PeopleService $peopleService;
@@ -20,9 +24,22 @@ class ContainerController
     private containerService $containerService;
     private RentService  $rentService;
     private CalculateShipments $calculateShipments;
+    private IotService $iotService;
+    private array $typeMetrics = [
+        'temperatures' => 2, // Датчики температури: похибка ±2°C
+        'humidity' => 5, // Датчики вологості: похибка ±5%
+        'vibrometers' => 0.1, // Датчики вібрації: похибка ±0.1 м/с²
+        'inclines' => 1, // Датчики нахилу: похибка ±1° (кут нахилу)
+        'openings' => 0, // Датчики відкриття: звичайно це "0" або "1", тому немає діапазону
+        'gps' => 5, // GPS: похибка ±5 метрів
+        'illuminated' => 10, // Освітленість: похибка ±10 люкс
+        'gases' => 0.5 // Газові датчики: похибка ±0.5 ppm (parts per million)
+    ];
     public function __construct()
     {
+
         $pdo = new SQLService();
+        $this->iotService = new IotService($pdo->getPdo());
         $this->placeService = new PlaceService($pdo->getPdo());
         $this->peopleService = new PeopleService($pdo->getPdo());
         $this->containerService = new ContainerService($pdo->getPdo());
@@ -153,7 +170,77 @@ class ContainerController
             'container' => $dataContainer,
         ]);
     }
-    public function Rental($id,$data):string
+    function randomFloat(float $min, float $max): float {
+        dump($max);
+        dump($min);
+        $ss = $min + mt_rand() / mt_getrandmax() * ($max - $min);
+        dump($ss);
+
+        return $ss;
+    }
+    private function putMetrics(string $type, float $range, int $containerId, int $rentalId,array $value = null): void {
+        if (!isset($this->typeMetrics[$type])) {
+            throw new Exception("Ключ '$type' не знайдено в масиві.");
+        }
+        if (!isset($value)) {
+            $value = $this->iotService->getLatestElementIoT($type, $containerId, $rentalId);
+        }
+
+        $randomValue = $this->randomFloat(($value['value'] - $range), ($value['value'] + $range));
+        $this->iotService->insertTable($containerId, $rentalId, $type, $randomValue);
+    }
+
+    private function insertThreeElement(int $containerId, int $rentalId, string $type = null, float $value = null):void{
+        if (is_array($value)) {
+            throw new TypeError("Очікувалося значення типу float, отримано масив.");
+        }
+
+        for($i = 0; $i < 3; $i++){
+            foreach ($this->typeMetrics as $key => $valueMetric){
+                if (isset($value) && isset($type) && $key == $type){
+                    $this->putMetrics($key, $valueMetric, $containerId, $rentalId,['value' => $value]);
+                    $value = null;
+                    $type = null;
+                }
+                else{
+                    $this->putMetrics($key, $valueMetric, $containerId, $rentalId);
+                }
+            }
+        }
+    }
+    public function detail(int $id,array $data,int $id_containers):string
+    {
+        $personalData = $this->peopleService->getOneClient($id)[0];
+        $personalData['country'] = $this->placeService->getOneCountryById($personalData['country_id'])[0]['name'];
+        $personalData = PeopleModel::fromArray($personalData);
+        $dataContainer = $this->containerService->getStatusAllByClient($personalData->id_people);
+
+        foreach ($dataContainer as $item) {
+            if ($item['container_id'] === $id_containers){
+                $dataContainer = $item;
+                break;
+            }
+        }
+        $this->insertThreeElement($id_containers, $dataContainer['rental_id'], $data["type"], $data["value"]);
+        $typeSensor = [
+            'temperatures' => $this->iotService->getElementIoTByRental('temperatures', $id_containers, $dataContainer['rental_id']),
+            'humidity' => $this->iotService->getElementIoTByRental('humidity', $id_containers, $dataContainer['rental_id']),
+            'vibrometers' => $this->iotService->getElementIoTByRental('vibrometers', $id_containers, $dataContainer['rental_id']),
+            'inclines' => $this->iotService->getElementIoTByRental('inclines', $id_containers, $dataContainer['rental_id']),
+            'openings' => $this->iotService->getElementIoTByRental('openings', $id_containers, $dataContainer['rental_id']),
+            'gps' => $this->iotService->getElementIoTByRental('gps', $id_containers, $dataContainer['rental_id']),
+            'illuminated' => $this->iotService->getElementIoTByRental('illuminated', $id_containers, $dataContainer['rental_id']),
+            'gases' => $this->iotService->getElementIoTByRental('gases', $id_containers, $dataContainer['rental_id'])
+        ];
+
+
+        return $this->templateService->render('pages/containerDetailPage',[
+            'client' =>$personalData,
+            'container' => $dataContainer,
+            'sensor' => $typeSensor
+        ]);
+    }
+    public function rental($id,$data):string
     {
         $this->containerService->insertStatus('rented',$data['container_id']);
         $this->rentService->insertRental($data["start_date"],$data["end_date"],'rent',$data['price'],'paid',$data['container_id'],$id,$data['cargo_details']);

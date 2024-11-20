@@ -295,11 +295,12 @@
                     <div class="sensor-card p-4 bg-white rounded shadow">
                         <h5>Temperature</h5>
                         <p><strong>Current Value:</strong> 21.5°C</p>
-                        <label for="temperature_value">Adjust Value:</label>
-                        <input type="number" id="temperature_value" name="temperature_value" value="21.5" class="form-control mb-2">
-                        <a class="btn btn-primary btn-block" href="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}">
-                            Confirm Update
-                        </a>
+                        <form action="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}" method="POST">
+                            <input type="hidden" name="type" value="temperatures">
+                            <label for="temperature_value">Adjust Value:</label>
+                            <input type="number" id="temperature_value" name="value" value="21.5" class="form-control mb-2">
+                            <button type="submit" class="btn btn-primary btn-block">Confirm Update</button>
+                        </form>
                     </div>
                 </div>
                 <!-- Humidity Sensor -->
@@ -307,11 +308,12 @@
                     <div class="sensor-card p-4 bg-white rounded shadow">
                         <h5>Humidity</h5>
                         <p><strong>Current Value:</strong> 45%</p>
-                        <label for="humidity_value">Adjust Value:</label>
-                        <input type="number" id="humidity_value" name="humidity_value" value="45" class="form-control mb-2">
-                        <a class="btn btn-primary btn-block" href="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}">
-                            Confirm Update
-                        </a>
+                        <form action="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}" method="POST">
+                            <input type="hidden" name="type" value="humidity">
+                            <label for="humidity_value">Adjust Value:</label>
+                            <input type="number" id="humidity_value" name="value" value="45" class="form-control mb-2">
+                            <button type="submit" class="btn btn-primary btn-block">Confirm Update</button>
+                        </form>
                     </div>
                 </div>
                 <!-- Vibration Sensor -->
@@ -319,11 +321,12 @@
                     <div class="sensor-card p-4 bg-white rounded shadow">
                         <h5>Vibration</h5>
                         <p><strong>Current Value:</strong> 0.02g</p>
-                        <label for="vibration_value">Adjust Value:</label>
-                        <input type="number" id="vibration_value" name="vibration_value" value="0.02" class="form-control mb-2">
-                        <a class="btn btn-primary btn-block" href="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}">
-                            Confirm Update
-                        </a>
+                        <form action="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}" method="POST">
+                            <input type="hidden" name="type" value="vibrometers">
+                            <label for="vibration_value">Adjust Value:</label>
+                            <input type="number" id="vibrometers_value" name="value" value="0.02" class="form-control mb-2">
+                            <button type="submit" class="btn btn-primary btn-block">Confirm Update</button>
+                        </form>
                     </div>
                 </div>
                 <!-- Illumination Sensor -->
@@ -331,59 +334,68 @@
                     <div class="sensor-card p-4 bg-white rounded shadow">
                         <h5>Illumination</h5>
                         <p><strong>Current Value:</strong> 0.88</p>
-                        <label for="illumination_value">Adjust Value:</label>
-                        <input type="number" id="illumination_value" name="illumination_value" value="0.88" class="form-control mb-2">
-                        <a class="btn btn-primary btn-block" href="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}">
-                            Confirm Update
-                        </a>
+                        <form action="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}" method="POST">
+                            <input type="hidden" name="type" value="illuminated">
+                            <label for="illuminated_value">Adjust Value:</label>
+                            <input type="number" id="illuminated_value" name="value" value="0.88" class="form-control mb-2">
+                            <button type="submit" class="btn btn-primary btn-block">Confirm Update</button>
+                        </form>
                     </div>
                 </div>
+
                 <!-- Openings Sensor -->
                 <div class="col-md-3 text-center mb-4">
                     <div class="sensor-card p-4 bg-white rounded shadow">
                         <h5>Openings</h5>
                         <p><strong>Current Value:</strong> 3</p>
-                        <label for="openings_value">Adjust Value:</label>
-                        <input type="number" id="openings_value" name="openings_value" value="3" class="form-control mb-2">
-                        <a class="btn btn-primary btn-block" href="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}">
-                            Confirm Update
-                        </a>
+                        <form action="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}" method="POST">
+                            <input type="hidden" name="type" value="openings">
+                            <label for="openings_value">Adjust Value:</label>
+                            <input type="number" id="openings_value" name="value" value="3" class="form-control mb-2">
+                            <button type="submit" class="btn btn-primary btn-block">Confirm Update</button>
+                        </form>
                     </div>
                 </div>
+
                 <!-- GPS Sensor -->
                 <div class="col-md-3 text-center mb-4">
                     <div class="sensor-card p-4 bg-white rounded shadow">
                         <h5>GPS</h5>
                         <p><strong>Current Location:</strong> 40.7128° N, 74.0060° W</p>
-                        <label for="gps_location">Adjust Location:</label>
-                        <input type="text" id="gps_location" name="gps_location" value="40.7128, 74.0060" class="form-control mb-2">
-                        <a class="btn btn-primary btn-block" href="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}">
-                            Confirm Update
-                        </a>
+{#                        <form action="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}" method="POST">#}
+{#                            <input type="hidden" name="type" value="gps">#}
+{#                            <label for="gps_location">Adjust Location:</label>#}
+{#                            <input type="text" id="gps_location" name="value" value="40.7128, 74.0060" class="form-control mb-2">#}
+{#                            <button type="submit" class="btn btn-primary btn-block">Confirm Update</button>#}
+{#                        </form>#}
                     </div>
                 </div>
+
                 <!-- Gases Sensor -->
                 <div class="col-md-3 text-center mb-4">
                     <div class="sensor-card p-4 bg-white rounded shadow">
                         <h5>Gases</h5>
                         <p><strong>Current Value:</strong> 0.03%</p>
-                        <label for="gases_value">Adjust Value:</label>
-                        <input type="number" id="gases_value" name="gases_value" value="0.03" class="form-control mb-2">
-                        <a class="btn btn-primary btn-block" href="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}">
-                            Confirm Update
-                        </a>
+                        <form action="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}" method="POST">
+                            <input type="hidden" name="type" value="gases">
+                            <label for="gases_value">Adjust Value:</label>
+                            <input type="number" id="gases_value" name="value" value="0.03" class="form-control mb-2">
+                            <button type="submit" class="btn btn-primary btn-block">Confirm Update</button>
+                        </form>
                     </div>
                 </div>
+
                 <!-- Inclines Sensor -->
                 <div class="col-md-3 text-center mb-4">
                     <div class="sensor-card p-4 bg-white rounded shadow">
                         <h5>Inclines</h5>
                         <p><strong>Current Angle:</strong> 5°</p>
-                        <label for="inclines_value">Adjust Angle:</label>
-                        <input type="number" id="inclines_value" name="inclines_value" value="5" class="form-control mb-2">
-                        <a class="btn btn-primary btn-block" href="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}">
-                            Confirm Update
-                        </a>
+                        <form action="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}" method="POST">
+                            <input type="hidden" name="type" value="inclines">
+                            <label for="inclines_value">Adjust Angle:</label>
+                            <input type="number" id="inclines_value" name="value" value="5" class="form-control mb-2">
+                            <button type="submit" class="btn btn-primary btn-block">Confirm Update</button>
+                        </form>
                     </div>
                 </div>
             </div>

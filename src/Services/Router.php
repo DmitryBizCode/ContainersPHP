@@ -72,7 +72,7 @@ class Router
             // no break
             case 'rental':
                 if ($method == 'POST') {
-                    $content = $this->containerController->Rental($id,$data);
+                    $content = $this->containerController->rental($id,$data);
                     break;
                 } else {
                     $content = $this->containerController->getRental($id,$data);
@@ -80,7 +80,7 @@ class Router
                 }
             case 'detail':
                 if ($method == 'POST') {
-                    $content = $this->containerController->Detail($id,$data);
+                    $content = $this->containerController->detail($id,$data,$id_containers);
                     break;
                 } else {
                     $content = $this->containerController->getDetail($id,$data,$id_containers);
