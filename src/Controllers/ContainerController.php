@@ -86,6 +86,8 @@ class ContainerController
             });
             $dataContainerLast = end($dataContainer);
         }
+        dump($dataContainer);
+
         if (!empty($personalData)){
 //            dump($dataContainerLast);
             return $this->templateService->render('pages/profilePage',[

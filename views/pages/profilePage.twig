@@ -133,7 +133,7 @@
                                             <td>{{ con['status_update_time'] }}</td>
                                             <td><span class="badge {% if con['shipment_status'] == Completed %}bg-success{% else %}bg-warning{% endif %}">{{ con['shipment_status'] }}</span></td>
                                             <td>${{ con['rental_price'] }}</td>
-                                            <td>${{ con['rental_price'] }}</td>
+                                            <td><span class="badge bg-success">{{ con['rental_status'] }}</span></td>
                                             <td><a href="/index.php?action=detail&id={{client.id_people}}&id_containers={{con['container_id']}}" class="btn btn-sm btn-secondary">View</a></td>
                                         </tr>
                                     {% endfor %}
