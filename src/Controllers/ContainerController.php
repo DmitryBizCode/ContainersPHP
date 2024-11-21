@@ -165,18 +165,17 @@ class ContainerController
                 break;
             }
         }
+        $this->insertThreeElement($id_containers, $dataContainer['rental_id'], $data["type"], $data["value"]);
+        $typeSensor = $this->getSensors($id_containers,$dataContainer['rental_id']);
+        //dump($typeSensor);
         return $this->templateService->render('pages/containerDetailPage',[
             'client' =>$personalData,
             'container' => $dataContainer,
+            'sensor' => $typeSensor
         ]);
     }
     function randomFloat(float $min, float $max): float {
-        dump($max);
-        dump($min);
-        $ss = $min + mt_rand() / mt_getrandmax() * ($max - $min);
-        dump($ss);
-
-        return $ss;
+        return $min + mt_rand() / mt_getrandmax() * ($max - $min);
     }
     private function putMetrics(string $type, float $range, int $containerId, int $rentalId,array $value = null): void {
         if (!isset($this->typeMetrics[$type])) {
@@ -208,6 +207,19 @@ class ContainerController
             }
         }
     }
+    private function getSensors(int $id_containers,int $rental_id): array
+    {
+        return [
+            'temperatures' => $this->iotService->getElementIoTByRental('temperatures', $id_containers, $rental_id),
+            'humidity' => $this->iotService->getElementIoTByRental('humidity', $id_containers, $rental_id),
+            'vibrometers' => $this->iotService->getElementIoTByRental('vibrometers', $id_containers, $rental_id),
+            'inclines' => $this->iotService->getElementIoTByRental('inclines', $id_containers, $rental_id),
+            'openings' => $this->iotService->getElementIoTByRental('openings', $id_containers, $rental_id),
+            'gps' => $this->iotService->getElementIoTByRental('gps', $id_containers, $rental_id),
+            'illuminated' => $this->iotService->getElementIoTByRental('illuminated', $id_containers, $rental_id),
+            'gases' => $this->iotService->getElementIoTByRental('gases', $id_containers, $rental_id)
+        ];
+    }
     public function detail(int $id,array $data,int $id_containers):string
     {
         $personalData = $this->peopleService->getOneClient($id)[0];
@@ -222,18 +234,8 @@ class ContainerController
             }
         }
         $this->insertThreeElement($id_containers, $dataContainer['rental_id'], $data["type"], $data["value"]);
-        $typeSensor = [
-            'temperatures' => $this->iotService->getElementIoTByRental('temperatures', $id_containers, $dataContainer['rental_id']),
-            'humidity' => $this->iotService->getElementIoTByRental('humidity', $id_containers, $dataContainer['rental_id']),
-            'vibrometers' => $this->iotService->getElementIoTByRental('vibrometers', $id_containers, $dataContainer['rental_id']),
-            'inclines' => $this->iotService->getElementIoTByRental('inclines', $id_containers, $dataContainer['rental_id']),
-            'openings' => $this->iotService->getElementIoTByRental('openings', $id_containers, $dataContainer['rental_id']),
-            'gps' => $this->iotService->getElementIoTByRental('gps', $id_containers, $dataContainer['rental_id']),
-            'illuminated' => $this->iotService->getElementIoTByRental('illuminated', $id_containers, $dataContainer['rental_id']),
-            'gases' => $this->iotService->getElementIoTByRental('gases', $id_containers, $dataContainer['rental_id'])
-        ];
-
-
+        $typeSensor = $this->getSensors($id_containers,$dataContainer['rental_id']);
+//        dump($typeSensor);
         return $this->templateService->render('pages/containerDetailPage',[
             'client' =>$personalData,
             'container' => $dataContainer,

@@ -294,11 +294,12 @@
                 <div class="col-md-3 text-center mb-4">
                     <div class="sensor-card p-4 bg-white rounded shadow">
                         <h5>Temperature</h5>
-                        <p><strong>Current Value:</strong> 21.5°C</p>
+                        {% set lastTemperature = sensor['temperatures']|last %}
+                        <p><strong>Current Value:</strong> {{ lastTemperature['value'] }}°C</p>
                         <form action="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}" method="POST">
                             <input type="hidden" name="type" value="temperatures">
                             <label for="temperature_value">Adjust Value:</label>
-                            <input type="number" id="temperature_value" name="value" value="21.5" class="form-control mb-2">
+                            <input type="number" id="temperature_value" name="value" value="{{ lastTemperature['value'] }}" class="form-control mb-2">
                             <button type="submit" class="btn btn-primary btn-block">Confirm Update</button>
                         </form>
                     </div>
@@ -307,11 +308,12 @@
                 <div class="col-md-3 text-center mb-4">
                     <div class="sensor-card p-4 bg-white rounded shadow">
                         <h5>Humidity</h5>
-                        <p><strong>Current Value:</strong> 45%</p>
+                        {% set lastTemperature = sensor['humidity']|last %}
+                        <p><strong>Current Value:</strong> {{ lastTemperature['value'] }}%</p>
                         <form action="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}" method="POST">
                             <input type="hidden" name="type" value="humidity">
                             <label for="humidity_value">Adjust Value:</label>
-                            <input type="number" id="humidity_value" name="value" value="45" class="form-control mb-2">
+                            <input type="number" id="humidity_value" name="value" value="{{ lastTemperature['value'] }}" class="form-control mb-2">
                             <button type="submit" class="btn btn-primary btn-block">Confirm Update</button>
                         </form>
                     </div>
@@ -320,11 +322,12 @@
                 <div class="col-md-3 text-center mb-4">
                     <div class="sensor-card p-4 bg-white rounded shadow">
                         <h5>Vibration</h5>
-                        <p><strong>Current Value:</strong> 0.02g</p>
+                        {% set lastTemperature = sensor['vibrometers']|last %}
+                        <p><strong>Current Value:</strong> {{ lastTemperature['value'] }}g</p>
                         <form action="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}" method="POST">
                             <input type="hidden" name="type" value="vibrometers">
                             <label for="vibration_value">Adjust Value:</label>
-                            <input type="number" id="vibrometers_value" name="value" value="0.02" class="form-control mb-2">
+                            <input type="number" id="vibrometers_value" name="value" value="{{ lastTemperature['value'] }}" class="form-control mb-2">
                             <button type="submit" class="btn btn-primary btn-block">Confirm Update</button>
                         </form>
                     </div>
@@ -333,11 +336,12 @@
                 <div class="col-md-3 text-center mb-4">
                     <div class="sensor-card p-4 bg-white rounded shadow">
                         <h5>Illumination</h5>
-                        <p><strong>Current Value:</strong> 0.88</p>
+                        {% set lastTemperature = sensor['inclines']|last %}
+                        <p><strong>Current Value:</strong> {{ lastTemperature['value'] }}</p>
                         <form action="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}" method="POST">
                             <input type="hidden" name="type" value="illuminated">
                             <label for="illuminated_value">Adjust Value:</label>
-                            <input type="number" id="illuminated_value" name="value" value="0.88" class="form-control mb-2">
+                            <input type="number" id="illuminated_value" name="value" value="{{ lastTemperature['value'] }}" class="form-control mb-2">
                             <button type="submit" class="btn btn-primary btn-block">Confirm Update</button>
                         </form>
                     </div>
@@ -347,11 +351,12 @@
                 <div class="col-md-3 text-center mb-4">
                     <div class="sensor-card p-4 bg-white rounded shadow">
                         <h5>Openings</h5>
-                        <p><strong>Current Value:</strong> 3</p>
+                        {% set lastTemperature = sensor['openings']|last %}
+                        <p><strong>Current Value:</strong> {{ lastTemperature['value'] }}</p>
                         <form action="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}" method="POST">
                             <input type="hidden" name="type" value="openings">
                             <label for="openings_value">Adjust Value:</label>
-                            <input type="number" id="openings_value" name="value" value="3" class="form-control mb-2">
+                            <input type="number" id="openings_value" name="value" value="{{ lastTemperature['value'] }}" class="form-control mb-2">
                             <button type="submit" class="btn btn-primary btn-block">Confirm Update</button>
                         </form>
                     </div>
@@ -361,7 +366,8 @@
                 <div class="col-md-3 text-center mb-4">
                     <div class="sensor-card p-4 bg-white rounded shadow">
                         <h5>GPS</h5>
-                        <p><strong>Current Location:</strong> 40.7128° N, 74.0060° W</p>
+                        {% set lastTemperature = sensor['gps']|last %}
+                        <p><strong>Current Location:</strong> {{ lastTemperature['value'] }}° N, {{ lastTemperature['value'] }}° W</p>
 {#                        <form action="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}" method="POST">#}
 {#                            <input type="hidden" name="type" value="gps">#}
 {#                            <label for="gps_location">Adjust Location:</label>#}
@@ -375,11 +381,12 @@
                 <div class="col-md-3 text-center mb-4">
                     <div class="sensor-card p-4 bg-white rounded shadow">
                         <h5>Gases</h5>
-                        <p><strong>Current Value:</strong> 0.03%</p>
+                        {% set lastTemperature = sensor['illuminated']|last %}
+                        <p><strong>Current Value:</strong> {{ lastTemperature['value'] }}%</p>
                         <form action="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}" method="POST">
                             <input type="hidden" name="type" value="gases">
                             <label for="gases_value">Adjust Value:</label>
-                            <input type="number" id="gases_value" name="value" value="0.03" class="form-control mb-2">
+                            <input type="number" id="gases_value" name="value" value="{{ lastTemperature['value'] }}" class="form-control mb-2">
                             <button type="submit" class="btn btn-primary btn-block">Confirm Update</button>
                         </form>
                     </div>
@@ -389,11 +396,12 @@
                 <div class="col-md-3 text-center mb-4">
                     <div class="sensor-card p-4 bg-white rounded shadow">
                         <h5>Inclines</h5>
-                        <p><strong>Current Angle:</strong> 5°</p>
+                        {% set lastTemperature = sensor['gases']|last %}
+                        <p><strong>Current Angle:</strong> {{ lastTemperature['value'] }}°</p>
                         <form action="/index.php?action=detail&id={{ client.id_people }}&id_containers={{ container['container_id'] }}" method="POST">
                             <input type="hidden" name="type" value="inclines">
                             <label for="inclines_value">Adjust Angle:</label>
-                            <input type="number" id="inclines_value" name="value" value="5" class="form-control mb-2">
+                            <input type="number" id="inclines_value" name="value" value="{{ lastTemperature['value'] }}" class="form-control mb-2">
                             <button type="submit" class="btn btn-primary btn-block">Confirm Update</button>
                         </form>
                     </div>
@@ -467,5 +475,7 @@
             </div>
         </div>
     </section>
-
+<script>
+    const sensorData = {{ sensor|json_encode|raw }};
+</script>
 {% endblock %}
